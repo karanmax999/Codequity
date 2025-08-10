@@ -13,7 +13,7 @@ export default function Footer() {
               CodeQuity
             </h3>
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">
-              Building India's largest tech community through innovation, collaboration, and excellence. 
+              Building India&apos;s largest tech community through innovation, collaboration, and excellence. 
               Join us in shaping the future of technology.
             </p>
           </div>
@@ -74,29 +74,24 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4 text-lg">Connect</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                <a href="https://x.com/CodeQuity" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
                   <span>🐦</span>
                   <span>Twitter</span>
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
                   <span>💬</span>
                   <span>WhatsApp</span>
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                <a href="https://www.linkedin.com/company/codequitycommunity/" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
                   <span>💼</span>
                   <span>LinkedIn</span>
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-white/60 hover:text-white transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
-                  <span>🐙</span>
-                  <span>GitHub</span>
-                </a>
-              </li>
+              
             </ul>
           </div>
         </div>
@@ -132,4 +127,4 @@ export default function Footer() {
       </div>
     </footer>
   )
-} 
+}

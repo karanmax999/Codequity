@@ -1,102 +1,168 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { useState, useEffect } from "react"
+import { motion, easeInOut } from "framer-motion"
+import { Card, CardContent } from "@/components/ui/card"
 
 const stats = [
-  { number: '500+', label: 'International Participants', icon: '🌍' },
-  { number: '2', label: 'Flagship National Events', icon: '🏆' },
-  { number: '10+', label: 'Major and Minor Events', icon: '🎯' },
-  { number: '25+', label: 'Institutions Reached', icon: '🏛️' },
-  { number: '5+', label: 'Community Partners', icon: '🤝' },
-  { number: '10+', label: 'Ambassadors and Evangelists', icon: '⭐' },
-  { number: '25+', label: 'Indian States and UTs', icon: '🇮🇳' },
-  { number: '10+', label: 'Countries Reached', icon: '🌎' },
-  { number: '5+', label: 'Sponsors and Partners', icon: '💼' },
+  { id: 'participants', number: 500, suffix: '+', label: 'International Participants', icon: '🌍', description: 'Global developers and tech enthusiasts' },
+  { id: 'flagship-events', number: 1, suffix: '', label: 'Flagship National Events', icon: '🏆', description: 'Major technology conferences' },
+  { id: 'events', number: 6, suffix: '+', label: 'Major and Minor Events', icon: '🎯', description: 'Workshops, hackathons, and meetups' },
+  { id: 'institutions', number: 20, suffix: '+', label: 'Institutions Reached', icon: '🏛️', description: 'Universities and colleges partnered' },
+  { id: 'partners', number: 5, suffix: '+', label: 'Community Partners', icon: '🤝', description: 'Strategic technology partnerships' },
+  { id: 'ambassadors', number: 10, suffix: '+', label: 'Ambassadors and Evangelists', icon: '⭐', description: 'Community leaders and advocates' },
+  { id: 'states', number: 25, suffix: '+', label: 'Indian States and UTs', icon: '🇮🇳', description: 'Pan-India presence and reach' },
+  { id: 'countries', number: 10, suffix: '+', label: 'Countries Reached', icon: '🌎', description: 'International community expansion' },
+  { id: 'sponsors', number: 5, suffix: '+', label: 'Sponsors and Partners', icon: '💼', description: 'Industry sponsors and supporters' },
 ]
 
-export default function Stats() {
-  const [isVisible, setIsVisible] = useState(false)
+// Animation presets
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.9 },
+  visible: { opacity: 1, y: 0, scale: 1 }
+}
+
+const iconFloat = {
+  animate: {
+    y: [0, -8, 0],
+    transition: { duration: 3, repeat: Infinity, ease: easeInOut }
+  }
+}
+
+// Animated counter
+function CounterAnimation({ number, suffix, trigger }: { number: number; suffix: string; trigger: boolean }) {
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
+    if (!trigger) return
+    const duration = 2000
+    const steps = 60
+    const increment = number / steps
+    let current = 0
 
-    const element = document.getElementById('stats-section')
-    if (element) {
-      observer.observe(element)
-    }
+    const interval = setInterval(() => {
+      current += increment
+      if (current >= number) {
+        setCount(number)
+        clearInterval(interval)
+      } else {
+        setCount(Math.floor(current))
+      }
+    }, duration / steps)
 
-    return () => observer.disconnect()
-  }, [])
+    return () => clearInterval(interval)
+  }, [trigger, number])
 
   return (
-    <section id="stats-section" className="py-24 px-6 relative royal-section-primary">
-      {/* Royal background overlay */}
+    <motion.div
+      className="text-4xl md:text-5xl font-bold mb-4 royal-gradient-blue"
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={trigger ? { scale: 1, opacity: 1 } : {}}
+      transition={{ duration: 0.6 }}
+    >
+      {count}{suffix}
+    </motion.div>
+  )
+}
+
+function StatCard({ stat }: { stat: typeof stats[0] }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      whileHover={{ scale: 1.05, y: -8 }}
+      whileTap={{ scale: 0.95 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+    >
+      <Card
+        className="royal-card text-center transition-all duration-300 royal-hover cursor-pointer"
+        role="article"
+        aria-label={`${stat.label} ${stat.number}${stat.suffix}`}
+      >
+        <CardContent className="p-8 lg:p-10">
+          {/* Icon */}
+          <motion.div
+            className="text-4xl lg:text-5xl mb-6"
+            {...iconFloat}
+            whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
+          >
+            {stat.icon}
+          </motion.div>
+
+          {/* Counter */}
+          <CounterAnimation number={stat.number} suffix={stat.suffix} trigger={true} />
+
+          {/* Label */}
+          <motion.div
+            className="text-sm lg:text-base text-slate-600 leading-tight font-semibold mb-2"
+            animate={{ opacity: hovered ? 1 : 0.85 }}
+          >
+            {stat.label}
+          </motion.div>
+
+          {/* Description (shows on hover) */}
+          <motion.div
+            className="text-xs text-slate-500 leading-relaxed"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: hovered ? 1 : 0, height: hovered ? "auto" : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {stat.description}
+          </motion.div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  )
+}
+
+export default function Stats() {
+  return (
+    <section className="py-24 px-6 relative royal-section-primary" aria-labelledby="stats-heading">
+      {/* Royal glass backdrop overlay */}
       <div className="absolute inset-0 royal-glass opacity-40" />
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-8">
-            Building India's largest{' '}
+        {/* Header */}
+        <motion.div className="text-center mb-20" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <h2 id="stats-heading" className="text-5xl md:text-7xl font-bold mb-8">
+            Building India&apos;s largest{' '}
             <span className="royal-gradient-text">tech community</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium">
-            Our community has grown exponentially, reaching across borders and bringing together tech enthusiasts 
-            from around the world to create something extraordinary.
+            Our community has grown exponentially, reaching across borders and bringing together tech enthusiasts from around the world to create something extraordinary.
           </p>
-          
-          {/* Royal crown accent */}
-          <div className="flex justify-center mt-8">
-            <div className="text-4xl animate-royal-float">👑</div>
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-          {stats.map((stat, index) => (
-            <Card 
-              key={index} 
-              className={`royal-card text-center transition-all duration-700 royal-hover ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                transitionDelay: `${index * 0.1}s`
-              }}
-            >
-              <CardContent className="p-10">
-                <div className="text-5xl mb-4 animate-royal-float" style={{ animationDelay: `${index * 0.2}s` }}>
-                  {stat.icon}
-                </div>
-                <div className="text-4xl md:text-5xl font-bold mb-4 royal-gradient-blue">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-slate-600 leading-tight font-semibold">
-                  {stat.label}
-                </div>
-              </CardContent>
-            </Card>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-10">
+          {stats.map((stat) => (
+            <StatCard key={stat.id} stat={stat} />
           ))}
         </div>
-        
-        {/* Royal call-to-action */}
-        <div className={`text-center mt-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+
+        {/* CTA */}
+        <motion.div className="text-center mt-20" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="text-lg text-slate-500 mb-8 font-medium">
             Join thousands of developers, designers, and innovators
           </p>
           <div className="flex justify-center space-x-6">
-            <div className="royal-accent-dot animate-royal-pulse" />
-            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '0.5s' }} />
-            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '1s' }} />
+            {[0, 1, 2].map((dot) => (
+              <motion.div
+                key={dot}
+                className="royal-accent-dot cursor-pointer"
+                animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity, delay: dot * 0.5, ease: 'easeInOut' }}
+                whileHover={{ scale: 1.5, opacity: 1 }}
+              />
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
-} 
+}

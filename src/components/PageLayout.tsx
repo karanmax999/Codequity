@@ -1,92 +1,216 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import Breadcrumb from './Breadcrumb'
-import BackToTop from './BackToTop'
-import PageTransition from './PageTransition'
-import ProgressBar from './ProgressBar'
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Breadcrumb from "./Breadcrumb"
+import BackToTop from "./BackToTop"
+import PageTransition from "./PageTransition"
+import ProgressBar from "./ProgressBar"
+import { usePathname } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
+
+const navigationLinks = [
+  { href: "/about", label: "About" },
+  { href: "/mission", label: "Mission" },
+  { href: "/partners", label: "Partners" },
+  { href: "/community", label: "Community" },
+  { href: "/contact", label: "Contact" },
+]
 
 interface PageLayoutProps {
   children: React.ReactNode
   title: string
   description: string
-  breadcrumbItems: Array<{
-    label: string
-    href?: string
-  }>
+  breadcrumbItems: Array<{ label: string; href?: string }>
 }
 
-export default function PageLayout({ children, title, description, breadcrumbItems }: PageLayoutProps) {
+export default function PageLayout({
+  children,
+  title,
+  description,
+  breadcrumbItems,
+}: PageLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname])
+
+  const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+    const isActive = pathname === href
+    return (
+      <Link href={href} aria-current={isActive ? "page" : undefined}>
+        <motion.span
+          className={`relative inline-block px-2 py-1 cursor-pointer ${
+            isActive
+              ? "bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+              : "text-white/80 hover:text-white"
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          {children}
+          {isActive && (
+            <motion.span
+              layoutId="activeNav"
+              className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+          )}
+        </motion.span>
+      </Link>
+    )
+  }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <main className="min-h-screen relative overflow-hidden royal-section-primary">
+      {/* Royal fixed animated background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950 to-gray-900" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),
+          linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        {/* Accent lines */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/20 to-transparent" />
+      </div>
+
       <ProgressBar />
+
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-white/10">
+      <nav
+        className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-slate-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors">
-              CodeQuity
+            <Link href="/" aria-label="CodeQuity Home">
+              <motion.span
+                className="text-2xl font-black royal-gradient-text"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                CodeQuity
+              </motion.span>
             </Link>
-            
+
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="/about" className="text-white/80 hover:text-white transition-colors">About</Link>
-              <Link href="/mission" className="text-white/80 hover:text-white transition-colors">Mission</Link>
-              <Link href="/partners" className="text-white/80 hover:text-white transition-colors">Partners</Link>
-              <Link href="/community" className="text-white/80 hover:text-white transition-colors">Community</Link>
-              <Link href="/contact" className="text-white/80 hover:text-white transition-colors">Contact</Link>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                Connect
-              </Button>
+              {navigationLinks.map((link) => (
+                <NavLink key={link.href} href={link.href}>
+                  {link.label}
+                </NavLink>
+              ))}
+              <a
+                href="https://linktr.ee/CodeQuity"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button className="royal-button-primary group">
+                  Connect
+                  <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </Button>
+              </a>
             </div>
-            
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden text-white"
+
+            {/* Mobile Menu Toggle */}
+            <motion.button
+              className="md:hidden text-white p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={
+                    isMobileMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16M4 18h16"
+                  }
+                />
               </svg>
-            </button>
+            </motion.button>
           </div>
-          
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 space-y-4">
-              <Link href="/about" className="block text-white/80 hover:text-white transition-colors py-2">About</Link>
-              <Link href="/mission" className="block text-white/80 hover:text-white transition-colors py-2">Mission</Link>
-              <Link href="/partners" className="block text-white/80 hover:text-white transition-colors py-2">Partners</Link>
-              <Link href="/community" className="block text-white/80 hover:text-white transition-colors py-2">Community</Link>
-              <Link href="/contact" className="block text-white/80 hover:text-white transition-colors py-2">Contact</Link>
-              <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
-                Connect
-              </Button>
-            </div>
-          )}
+
+          {/* Mobile Nav Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="md:hidden mt-4 pb-4 space-y-4"
+              >
+                {navigationLinks.map((link) => (
+                  <motion.div
+                    key={link.href}
+                    whileHover={{ x: 10 }}
+                    className="block"
+                  >
+                    <NavLink href={link.href}>{link.label}</NavLink>
+                  </motion.div>
+                ))}
+                <a
+                  href="https://linktr.ee/CodeQuity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <Button className="w-full royal-button-primary group">
+                    Connect
+                    <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  </Button>
+                </a>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
       {/* Page Content */}
-      <PageTransition>
-        <div className="container mx-auto px-4 py-16">
-          <Breadcrumb items={breadcrumbItems} />
-          <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
-              {title}
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {description}
-            </p>
+      <div className="pt-20">
+        <PageTransition>
+          <div className="container mx-auto px-4 py-16">
+            <Breadcrumb items={breadcrumbItems} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-16"
+            >
+              <h1 className="text-5xl md:text-6xl font-bold royal-gradient-text mb-6">
+                {title}
+              </h1>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                {description}
+              </p>
+            </motion.div>
+            {children}
           </div>
-          {children}
-        </div>
-      </PageTransition>
-      
+        </PageTransition>
+      </div>
+
       <BackToTop />
     </main>
   )
-} 
+}

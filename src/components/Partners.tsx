@@ -28,7 +28,7 @@ export default function Partners() {
             Our Ecosystem
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto">
-            We're proud to work with amazing organizations and individuals who share our vision of building India's largest tech community.
+            We&apos;re proud to work with amazing organizations and individuals who share our vision of building India&apos;s largest tech community.
           </p>
         </div>
         
@@ -58,10 +58,10 @@ export default function Partners() {
         
         <div className="mt-16 text-center">
           <p className="text-lg text-white/80 mb-8">
-            Interested in becoming a partner? Let's build something amazing together.
+            Interested in becoming a partner? Let&apos;s build something amazing together.
           </p>
         </div>
       </div>
     </section>
   )
-} 
+}

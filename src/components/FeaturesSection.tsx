@@ -1,28 +1,33 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import FeatureCard from './FeatureCard'
 
 const features = [
   {
+    id: 'innovation-hub',
     title: 'Innovation Hub',
     description: 'Connect with cutting-edge developers and explore the latest technologies in our innovation ecosystem.',
     icon: '👑',
     gradient: 'blue' as const
   },
   {
+    id: 'community-events',
     title: 'Community Events',
     description: 'Participate in hackathons, workshops, and meetups that bring together tech enthusiasts worldwide.',
     icon: '🏆',
     gradient: 'gold' as const
   },
   {
+    id: 'learning-resources',
     title: 'Learning Resources',
     description: 'Access curated learning materials, tutorials, and mentorship programs to accelerate your growth.',
     icon: '💎',
     gradient: 'royal' as const
   },
   {
+    id: 'global-network',
     title: 'Global Network',
     description: 'Join a diverse community spanning multiple countries, cultures, and technical backgrounds.',
     icon: '🌟',
@@ -30,60 +35,138 @@ const features = [
   }
 ]
 
-export default function FeaturesSection() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    const element = document.getElementById('features-section')
-    if (element) {
-      observer.observe(element)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.1,
+      delayChildren: 0.2
     }
+  }
+}
 
-    return () => observer.disconnect()
-  }, [])
+const headerVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 }
+}
+
+const gridVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: { opacity: 1, y: 0, scale: 1 }
+}
+
+const footerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+}
+
+const pulseVariants = {
+  pulse: {
+    opacity: [0.4, 1, 0.4],
+    scale: [1, 1.1, 1]
+  }
+}
+
+export default function FeaturesSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section id="features-section" className="py-24 px-6 relative royal-section-secondary">
-      {/* Royal background overlay */}
+    <section 
+      ref={ref}
+      className="py-24 px-6 relative royal-section-secondary"
+      aria-labelledby="features-heading"
+    >
+      {/* Enhanced Royal background with subtle animations */}
       <div className="absolute inset-0 royal-glass-dark opacity-30" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-amber-500/5"
+        animate={{
+          background: [
+            'linear-gradient(45deg, rgba(59,130,246,0.05), rgba(245,158,11,0.05))',
+            'linear-gradient(135deg, rgba(245,158,11,0.05), rgba(59,130,246,0.05))',
+            'linear-gradient(225deg, rgba(59,130,246,0.05), rgba(245,158,11,0.05))',
+            'linear-gradient(315deg, rgba(245,158,11,0.05), rgba(59,130,246,0.05))'
+          ]
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'linear'
+        }}
+      />
       
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-8">
+      <motion.div 
+        className="max-w-7xl mx-auto relative z-10"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
+        <motion.div 
+          className="text-center mb-20"
+          variants={headerVariants}
+        >
+          <motion.h2 
+            id="features-heading"
+            className="text-5xl md:text-7xl font-bold mb-8"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+          >
             Why Choose{' '}
-            <span className="royal-gradient-text">CodeQuity</span>
-          </h2>
-          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium">
+            <motion.span 
+              className="royal-gradient-text"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 400 }}
+            >
+              CodeQuity
+            </motion.span>
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             Discover the unique advantages that make our community the premier destination for tech enthusiasts, 
             developers, and innovators worldwide.
-          </p>
+          </motion.p>
           
-          {/* Royal divider */}
-          <div className="flex justify-center mt-8">
+          {/* Enhanced Royal divider */}
+          <motion.div 
+            className="flex justify-center mt-8"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
             <div className="royal-divider w-32" />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10"
+          variants={gridVariants}
+          role="list"
+          aria-label="CodeQuity features"
+        >
           {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ 
-                animationDelay: `${index * 0.2}s`,
-                transitionDelay: `${index * 0.2}s`
-              }}
+            <motion.div
+              key={feature.id}
+              variants={itemVariants}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              role="listitem"
             >
               <FeatureCard
                 title={feature.title}
@@ -92,19 +175,64 @@ export default function FeaturesSection() {
                 gradient={feature.gradient}
                 delay={index * 0.1}
               />
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
         
-        {/* Royal bottom accent */}
-        <div className={`text-center mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center space-x-4 text-slate-500">
-            <div className="royal-accent-dot animate-royal-pulse" />
+        {/* Enhanced Royal bottom accent with interactive elements */}
+        <motion.div 
+          className="text-center mt-16"
+          variants={footerVariants}
+        >
+          <motion.div 
+            className="inline-flex items-center space-x-4 text-slate-500"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+          >
+            <motion.div 
+              className="royal-accent-dot"
+              variants={pulseVariants}
+              animate="pulse"
+            />
             <span className="text-lg font-medium">Join thousands of developers worldwide</span>
-            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '0.5s' }} />
-          </div>
-        </div>
-      </div>
+            <motion.div 
+              className="royal-accent-dot"
+              variants={pulseVariants}
+              animate="pulse"
+              transition={{ delay: 0.5 }}
+            />
+          </motion.div>
+        </motion.div>
+        
+        {/* Floating decorative elements */}
+        <motion.div
+          className="absolute top-10 left-10 w-20 h-20 royal-gradient-blue opacity-10 rounded-full blur-xl"
+          animate={{
+            y: [0, -20, 0],
+            x: [0, 10, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut'
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-16 h-16 royal-gradient-gold opacity-10 rounded-full blur-xl"
+          animate={{
+            y: [0, 15, 0],
+            x: [0, -15, 0],
+            scale: [1, 0.9, 1]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2
+          }}
+        />
+      </motion.div>
     </section>
   )
-} 
+}
