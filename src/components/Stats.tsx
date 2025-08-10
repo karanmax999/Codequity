@@ -37,27 +37,32 @@ export default function Stats() {
   }, [])
 
   return (
-    <section id="stats-section" className="py-24 px-6 relative">
-      {/* Background overlay */}
-      <div className="absolute inset-0 glass-dark opacity-60" />
+    <section id="stats-section" className="py-24 px-6 relative royal-section-primary">
+      {/* Royal background overlay */}
+      <div className="absolute inset-0 royal-glass opacity-40" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h2 className="text-5xl md:text-7xl font-bold mb-8">
             Building India's largest{' '}
-            <span className="gradient-text-blue">tech community</span>
+            <span className="royal-gradient-text">tech community</span>
           </h2>
-          <p className="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium">
             Our community has grown exponentially, reaching across borders and bringing together tech enthusiasts 
             from around the world to create something extraordinary.
           </p>
+          
+          {/* Royal crown accent */}
+          <div className="flex justify-center mt-8">
+            <div className="text-4xl animate-royal-float">👑</div>
+          </div>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
           {stats.map((stat, index) => (
             <Card 
               key={index} 
-              className={`glass border-white/20 text-center transition-all duration-700 hover:scale-110 hover-lift hover-glow ${
+              className={`royal-card text-center transition-all duration-700 royal-hover ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
               style={{ 
@@ -65,14 +70,14 @@ export default function Stats() {
                 transitionDelay: `${index * 0.1}s`
               }}
             >
-              <CardContent className="p-8">
-                <div className="text-4xl mb-3 animate-float" style={{ animationDelay: `${index * 0.2}s` }}>
+              <CardContent className="p-10">
+                <div className="text-5xl mb-4 animate-royal-float" style={{ animationDelay: `${index * 0.2}s` }}>
                   {stat.icon}
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-3 gradient-text-blue">
+                <div className="text-4xl md:text-5xl font-bold mb-4 royal-gradient-blue">
                   {stat.number}
                 </div>
-                <div className="text-sm text-white/80 leading-tight font-medium">
+                <div className="text-sm text-slate-600 leading-tight font-semibold">
                   {stat.label}
                 </div>
               </CardContent>
@@ -80,15 +85,15 @@ export default function Stats() {
           ))}
         </div>
         
-        {/* Additional call-to-action */}
+        {/* Royal call-to-action */}
         <div className={`text-center mt-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <p className="text-lg text-white/70 mb-6">
+          <p className="text-lg text-slate-500 mb-8 font-medium">
             Join thousands of developers, designers, and innovators
           </p>
-          <div className="flex justify-center space-x-4">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse-glow" />
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse-glow" style={{ animationDelay: '0.5s' }} />
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse-glow" style={{ animationDelay: '1s' }} />
+          <div className="flex justify-center space-x-6">
+            <div className="royal-accent-dot animate-royal-pulse" />
+            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '1s' }} />
           </div>
         </div>
       </div>

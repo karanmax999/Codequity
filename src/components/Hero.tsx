@@ -15,23 +15,22 @@ export default function Hero() {
   return (
     <div className="relative min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="absolute top-0 left-0 right-0 z-50 p-6">
+      <nav className="absolute top-0 left-0 right-0 z-50 p-6 royal-nav">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <a 
             href="/" 
-            className="text-2xl font-bold text-white hover:text-blue-400 transition-all duration-300 hover:scale-105 focus-ring"
+            className="text-3xl font-bold royal-gradient-text hover:scale-105 transition-all duration-300 royal-focus"
           >
             CodeQuity
           </a>
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/about" className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 focus-ring">About</a>
-            <a href="/mission" className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 focus-ring">Mission</a>
-            <a href="/partners" className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 focus-ring">Partners</a>
-            <a href="/community" className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 focus-ring">Community</a>
-            <a href="/contact" className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 focus-ring">Contact</a>
+            <a href="/about" className="text-slate-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 royal-focus font-medium">About</a>
+            <a href="/mission" className="text-slate-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 royal-focus font-medium">Mission</a>
+            <a href="/partners" className="text-slate-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 royal-focus font-medium">Partners</a>
+            <a href="/community" className="text-slate-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 royal-focus font-medium">Community</a>
+            <a href="/contact" className="text-slate-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 royal-focus font-medium">Contact</a>
             <Button 
-              variant="outline" 
-              className="border-white/20 text-white hover:bg-white/10 hover:border-white/40 hover-lift focus-ring"
+              className="royal-button-secondary royal-hover royal-focus"
             >
               Connect
             </Button>
@@ -39,7 +38,7 @@ export default function Hero() {
           
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-white hover:text-blue-400 transition-colors focus-ring"
+            className="md:hidden text-slate-700 hover:text-blue-600 transition-colors royal-focus"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,14 +50,14 @@ export default function Hero() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 glass-dark backdrop-blur-md border-b border-white/10 animate-slide-up">
+        <div className="md:hidden absolute top-full left-0 right-0 royal-glass backdrop-blur-md border-b border-blue-200 animate-slide-up">
           <div className="px-6 py-4 space-y-4">
-            <a href="/about" className="block text-white/80 hover:text-white transition-all duration-300 py-2 hover:translate-x-2">About</a>
-            <a href="/mission" className="block text-white/80 hover:text-white transition-all duration-300 py-2 hover:translate-x-2">Mission</a>
-            <a href="/partners" className="block text-white/80 hover:text-white transition-all duration-300 py-2 hover:translate-x-2">Partners</a>
-            <a href="/community" className="block text-white/80 hover:text-white transition-all duration-300 py-2 hover:translate-x-2">Community</a>
-            <a href="/contact" className="block text-white/80 hover:text-white transition-all duration-300 py-2 hover:translate-x-2">Contact</a>
-            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:border-white/40 hover-lift">
+            <a href="/about" className="block text-slate-700 hover:text-blue-600 transition-all duration-300 py-2 hover:translate-x-2 font-medium">About</a>
+            <a href="/mission" className="block text-slate-700 hover:text-blue-600 transition-all duration-300 py-2 hover:translate-x-2 font-medium">Mission</a>
+            <a href="/partners" className="block text-slate-700 hover:text-blue-600 transition-all duration-300 py-2 hover:translate-x-2 font-medium">Partners</a>
+            <a href="/community" className="block text-slate-700 hover:text-blue-600 transition-all duration-300 py-2 hover:translate-x-2 font-medium">Community</a>
+            <a href="/contact" className="block text-slate-700 hover:text-blue-600 transition-all duration-300 py-2 hover:translate-x-2 font-medium">Contact</a>
+            <Button className="w-full royal-button-secondary royal-hover">
               Connect
             </Button>
           </div>
@@ -69,56 +68,63 @@ export default function Hero() {
       <div className="flex-1 flex items-center justify-center px-6">
         <div className={`text-center max-w-5xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <Badge 
-            variant="secondary" 
-            className="mb-8 text-sm px-6 py-3 glass border-white/20 text-white hover:bg-white/20 transition-all duration-300 hover:scale-105 animate-fade-in"
+            className="mb-8 text-sm px-8 py-3 royal-glass border-blue-200 text-blue-800 hover:bg-blue-50 transition-all duration-300 hover:scale-105 animate-fade-in font-semibold tracking-wide"
             style={{ animationDelay: '0.2s' }}
           >
-            THE CODEQUITY COMMUNITY
+            ✨ THE CODEQUITY COMMUNITY ✨
           </Badge>
           
           <h1 
-            className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up"
+            className="text-6xl md:text-8xl font-bold mb-8 leading-tight animate-slide-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Building India's largest tech community through{' '}
-            <span className="gradient-text-blue">
+            <span className="text-slate-800">Building India's largest tech community through</span>{' '}
+            <span className="royal-gradient-blue block mt-2">
               innovation
             </span>
-            ,{' '}
-            <span className="gradient-text-green">
+            <span className="text-slate-800">,</span>{' '}
+            <span className="royal-gradient-text">
               collaboration
             </span>
-            , and{' '}
-            <span className="gradient-text-purple">
+            <span className="text-slate-800">, and</span>{' '}
+            <span className="royal-gradient-gold">
               excellence
             </span>
           </h1>
           
           <p 
-            className="text-xl text-white/80 mb-10 max-w-3xl mx-auto animate-slide-up"
+            className="text-xl text-slate-600 mb-12 max-w-4xl mx-auto animate-slide-up leading-relaxed font-medium"
             style={{ animationDelay: '0.6s' }}
           >
             We bring together passionate hackers, innovative developers, creative designers, and visionary entrepreneurs 
-            to create the future of technology together.
+            to create the future of technology together. Join our royal community of excellence.
           </p>
           
           <div 
-            className="flex flex-col sm:flex-row gap-6 justify-center animate-slide-up"
+            className="flex flex-col sm:flex-row gap-8 justify-center animate-slide-up"
             style={{ animationDelay: '0.8s' }}
           >
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-4 text-lg font-semibold hover-lift hover-glow focus-ring shadow-2xl"
+              className="royal-button-primary royal-hover royal-focus px-12 py-4 text-lg font-semibold shadow-2xl animate-royal-glow"
             >
-              Get Started
+              👑 Get Started
             </Button>
             <Button 
-              variant="outline" 
               size="lg" 
-              className="border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-semibold hover-lift focus-ring backdrop-blur-sm"
+              className="royal-button-secondary royal-hover royal-focus px-12 py-4 text-lg font-semibold"
             >
-              Learn More
+              📚 Learn More
             </Button>
+          </div>
+          
+          {/* Royal accent elements */}
+          <div className="flex justify-center items-center space-x-4 mt-12 animate-fade-in" style={{ animationDelay: '1s' }}>
+            <div className="royal-accent-dot animate-royal-pulse" />
+            <div className="royal-divider w-24" />
+            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="royal-divider w-24" />
+            <div className="royal-accent-dot animate-royal-pulse" style={{ animationDelay: '1s' }} />
           </div>
         </div>
       </div>
