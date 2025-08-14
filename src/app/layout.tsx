@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="antialiased">
+    <html lang="en" className="antialiased dark">
       <body
         className={`
           ${geistSans.variable} ${geistMono.variable} bg-background text-foreground
@@ -62,16 +62,18 @@ export default function RootLayout({
         {/* Keyboard navigation helper */}
         <KeyboardNav />
 
-        {/* Animated Royal Background (matches all main pages) */}
+        {/* Dark theme background similar to CodeQuity */}
         <div className="fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950 to-gray-900" />
-          {/* Animated orbs — no motion here for SSR, but can add if you want */}
+          {/* Subtle animated orbs */}
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-amber-400/10 rounded-full blur-3xl animate-royal-float" />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-amber-400/10 to-blue-600/10 rounded-full blur-3xl animate-royal-float" style={{ animationDelay: '1s' }} />
           <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-r from-blue-600/10 to-amber-500/10 rounded-full blur-3xl animate-royal-float" style={{ animationDelay: '2s' }} />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:60px_60px]" />
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/20 to-transparent" />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          {/* Subtle accent lines */}
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/10 to-transparent" />
+          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/10 to-transparent" />
         </div>
 
         {/* Main content */}

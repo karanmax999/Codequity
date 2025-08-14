@@ -53,8 +53,8 @@ export default function PageLayout({
         <motion.span
           className={`relative inline-block px-2 py-1 cursor-pointer ${
             isActive
-              ? "bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-              : "text-white/80 hover:text-white"
+              ? "bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent"
+              : "text-gray-300 hover:text-white"
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
@@ -63,7 +63,7 @@ export default function PageLayout({
           {isActive && (
             <motion.span
               layoutId="activeNav"
-              className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"
+              className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-blue-400 via-white to-blue-400"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -75,15 +75,15 @@ export default function PageLayout({
   }
 
   return (
-    <main className="min-h-screen relative overflow-hidden royal-section-primary">
-      {/* Royal fixed animated background */}
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Dark theme background */}
       <div className="fixed inset-0 -z-10 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950 to-gray-900" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),
-          linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        {/* Accent lines */}
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
-        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/20 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),
+          linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        {/* Subtle accent lines */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/10 to-transparent" />
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/10 to-transparent" />
       </div>
 
       <ProgressBar />
@@ -91,14 +91,14 @@ export default function PageLayout({
       {/* Navigation */}
       <nav
         className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-slate-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+          scrolled ? "bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-700" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" aria-label="CodeQuity Home">
               <motion.span
-                className="text-2xl font-black royal-gradient-text"
+                className="text-xl sm:text-2xl font-black text-white"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -118,7 +118,7 @@ export default function PageLayout({
                 rel="noopener noreferrer"
                 className="inline-block"
               >
-                <Button className="royal-button-primary group">
+                <Button className="bg-white text-gray-900 hover:bg-gray-100 border-2 border-white">
                   Connect
                   <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
                 </Button>
@@ -127,7 +127,7 @@ export default function PageLayout({
 
             {/* Mobile Menu Toggle */}
             <motion.button
-              className="md:hidden text-white p-2"
+              className="md:hidden text-white p-2 mobile-touch-target"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle menu"
@@ -177,7 +177,7 @@ export default function PageLayout({
                   rel="noopener noreferrer"
                   className="block w-full"
                 >
-                  <Button className="w-full royal-button-primary group">
+                  <Button className="w-full bg-white text-gray-900 hover:bg-gray-100 border-2 border-white mobile-button">
                     Connect
                     <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
                   </Button>
@@ -198,10 +198,10 @@ export default function PageLayout({
               animate={{ opacity: 1, y: 0 }}
               className="text-center mb-16"
             >
-              <h1 className="text-5xl md:text-6xl font-bold royal-gradient-text mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
                 {title}
               </h1>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
                 {description}
               </p>
             </motion.div>

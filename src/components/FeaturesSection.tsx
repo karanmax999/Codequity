@@ -87,19 +87,19 @@ export default function FeaturesSection() {
   return (
     <section 
       ref={ref}
-      className="py-24 px-6 relative royal-section-secondary"
+      className="py-24 px-6 relative"
       aria-labelledby="features-heading"
     >
-      {/* Enhanced Royal background with subtle animations */}
-      <div className="absolute inset-0 royal-glass-dark opacity-30" />
+      {/* Dark theme background with subtle animations */}
+      <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" />
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-amber-500/5"
+        className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-amber-500/10"
         animate={{
           background: [
-            'linear-gradient(45deg, rgba(59,130,246,0.05), rgba(245,158,11,0.05))',
-            'linear-gradient(135deg, rgba(245,158,11,0.05), rgba(59,130,246,0.05))',
-            'linear-gradient(225deg, rgba(59,130,246,0.05), rgba(245,158,11,0.05))',
-            'linear-gradient(315deg, rgba(245,158,11,0.05), rgba(59,130,246,0.05))'
+            'linear-gradient(45deg, rgba(59,130,246,0.1), rgba(245,158,11,0.1))',
+            'linear-gradient(135deg, rgba(245,158,11,0.1), rgba(59,130,246,0.1))',
+            'linear-gradient(225deg, rgba(59,130,246,0.1), rgba(245,158,11,0.1))',
+            'linear-gradient(315deg, rgba(245,158,11,0.1), rgba(59,130,246,0.1))'
           ]
         }}
         transition={{
@@ -121,13 +121,13 @@ export default function FeaturesSection() {
         >
           <motion.h2 
             id="features-heading"
-            className="text-5xl md:text-7xl font-bold mb-8"
+            className="text-5xl md:text-7xl font-bold mb-8 text-white"
             whileHover={{ scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
             Why Choose{' '}
             <motion.span 
-              className="royal-gradient-text"
+              className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent"
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
@@ -135,7 +135,7 @@ export default function FeaturesSection() {
             </motion.span>
           </motion.h2>
           <motion.p 
-            className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium"
+            className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -144,14 +144,14 @@ export default function FeaturesSection() {
             developers, and innovators worldwide.
           </motion.p>
           
-          {/* Enhanced Royal divider */}
+          {/* Enhanced divider */}
           <motion.div 
             className="flex justify-center mt-8"
             initial={{ opacity: 0, scaleX: 0 }}
             animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <div className="royal-divider w-32" />
+            <div className="w-32 h-px bg-gradient-to-r from-blue-400 via-white to-blue-400" />
           </motion.div>
         </motion.div>
         
@@ -179,24 +179,24 @@ export default function FeaturesSection() {
           ))}
         </motion.div>
         
-        {/* Enhanced Royal bottom accent with interactive elements */}
+        {/* Enhanced bottom accent with interactive elements */}
         <motion.div 
           className="text-center mt-16"
           variants={footerVariants}
         >
           <motion.div 
-            className="inline-flex items-center space-x-4 text-slate-500"
+            className="inline-flex items-center space-x-4 text-gray-400"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
             <motion.div 
-              className="royal-accent-dot"
+              className="w-2 h-2 bg-gradient-to-r from-blue-400 to-white rounded-full shadow-lg"
               variants={pulseVariants}
               animate="pulse"
             />
             <span className="text-lg font-medium">Join thousands of developers worldwide</span>
             <motion.div 
-              className="royal-accent-dot"
+              className="w-2 h-2 bg-gradient-to-r from-blue-400 to-white rounded-full shadow-lg"
               variants={pulseVariants}
               animate="pulse"
               transition={{ delay: 0.5 }}
@@ -206,7 +206,7 @@ export default function FeaturesSection() {
         
         {/* Floating decorative elements */}
         <motion.div
-          className="absolute top-10 left-10 w-20 h-20 royal-gradient-blue opacity-10 rounded-full blur-xl"
+          className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-r from-blue-400 to-white opacity-10 rounded-full blur-xl"
           animate={{
             y: [0, -20, 0],
             x: [0, 10, 0],
@@ -219,7 +219,7 @@ export default function FeaturesSection() {
           }}
         />
         <motion.div
-          className="absolute bottom-20 right-20 w-16 h-16 royal-gradient-gold opacity-10 rounded-full blur-xl"
+          className="absolute bottom-20 right-20 w-16 h-16 bg-gradient-to-r from-amber-400 to-white opacity-10 rounded-full blur-xl"
           animate={{
             y: [0, 15, 0],
             x: [0, -15, 0],

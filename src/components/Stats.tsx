@@ -55,7 +55,7 @@ function CounterAnimation({ number, suffix, trigger }: { number: number; suffix:
 
   return (
     <motion.div
-      className="text-4xl md:text-5xl font-bold mb-4 royal-gradient-blue"
+      className="text-4xl md:text-5xl font-bold mb-4 text-white"
       initial={{ scale: 0.8, opacity: 0 }}
       animate={trigger ? { scale: 1, opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
@@ -79,61 +79,61 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
-      <Card
-        className="royal-card text-center transition-all duration-300 royal-hover cursor-pointer"
-        role="article"
-        aria-label={`${stat.label} ${stat.number}${stat.suffix}`}
-      >
-        <CardContent className="p-8 lg:p-10">
-          {/* Icon */}
-          <motion.div
-            className="text-4xl lg:text-5xl mb-6"
-            {...iconFloat}
-            whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
-          >
-            {stat.icon}
-          </motion.div>
+              <Card
+          className="bg-gray-900/50 backdrop-blur-md border border-gray-700 text-center transition-all duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer shadow-xl hover:shadow-2xl"
+          role="article"
+          aria-label={`${stat.label} ${stat.number}${stat.suffix}`}
+        >
+          <CardContent className="p-8 lg:p-10">
+            {/* Icon */}
+            <motion.div
+              className="text-4xl lg:text-5xl mb-6"
+              {...iconFloat}
+              whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
+            >
+              {stat.icon}
+            </motion.div>
 
-          {/* Counter */}
-          <CounterAnimation number={stat.number} suffix={stat.suffix} trigger={true} />
+            {/* Counter */}
+            <CounterAnimation number={stat.number} suffix={stat.suffix} trigger={true} />
 
-          {/* Label */}
-          <motion.div
-            className="text-sm lg:text-base text-slate-600 leading-tight font-semibold mb-2"
-            animate={{ opacity: hovered ? 1 : 0.85 }}
-          >
-            {stat.label}
-          </motion.div>
+            {/* Label */}
+            <motion.div
+              className="text-sm lg:text-base text-gray-300 leading-tight font-semibold mb-2"
+              animate={{ opacity: hovered ? 1 : 0.85 }}
+            >
+              {stat.label}
+            </motion.div>
 
-          {/* Description (shows on hover) */}
-          <motion.div
-            className="text-xs text-slate-500 leading-relaxed"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: hovered ? 1 : 0, height: hovered ? "auto" : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {stat.description}
-          </motion.div>
-        </CardContent>
-      </Card>
+            {/* Description (shows on hover) */}
+            <motion.div
+              className="text-xs text-gray-400 leading-relaxed"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: hovered ? 1 : 0, height: hovered ? "auto" : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {stat.description}
+            </motion.div>
+          </CardContent>
+        </Card>
     </motion.div>
   )
 }
 
 export default function Stats() {
   return (
-    <section className="py-24 px-6 relative royal-section-primary" aria-labelledby="stats-heading">
-      {/* Royal glass backdrop overlay */}
-      <div className="absolute inset-0 royal-glass opacity-40" />
+    <section className="py-24 px-6 relative" aria-labelledby="stats-heading">
+      {/* Dark theme backdrop overlay */}
+      <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div className="text-center mb-20" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h2 id="stats-heading" className="text-5xl md:text-7xl font-bold mb-8">
+          <h2 id="stats-heading" className="text-5xl md:text-7xl font-bold mb-8 text-white">
             Building India&apos;s largest{' '}
-            <span className="royal-gradient-text">tech community</span>
+            <span className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">tech community</span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium">
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium">
             Our community has grown exponentially, reaching across borders and bringing together tech enthusiasts from around the world to create something extraordinary.
           </p>
         </motion.div>
@@ -147,14 +147,14 @@ export default function Stats() {
 
         {/* CTA */}
         <motion.div className="text-center mt-20" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="text-lg text-slate-500 mb-8 font-medium">
+          <p className="text-lg text-gray-400 mb-8 font-medium">
             Join thousands of developers, designers, and innovators
           </p>
           <div className="flex justify-center space-x-6">
             {[0, 1, 2].map((dot) => (
               <motion.div
                 key={dot}
-                className="royal-accent-dot cursor-pointer"
+                className="w-3 h-3 bg-gradient-to-r from-blue-400 to-white rounded-full cursor-pointer shadow-lg"
                 animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity, delay: dot * 0.5, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.5, opacity: 1 }}
