@@ -64,16 +64,16 @@ function Button({
 
   // Only pass valid props to motion.button (filter out DOM drag events and conflicting animation events)
   const {
-    onDrag: _onDrag,
-    onDragStart: _onDragStart,
-    onDragEnd: _onDragEnd,
-    onDragOver: _onDragOver,
-    onDragEnter: _onDragEnter,
-    onDragLeave: _onDragLeave,
-    onDrop: _onDrop,
-    onAnimationStart: _onAnimationStart,
-    onAnimationEnd: _onAnimationEnd,
-    onTransitionEnd: _onTransitionEnd,
+    onDrag,
+    onDragStart,
+    onDragEnd,
+    onDragOver,
+    onDragEnter,
+    onDragLeave,
+    onDrop,
+    onAnimationStart,
+    onAnimationEnd,
+    onTransitionEnd,
     ...motionProps
   } = props
 

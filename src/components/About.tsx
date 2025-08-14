@@ -2,6 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -341,11 +342,13 @@ export default function About() {
               >
                 <div className="flex flex-col items-center text-center">
                   <div className="relative mb-6">
-                    <img
+                    <Image
                       src={member.avatar}
                       alt={`Photo of ${member.name}`}
+                      width={128}
+                      height={128}
                       className="w-32 h-32 rounded-full object-cover object-center shadow-2xl border-4 border-blue-500/30"
-                      loading="lazy"
+                      priority={false}
                     />
                     <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-slate-800" />
                   </div>

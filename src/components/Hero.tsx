@@ -223,7 +223,7 @@ export default function Hero() {
               THE CODEQUITY COMMUNITY
             </span>
             <span className="block text-lg sm:text-2xl md:text-3xl font-medium text-gray-300 mt-2 sm:mt-4 px-4 sm:px-0">
-              Building India's largest tech community through innovation, collaboration, and excellence
+              Building India&apos;s largest tech community through innovation, collaboration, and excellence
             </span>
           </motion.h1>
           
