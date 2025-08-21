@@ -216,19 +216,19 @@ export default function Hero() {
           </motion.div>
           
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 sm:mb-10 leading-tight tracking-tight text-white"
+            className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 sm:mb-10 leading-compact tracking-tight heading-bold text-white"
             variants={itemVariants}
           >
-            <span className="block bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">
+            <span className="block text-teal">
               THE CODEQUITY COMMUNITY
             </span>
-            <span className="block text-lg sm:text-2xl md:text-3xl font-medium text-gray-300 mt-2 sm:mt-4 px-4 sm:px-0">
-              Building India&apos;s largest tech community through innovation, collaboration, and excellence
+            <span className="block text-base sm:text-lg md:text-xl font-medium text-gray-300 mt-2 sm:mt-4 leading-compact px-4 sm:px-0">
+              Building India's largest tech community through innovation, collaboration, and excellence
             </span>
           </motion.h1>
           
           <motion.p 
-            className="text-base sm:text-xl text-gray-300 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed font-medium px-4 sm:px-0"
+            className="text-base sm:text-lg text-gray-300 mb-8 sm:mb-12 max-w-4xl mx-auto leading-compact font-medium px-4 sm:px-0"
             variants={itemVariants}
           >
             We bring together passionate hackers, innovative developers, creative designers, and visionary entrepreneurs 
@@ -245,7 +245,7 @@ export default function Hero() {
             >
               <Button 
                 size="lg" 
-                className="bg-white text-gray-900 hover:bg-gray-100 border-2 border-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950 mobile-button"
+                className="bg-teal text-gray-900 hover:bg-teal/90 border-2 border-teal px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-gray-950 mobile-button focus-improved"
                 aria-label="Get started with CodeQuity"
               >
                 👑 Get Started
@@ -257,7 +257,7 @@ export default function Hero() {
             >
               <Button 
                 size="lg" 
-                className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-gray-900 px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950 mobile-button"
+                className="bg-transparent text-teal border-2 border-teal hover:bg-teal hover:text-gray-900 px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 focus:ring-offset-gray-950 mobile-button focus-improved"
                 aria-label="Learn more about CodeQuity"
               >
                 📚 Learn More
@@ -282,8 +282,8 @@ export default function Hero() {
                   ease: 'easeInOut'
                 }}
               >
-                <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-white rounded-full shadow-lg" />
-                {index < 2 && <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-blue-400 via-white to-blue-400" />}
+                <div className="w-2 h-2 bg-teal rounded-full shadow-lg" />
+                {index < 2 && <div className="w-16 sm:w-24 h-px bg-teal" />}
               </motion.div>
             ))}
           </motion.div>

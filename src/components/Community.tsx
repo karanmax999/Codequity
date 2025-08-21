@@ -30,23 +30,28 @@ export default function Community() {
   return (
     <section id="community" className="py-20 px-4 sm:px-6 relative overflow-hidden" aria-labelledby="community-heading">
       
-      {/* Enhanced dark theme background */}
+      {/* Dark theme background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" />
-        {/* Subtle animated orbs */}
+        {/* Layered dark backgrounds */}
+        <div className="absolute inset-0 bg-[var(--dark-bg-primary)]" />
+        <div className="absolute inset-0 bg-[var(--dark-bg-secondary)] opacity-30" />
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        
+        {/* Subtle accent lines */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
+        
+        {/* Minimal animated orbs */}
         <motion.div
-          className="absolute -top-20 left-1/4 w-96 h-96 rounded-full blur-3xl bg-gradient-to-r from-blue-500/10 to-amber-400/10"
+          className="absolute -top-20 left-1/4 w-72 h-72 rounded-full blur-2xl bg-[var(--dark-accent)]/5 minimal-motion"
           {...motionOrb(0)}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl bg-gradient-to-r from-amber-400/10 to-blue-600/10"
+          className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-2xl bg-[var(--dark-accent)]/5 minimal-motion"
           {...motionOrb(1)}
         />
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        {/* Subtle accent lines */}
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/10 to-transparent" />
-        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/10 to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto text-white relative z-10">
@@ -61,15 +66,15 @@ export default function Community() {
           className="mb-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-              Our Growing <span className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">Community</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 heading-bold">
+              Our Growing <span className="text-teal">Community</span>
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto leading-compact">
               Join thousands of developers, designers, and innovators who are already part of our vibrant tech ecosystem
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="stats-grid">
             {communityStats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -80,9 +85,9 @@ export default function Community() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="bg-gray-900/50 backdrop-blur-md border border-gray-700 rounded-xl p-6 hover:border-blue-400/50 transition-all duration-300 hover:scale-105">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500/20 to-amber-500/20 rounded-full mb-4">
-                    <stat.icon className="w-8 h-8 text-blue-400" />
+                <div className="card border-teal/20 rounded-xl p-6 hover:border-teal/50 transition-all duration-300 hover:scale-105 minimal-motion focus-improved">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-teal/10 rounded-full mb-4">
+                    <stat.icon className="w-8 h-8 text-teal" />
                   </div>
                   <div className="text-2xl md:text-3xl font-bold text-white mb-2">{stat.value}</div>
                   <div className="text-sm text-gray-300 font-medium">{stat.label}</div>
@@ -96,33 +101,29 @@ export default function Community() {
         {/* Community Cards Section */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           
-          {/* Twitter Card */}
-          <motion.div
-            variants={fadeUp}
-            custom={0.3}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <Card
-              className="bg-gray-900/50 backdrop-blur-md border border-gray-700 hover:border-blue-400/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-xl hover:shadow-2xl"
-              role="article"
-              aria-label="Follow on Twitter"
-              tabIndex={0}
+          {/* Social CTAs */}
+          <div className="social-cards">
+            {/* Twitter Card */}
+            <motion.div
+              variants={fadeUp}
+              custom={0.3}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
-              <CardContent className="p-6 sm:p-8 text-center flex flex-col items-center">
+              <div className="social-card">
                 <motion.div
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                   whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
                   className="mb-6"
                 >
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500/20 to-sky-400/20 rounded-full">
-                    <Twitter className="w-10 h-10 text-sky-400" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal/10 rounded-full">
+                    <Twitter className="w-10 h-10 text-teal" />
                   </div>
                 </motion.div>
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Follow Us on X (Twitter)</h3>
-                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-compact">
                   Stay updated with our latest events, tech insights, and community highlights.
                   Join the conversation with fellow developers and innovators.
                 </p>
@@ -133,41 +134,34 @@ export default function Community() {
                   className="w-full"
                   tabIndex={-1}
                 >
-                  <Button className="bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 w-full mobile-button">
+                  <Button className="bg-teal hover:bg-teal/90 text-gray-900 w-full mobile-button focus-improved">
                     Follow on X
                   </Button>
                 </a>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+            </motion.div>
 
-          {/* WhatsApp Card */}
-          <motion.div
-            variants={fadeUp}
-            custom={0.4}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <Card
-              className="bg-gray-900/50 backdrop-blur-md border border-gray-700 hover:border-green-400/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:-translate-y-2 shadow-xl hover:shadow-2xl"
-              role="article"
-              aria-label="Join WhatsApp Group"
-              tabIndex={0}
+            {/* WhatsApp Card */}
+            <motion.div
+              variants={fadeUp}
+              custom={0.4}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
-              <CardContent className="p-6 sm:p-8 text-center flex flex-col items-center">
+              <div className="social-card">
                 <motion.div
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                   whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
                   className="mb-6"
                 >
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-500/20 to-emerald-400/20 rounded-full">
-                    <MessageCircle className="w-10 h-10 text-green-400" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal/10 rounded-full">
+                    <MessageCircle className="w-10 h-10 text-teal" />
                   </div>
                 </motion.div>
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Join Our WhatsApp Community</h3>
-                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-compact">
                   Connect directly with our members, get instant event updates, 
                   share knowledge, and network with tech enthusiasts.
                 </p>
@@ -178,13 +172,13 @@ export default function Community() {
                   className="w-full"
                   tabIndex={-1}
                 >
-                  <Button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 w-full mobile-button">
+                  <Button className="bg-teal hover:bg-teal/90 text-gray-900 w-full mobile-button focus-improved">
                     Join WhatsApp Group
                   </Button>
                 </a>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Enhanced CTA Section */}
@@ -196,11 +190,11 @@ export default function Community() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="bg-gray-900/30 backdrop-blur-md border border-gray-700 rounded-2xl p-8 sm:p-12 mb-8">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-              Ready to Get <span className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">Started</span>?
+          <div className="card border-teal/20 rounded-2xl p-8 sm:p-12 mb-8 minimal-motion focus-improved">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white heading-bold">
+              Ready to Get <span className="text-teal">Started</span>?
             </h3>
-            <p className="text-gray-300 mb-8 text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-gray-300 mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-compact">
               Join our community and start your journey with fellow tech enthusiasts. 
               Attend events, become an ambassador, and grow your network.
             </p>
@@ -215,7 +209,7 @@ export default function Community() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 text-lg w-full sm:w-auto mobile-button"
+                  className="border-2 border-teal text-teal hover:bg-teal hover:text-gray-900 px-8 py-3 text-lg w-full sm:w-auto mobile-button focus-improved"
                 >
                   Attend Event
                 </Button>
@@ -230,7 +224,7 @@ export default function Community() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-3 text-lg w-full sm:w-auto mobile-button"
+                  className="border-2 border-teal text-teal hover:bg-teal hover:text-gray-900 px-8 py-3 text-lg w-full sm:w-auto mobile-button focus-improved"
                 >
                   Become Ambassador
                 </Button>
@@ -248,8 +242,8 @@ export default function Community() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-white">
-            Our <span className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">Values</span>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-white heading-bold">
+            Our <span className="text-teal">Values</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
@@ -264,10 +258,10 @@ export default function Community() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="bg-gray-900/30 backdrop-blur-md border border-gray-700 rounded-xl p-6 hover:border-blue-400/50 transition-all duration-300"
+                className="card border-teal/20 rounded-xl p-6 hover:border-teal/50 transition-all duration-300 minimal-motion focus-improved"
               >
                 <h4 className="text-xl font-bold text-white mb-3">{value.title}</h4>
-                <p className="text-gray-300 text-sm leading-relaxed">{value.description}</p>
+                <p className="text-gray-300 text-sm leading-compact">{value.description}</p>
               </motion.div>
             ))}
           </div>

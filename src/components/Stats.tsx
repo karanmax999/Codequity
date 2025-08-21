@@ -80,14 +80,14 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       onHoverEnd={() => setHovered(false)}
     >
               <Card
-          className="bg-gray-900/50 backdrop-blur-md border border-gray-700 text-center transition-all duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer shadow-xl hover:shadow-2xl"
+          className="card border-teal/20 text-center transition-all duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer shadow-xl hover:shadow-2xl minimal-motion focus-improved"
           role="article"
           aria-label={`${stat.label} ${stat.number}${stat.suffix}`}
         >
           <CardContent className="p-8 lg:p-10">
             {/* Icon */}
             <motion.div
-              className="text-4xl lg:text-5xl mb-6"
+              className="text-4xl lg:text-5xl mb-6 text-teal"
               {...iconFloat}
               whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
             >
@@ -99,7 +99,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 
             {/* Label */}
             <motion.div
-              className="text-sm lg:text-base text-gray-300 leading-tight font-semibold mb-2"
+              className="text-sm lg:text-base text-gray-300 leading-compact font-semibold mb-2"
               animate={{ opacity: hovered ? 1 : 0.85 }}
             >
               {stat.label}
@@ -107,7 +107,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 
             {/* Description (shows on hover) */}
             <motion.div
-              className="text-xs text-gray-400 leading-relaxed"
+              className="text-xs text-gray-400 leading-compact"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: hovered ? 1 : 0, height: hovered ? "auto" : 0 }}
               transition={{ duration: 0.3 }}
@@ -129,17 +129,17 @@ export default function Stats() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div className="text-center mb-20" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h2 id="stats-heading" className="text-5xl md:text-7xl font-bold mb-8 text-white">
-            Building India&apos;s largest{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">tech community</span>
+          <h2 id="stats-heading" className="text-5xl md:text-7xl font-bold mb-8 text-white heading-bold">
+            Building India's largest{' '}
+            <span className="text-teal">tech community</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-compact font-medium">
             Our community has grown exponentially, reaching across borders and bringing together tech enthusiasts from around the world to create something extraordinary.
           </p>
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-10">
+        <div className="stats-grid">
           {stats.map((stat) => (
             <StatCard key={stat.id} stat={stat} />
           ))}
@@ -154,7 +154,7 @@ export default function Stats() {
             {[0, 1, 2].map((dot) => (
               <motion.div
                 key={dot}
-                className="w-3 h-3 bg-gradient-to-r from-blue-400 to-white rounded-full cursor-pointer shadow-lg"
+                className="w-3 h-3 bg-teal rounded-full cursor-pointer shadow-lg"
                 animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity, delay: dot * 0.5, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.5, opacity: 1 }}

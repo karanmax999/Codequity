@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import KeyboardNav from "@/components/KeyboardNav";
+import Header from "@/components/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,18 +63,22 @@ export default function RootLayout({
         {/* Keyboard navigation helper */}
         <KeyboardNav />
 
-        {/* Dark theme background similar to CodeQuity */}
+        {/* Dark theme background */}
         <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950 to-gray-900" />
-          {/* Subtle animated orbs */}
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-amber-400/10 rounded-full blur-3xl animate-royal-float" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-amber-400/10 to-blue-600/10 rounded-full blur-3xl animate-royal-float" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-r from-blue-600/10 to-amber-500/10 rounded-full blur-3xl animate-royal-float" style={{ animationDelay: '2s' }} />
+          {/* Layered dark backgrounds */}
+          <div className="absolute inset-0 bg-[var(--dark-bg-primary)]" />
+          <div className="absolute inset-0 bg-[var(--dark-bg-secondary)] opacity-30" />
+          
           {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          
           {/* Subtle accent lines */}
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/10 to-transparent" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-amber-500/10 to-transparent" />
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
+          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
+          
+          {/* Minimal animated orbs */}
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[var(--dark-accent)]/5 rounded-full blur-2xl minimal-motion" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--dark-accent)]/5 rounded-full blur-2xl minimal-motion" style={{ animationDelay: '2s' }} />
         </div>
 
         {/* Main content */}

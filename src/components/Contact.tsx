@@ -81,20 +81,20 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 px-6 bg-gradient-to-b from-gray-950 to-gray-900">
+    <section id="contact" className="py-20 px-6 section-roomy">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact info column */}
           <motion.div {...fadeUp(0.1)}>
-            <h3 className="text-3xl font-bold text-white mb-8">Contact Information</h3>
+            <h3 className="text-3xl font-bold text-white mb-8 heading-bold">Contact Information</h3>
             
             <div className="space-y-6">
               {/* Address */}
               <div className="flex items-start gap-4">
-                <MapPin className="w-8 h-8 text-blue-400" />
+                <MapPin className="w-8 h-8 text-teal" />
                 <div>
                   <h4 className="font-semibold text-white mb-1">Address</h4>
-                  <p className="text-white/80 leading-snug">
+                  <p className="text-white/80 leading-compact">
                     CodeQuity Community Hub<br />
                     Tech Innovation Center<br />
                     India
@@ -104,10 +104,10 @@ export default function Contact() {
 
               {/* Email */}
               <div className="flex items-start gap-4">
-                <Mail className="w-8 h-8 text-purple-400" />
+                <Mail className="w-8 h-8 text-teal" />
                 <div>
                   <h4 className="font-semibold text-white mb-1">Email</h4>
-                  <p className="text-white/80 leading-snug">
+                  <p className="text-white/80 leading-compact">
                     hello@codequity.com<br />
                     partnerships@codequity.com
                   </p>
@@ -116,10 +116,10 @@ export default function Contact() {
 
               {/* Social */}
               <div className="flex items-start gap-4">
-                <Smartphone className="w-8 h-8 text-amber-400" />
+                <Smartphone className="w-8 h-8 text-teal" />
                 <div>
                   <h4 className="font-semibold text-white mb-1">Social Media</h4>
-                  <p className="text-white/80 leading-snug">
+                  <p className="text-white/80 leading-compact">
                     @CodeQuity on X (Twitter)<br />
                     CodeQuity Community on WhatsApp
                   </p>
@@ -133,16 +133,16 @@ export default function Contact() {
             <div>
               <h4 className="font-semibold text-white mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-white/80 hover:text-white hover:underline transition-colors">
+                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Become a Partner
                 </a>
-                <a href="#" className="block text-white/80 hover:text-white hover:underline transition-colors">
+                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Join as Ambassador
                 </a>
-                <a href="#" className="block text-white/80 hover:text-white hover:underline transition-colors">
+                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Host an Event
                 </a>
-                <a href="#" className="block text-white/80 hover:text-white hover:underline transition-colors">
+                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Sponsor an Event
                 </a>
               </div>
@@ -151,9 +151,9 @@ export default function Contact() {
 
           {/* Contact form column */}
           <motion.div {...fadeUp(0.18)}>
-            <Card className="bg-white/5 backdrop-blur-md border border-white/15 shadow-lg hover:shadow-blue-400/10 transition-shadow duration-300">
+            <Card className="card border-teal/20 shadow-lg hover:shadow-teal/10 transition-shadow duration-300 minimal-motion focus-improved">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
+                <h3 className="text-2xl font-bold text-white mb-6 heading-bold">Send us a Message</h3>
                 
                 {successMessage && (
                   <div className="mb-4 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
@@ -241,7 +241,7 @@ export default function Contact() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-teal hover:bg-teal/90 text-gray-900 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-improved"
                   >
                     {isLoading ? "Sending..." : "Send Message"}
                   </Button>
