@@ -7,13 +7,18 @@ import Footer from "@/components/Footer"
 import ProgressBar from "@/components/ProgressBar"
 import FloatingActionButton from "@/components/FloatingActionButton"
 import FeaturesSection from "@/components/FeaturesSection"
+import MovingTrain from "@/components/MovingTrain"
+import Spaceship from "@/components/Spaceship"
 
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden">
       {/* Dark theme background - removed duplicate background since it's in layout */}
       
-      {/* Content container with fade-up animation */}
+      {/* Amazing interaction components */}
+      <MovingTrain />
+      <Spaceship />
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

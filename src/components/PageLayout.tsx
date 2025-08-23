@@ -14,8 +14,8 @@ import { motion, AnimatePresence } from "framer-motion"
 const navigationLinks = [
   { href: "/about", label: "About" },
   { href: "/mission", label: "Mission" },
-  { href: "/partners", label: "Partners" },
   { href: "/community", label: "Community" },
+  { href: "/programs", label: "Programs" },
   { href: "/contact", label: "Contact" },
 ]
 

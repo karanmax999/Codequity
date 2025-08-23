@@ -48,10 +48,7 @@ export default function RootLayout({
           min-h-screen transition-colors duration-500 cosmic-bg-primary
         `}
       >
-        {/* ThemeProvider (uncomment if using next-themes) */}
-        {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
-        
-        {/* Keyboard navigation helper */}
+    
         <KeyboardNav />
 
         {/* Cosmic theme background */}

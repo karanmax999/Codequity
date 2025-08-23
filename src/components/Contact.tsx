@@ -108,8 +108,7 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold text-white mb-1">Email</h4>
                   <p className="text-white/80 leading-compact">
-                    hello@codequity.com<br />
-                    partnerships@codequity.com
+                    codequitycommunity@gmail.com
                   </p>
                 </div>
               </div>
@@ -120,8 +119,11 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold text-white mb-1">Social Media</h4>
                   <p className="text-white/80 leading-compact">
-                    @CodeQuity on X (Twitter)<br />
-                    CodeQuity Community on WhatsApp
+                    <a href="https://www.instagram.com/codequity_official/" target="_blank" rel="noopener noreferrer" className="hover:text-teal hover:underline">Instagram</a><br />
+                    <a href="https://www.linkedin.com/company/codequitycommunity" target="_blank" rel="noopener noreferrer" className="hover:text-teal hover:underline">LinkedIn</a><br />
+                    <a href="https://x.com/CodeQuity" target="_blank" rel="noopener noreferrer" className="hover:text-teal hover:underline">X (Twitter)</a><br />
+                    <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer" className="hover:text-teal hover:underline">WhatsApp Community</a><br />
+                    <a href="https://lu.ma/CodeConnect" target="_blank" rel="noopener noreferrer" className="hover:text-teal hover:underline">Luma – CodeConnect</a>
                   </p>
                 </div>
               </div>
@@ -133,16 +135,16 @@ export default function Contact() {
             <div>
               <h4 className="font-semibold text-white mb-4">Quick Links</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
+                <a href="https://lu.ma/CodeConnect" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Become a Partner
                 </a>
-                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
+                <a href="https://www.linkedin.com/company/codequitycommunity" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Join as Ambassador
                 </a>
-                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
-                  Host an Event
+                <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-teal hover:underline transition-colors">
+                  Join WhatsApp Community
                 </a>
-                <a href="#" className="block text-white/80 hover:text-teal hover:underline transition-colors">
+                <a href="mailto:codequitycommunity@gmail.com" className="block text-white/80 hover:text-teal hover:underline transition-colors">
                   Sponsor an Event
                 </a>
               </div>
@@ -167,6 +169,7 @@ export default function Contact() {
                   </div>
                 )}
 
+                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>

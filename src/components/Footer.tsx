@@ -1,6 +1,40 @@
+'use client'
+
 import { Separator } from '@/components/ui/separator'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react'
 
 export default function Footer() {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Fade-in animation for footer sections
+      gsap.utils.toArray('.footer-section').forEach((section: any) => {
+        gsap.fromTo(section, 
+          { opacity: 0, y: 50 }, 
+          { opacity: 1, y: 0, duration: 1, ease: 'power2.out', scrollTrigger: {
+              trigger: section,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          });
+      });
+
+      // Floating animation for decorative elements
+      gsap.utils.toArray('.footer-decorative').forEach((element: any) => {
+        gsap.to(element, {
+          y: 10,
+          duration: 3,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true
+        });
+      });
+    });
+
+  return () => ctx.revert();
+  }, []);
+
   return (
     <footer className="relative bg-cosmic-card border-t border-cosmic overflow-hidden backdrop-blur-md">
       {/* Background pattern */}
@@ -8,7 +42,7 @@ export default function Footer() {
       
       <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
         <div className="grid md:grid-cols-4 gap-10 mb-12">
-          <div className="space-y-4">
+          <div className="footer-section space-y-4">
             <h3 className="text-3xl font-bold text-cosmic-gradient mb-4 hover:text-cosmic-cyan transition-colors duration-300 cosmic-shimmer">
               CodeQuity
             </h3>
@@ -18,7 +52,7 @@ export default function Footer() {
             </p>
           </div>
           
-          <div className="space-y-4">
+          <div className="footer-section space-y-4">
             <h4 className="cosmic-text-primary font-semibold mb-4 text-lg">Quick Links</h4>
             <ul className="space-y-3">
               <li>
@@ -44,37 +78,37 @@ export default function Footer() {
             </ul>
           </div>
           
-          <div className="space-y-4">
+          <div className="footer-section space-y-4">
             <h4 className="cosmic-text-primary font-semibold mb-4 text-lg">Programs</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
+                <a href="/programs#hackathons" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
                   Hackathons
                 </a>
               </li>
               <li>
-                <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
+                <a href="/programs#workshops" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
                   Workshops
                 </a>
               </li>
               <li>
-                <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
+                <a href="/programs#bootcamps" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
                   Bootcamps
                 </a>
               </li>
               <li>
-                <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
+                <a href="/programs#meetups" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block">
                   Meetups
                 </a>
               </li>
             </ul>
           </div>
           
-          <div className="space-y-4">
+          <div className="footer-section space-y-4">
             <h4 className="cosmic-text-primary font-semibold mb-4 text-lg">Connect</h4>
             <ul className="space-y-3">
               <li>
-                <a href="https://x.com/CodeQuity" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                <a href="https://x.com/CodeQuity" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 flex items-center space-x-2">
                   <span>🐦</span>
                   <span>Twitter</span>
                 </a>
@@ -91,7 +125,24 @@ export default function Footer() {
                   <span>LinkedIn</span>
                 </a>
               </li>
-              
+              <li>
+                <a href="https://www.instagram.com/codequity/" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                  <span>📸</span>
+                  <span>Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/CodeQuity" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                  <span>🐙</span>
+                  <span>GitHub</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://discord.gg/codequity" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:translate-x-1 inline-block flex items-center space-x-2">
+                  <span>🎮</span>
+                  <span>Discord</span>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -103,17 +154,6 @@ export default function Footer() {
             © 2024 CodeQuity Community. All rights reserved.
           </div>
           
-          <div className="flex space-x-8">
-            <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:scale-105">
-              Privacy Policy
-            </a>
-            <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:scale-105">
-              Terms of Service
-            </a>
-            <a href="#" className="cosmic-text-muted hover:text-cosmic-cyan transition-all duration-300 text-sm hover:scale-105">
-              Cookie Policy
-            </a>
-          </div>
         </div>
         
         {/* Bottom accent */}
