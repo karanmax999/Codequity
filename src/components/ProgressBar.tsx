@@ -19,23 +19,23 @@ export default function ProgressBar() {
 
   return (
     <div className="fixed top-0 left-0 w-full h-2 z-50">
-      {/* Royal background track */}
-      <div className="absolute inset-0 bg-white/30 backdrop-blur-sm" />
+      {/* Cosmic background track */}
+      <div className="absolute inset-0 bg-cosmic-card/30 backdrop-blur-sm" />
       
-      {/* Royal progress bar */}
+      {/* Cosmic progress bar */}
       <div
-        className="h-full bg-gradient-to-r from-blue-600 via-amber-500 to-blue-800 transition-all duration-300 ease-out relative overflow-hidden"
+        className="h-full bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400 transition-all duration-300 ease-out relative overflow-hidden shadow-cosmic"
         style={{ width: `${progress}%` }}
       >
-        {/* Royal shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-royal-shimmer" />
+        {/* Cosmic shimmer effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent cosmic-shimmer" />
         
-        {/* Royal glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-amber-400/50 to-blue-700/50 blur-sm" />
+        {/* Cosmic glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/50 via-pink-400/50 to-yellow-400/50 blur-sm" />
       </div>
       
-      {/* Royal top border accent */}
-      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 via-amber-400 to-blue-700 opacity-60" />
+      {/* Cosmic top border accent */}
+      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400 opacity-60" />
     </div>
   )
 } 

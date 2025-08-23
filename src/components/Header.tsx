@@ -35,10 +35,10 @@ export default function Header() {
     return (
       <Link href={href} aria-current={isActive ? "page" : undefined}>
         <motion.span
-          className={`relative inline-block px-2 py-1 cursor-pointer ${
+          className={`relative inline-block px-2 py-1 cursor-pointer nav-link ${
             isActive
-              ? "bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent"
-              : "text-gray-300 hover:text-white"
+              ? "text-cosmic-gradient active"
+              : ""
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
@@ -47,7 +47,7 @@ export default function Header() {
           {isActive && (
             <motion.span
               layoutId="activeNav"
-              className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-blue-400 via-white to-blue-400"
+              className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 to-pink-400 shadow-cosmic"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -60,15 +60,15 @@ export default function Header() {
 
   return (
     <nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-700" : "bg-transparent"
+      className={`fixed w-full top-0 z-50 transition-all duration-500 ${
+        scrolled ? "nav-cosmic shadow-cosmic border-b border-cosmic" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" aria-label="CodeQuity Home">
             <motion.span
-              className="text-xl sm:text-2xl font-black text-white"
+              className="text-xl sm:text-2xl font-black text-cosmic-gradient cosmic-shimmer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -88,7 +88,7 @@ export default function Header() {
               rel="noopener noreferrer"
               className="inline-block"
             >
-              <Button className="bg-white text-gray-900 hover:bg-gray-100 border-2 border-white">
+              <Button className="btn-cosmic-primary">
                 Connect
                 <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
               </Button>
@@ -97,7 +97,7 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <motion.button
-            className="md:hidden text-white p-2 mobile-touch-target"
+            className="md:hidden cosmic-text-primary p-2 mobile-touch-target hover:text-cosmic-cyan transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle menu"
@@ -124,7 +124,7 @@ export default function Header() {
 
         {/* Mobile Nav Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4">
+          <div className="md:hidden mt-4 pb-4 space-y-4 bg-cosmic-card rounded-lg border-cosmic p-4 backdrop-blur-md">
             {navigationLinks.map((link) => (
               <motion.div
                 key={link.href}
@@ -140,7 +140,7 @@ export default function Header() {
               rel="noopener noreferrer"
               className="block w-full"
             >
-              <Button className="w-full bg-white text-gray-900 hover:bg-gray-100 border-2 border-white mobile-button">
+              <Button className="w-full btn-cosmic-primary">
                 Connect
                 <ExternalLink className="w-4 h-4 ml-2 opacity-70 group-hover:opacity-100 transition-opacity" />
               </Button>

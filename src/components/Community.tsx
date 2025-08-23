@@ -63,13 +63,13 @@ export default function Community() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-20 section-cosmic"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 heading-bold">
-              Our Growing <span className="text-teal">Community</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 heading-cosmic">
+              Our Growing <span className="text-cosmic-gradient">Community</span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto leading-compact">
+            <p className="text-base sm:text-lg cosmic-text-secondary max-w-3xl mx-auto leading-compact">
               Join thousands of developers, designers, and innovators who are already part of our vibrant tech ecosystem
             </p>
           </div>
@@ -85,13 +85,13 @@ export default function Community() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="card border-teal/20 rounded-xl p-6 hover:border-teal/50 transition-all duration-300 hover:scale-105 minimal-motion focus-improved">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-teal/10 rounded-full mb-4">
-                    <stat.icon className="w-8 h-8 text-teal" />
+                <div className="bg-cosmic-card border-cosmic rounded-xl p-6 hover:border-cyan-400 transition-all duration-300 hover:scale-105 shadow-cosmic hover:shadow-cosmic-pink cosmic-shimmer focus-cosmic">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-cyan-500/20 to-pink-500/20 rounded-full mb-4 cosmic-glow">
+                    <stat.icon className="w-8 h-8 text-cosmic-cyan" />
                   </div>
-                  <div className="text-2xl md:text-3xl font-bold text-white mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-300 font-medium">{stat.label}</div>
-                  <div className="text-xs text-gray-400 mt-1">{stat.description}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-cosmic-gradient mb-2">{stat.value}</div>
+                  <div className="text-sm cosmic-text-secondary font-medium">{stat.label}</div>
+                  <div className="text-xs cosmic-text-muted mt-1">{stat.description}</div>
                 </div>
               </motion.div>
             ))}
@@ -118,12 +118,12 @@ export default function Community() {
                   whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
                   className="mb-6"
                 >
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal/10 rounded-full">
-                    <Twitter className="w-10 h-10 text-teal" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-cyan-500/20 to-pink-500/20 rounded-full cosmic-glow">
+                    <Twitter className="w-10 h-10 text-cosmic-cyan" />
                   </div>
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Follow Us on X (Twitter)</h3>
-                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-compact">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 cosmic-text-primary">Follow Us on X (Twitter)</h3>
+                <p className="cosmic-text-secondary mb-6 text-sm sm:text-base leading-compact">
                   Stay updated with our latest events, tech insights, and community highlights.
                   Join the conversation with fellow developers and innovators.
                 </p>
@@ -134,7 +134,7 @@ export default function Community() {
                   className="w-full"
                   tabIndex={-1}
                 >
-                  <Button className="bg-teal hover:bg-teal/90 text-gray-900 w-full mobile-button focus-improved">
+                  <Button className="btn-cosmic-primary w-full focus-cosmic">
                     Follow on X
                   </Button>
                 </a>
@@ -156,12 +156,12 @@ export default function Community() {
                   whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0], transition: { duration: 0.3 } }}
                   className="mb-6"
                 >
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-teal/10 rounded-full">
-                    <MessageCircle className="w-10 h-10 text-teal" />
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-cyan-500/20 to-pink-500/20 rounded-full cosmic-glow">
+                    <MessageCircle className="w-10 h-10 text-cosmic-cyan" />
                   </div>
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Join Our WhatsApp Community</h3>
-                <p className="text-gray-300 mb-6 text-sm sm:text-base leading-compact">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 cosmic-text-primary">Join Our WhatsApp Community</h3>
+                <p className="cosmic-text-secondary mb-6 text-sm sm:text-base leading-compact">
                   Connect directly with our members, get instant event updates, 
                   share knowledge, and network with tech enthusiasts.
                 </p>
@@ -172,7 +172,7 @@ export default function Community() {
                   className="w-full"
                   tabIndex={-1}
                 >
-                  <Button className="bg-teal hover:bg-teal/90 text-gray-900 w-full mobile-button focus-improved">
+                  <Button className="btn-cosmic-primary w-full focus-cosmic">
                     Join WhatsApp Group
                   </Button>
                 </a>
@@ -190,11 +190,11 @@ export default function Community() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="card border-teal/20 rounded-2xl p-8 sm:p-12 mb-8 minimal-motion focus-improved">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white heading-bold">
-              Ready to Get <span className="text-teal">Started</span>?
+          <div className="bg-cosmic-card border-cosmic rounded-2xl p-8 sm:p-12 mb-8 shadow-cosmic hover:shadow-cosmic-pink cosmic-shimmer focus-cosmic">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 heading-cosmic">
+              Ready to Get <span className="text-cosmic-gradient">Started</span>?
             </h3>
-            <p className="text-gray-300 mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-compact">
+            <p className="cosmic-text-secondary mb-8 text-base sm:text-lg max-w-2xl mx-auto leading-compact">
               Join our community and start your journey with fellow tech enthusiasts. 
               Attend events, become an ambassador, and grow your network.
             </p>
@@ -207,9 +207,8 @@ export default function Community() {
                 tabIndex={-1}
               >
                 <Button 
-                  variant="outline" 
                   size="lg" 
-                  className="border-2 border-teal text-teal hover:bg-teal hover:text-gray-900 px-8 py-3 text-lg w-full sm:w-auto mobile-button focus-improved"
+                  className="btn-cosmic-secondary px-8 py-3 text-lg w-full sm:w-auto focus-cosmic"
                 >
                   Attend Event
                 </Button>
@@ -222,9 +221,8 @@ export default function Community() {
                 tabIndex={-1}
               >
                 <Button 
-                  variant="outline" 
                   size="lg" 
-                  className="border-2 border-teal text-teal hover:bg-teal hover:text-gray-900 px-8 py-3 text-lg w-full sm:w-auto mobile-button focus-improved"
+                  className="btn-cosmic-secondary px-8 py-3 text-lg w-full sm:w-auto focus-cosmic"
                 >
                   Become Ambassador
                 </Button>
@@ -242,8 +240,8 @@ export default function Community() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-white heading-bold">
-            Our <span className="text-teal">Values</span>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-8 heading-cosmic">
+            Our <span className="text-cosmic-gradient">Values</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
@@ -258,10 +256,10 @@ export default function Community() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="card border-teal/20 rounded-xl p-6 hover:border-teal/50 transition-all duration-300 minimal-motion focus-improved"
+                className="bg-cosmic-card border-cosmic rounded-xl p-6 hover:border-cyan-400 transition-all duration-300 shadow-cosmic hover:shadow-cosmic-pink cosmic-shimmer focus-cosmic"
               >
-                <h4 className="text-xl font-bold text-white mb-3">{value.title}</h4>
-                <p className="text-gray-300 text-sm leading-compact">{value.description}</p>
+                <h4 className="text-xl font-bold cosmic-text-primary mb-3">{value.title}</h4>
+                <p className="cosmic-text-secondary text-sm leading-compact">{value.description}</p>
               </motion.div>
             ))}
           </div>

@@ -45,7 +45,7 @@ export default function RootLayout({
       <body
         className={`
           ${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground
-          min-h-screen transition-colors duration-500
+          min-h-screen transition-colors duration-500 cosmic-bg-primary
         `}
       >
         {/* ThemeProvider (uncomment if using next-themes) */}
@@ -54,22 +54,35 @@ export default function RootLayout({
         {/* Keyboard navigation helper */}
         <KeyboardNav />
 
-        {/* Dark theme background */}
+        {/* Cosmic theme background */}
         <div className="fixed inset-0 -z-10">
-          {/* Layered dark backgrounds */}
-          <div className="absolute inset-0 bg-[var(--dark-bg-primary)]" />
-          <div className="absolute inset-0 bg-[var(--dark-bg-secondary)] opacity-30" />
+          {/* Cosmic gradient background */}
+          <div className="absolute inset-0 cosmic-bg-primary" />
           
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          {/* Animated cosmic particles */}
+          <div className="absolute inset-0">
+            {/* Large cosmic orbs */}
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-cyan-500/10 to-pink-500/10 blur-3xl cosmic-float" />
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-pink-500/10 to-yellow-500/10 blur-3xl cosmic-float" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 w-72 h-72 rounded-full bg-gradient-to-r from-purple-500/10 to-cyan-500/10 blur-3xl cosmic-float" style={{ animationDelay: '2s' }} />
+            
+            {/* Smaller floating particles */}
+            <div className="absolute top-1/3 right-1/3 w-4 h-4 rounded-full bg-cyan-400/60 cosmic-pulse" />
+            <div className="absolute bottom-1/3 left-1/3 w-3 h-3 rounded-full bg-pink-400/60 cosmic-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="absolute top-2/3 right-1/4 w-2 h-2 rounded-full bg-yellow-400/60 cosmic-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-1/4 left-1/2 w-3 h-3 rounded-full bg-purple-400/60 cosmic-pulse" style={{ animationDelay: '1.5s' }} />
+          </div>
           
-          {/* Subtle accent lines */}
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-[var(--dark-accent)]/10 to-transparent" />
+          {/* Cosmic grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,212,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,212,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px]" />
           
-          {/* Minimal animated orbs */}
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[var(--dark-accent)]/5 rounded-full blur-2xl minimal-motion" />
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--dark-accent)]/5 rounded-full blur-2xl minimal-motion" style={{ animationDelay: '2s' }} />
+          {/* Cosmic accent lines */}
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent" />
+          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-pink-400/20 to-transparent" />
+          
+          {/* Cosmic nebula effects */}
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-cyan-500/5 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-pink-500/5 to-transparent" />
         </div>
 
         {/* Main content */}
