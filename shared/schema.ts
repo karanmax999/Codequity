@@ -43,3 +43,52 @@ export const insertContactSubmissionSchema = createInsertSchema(contactSubmissio
 
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+
+export const events = pgTable("events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  date: text("date").notNull(),
+  time: text("time").notNull(),
+  location: text("location").notNull(),
+  participants: text("participants").notNull(),
+  prize: text("prize"),
+  type: text("type").notNull(), // "Hackathon", "Workshop", "Webinar", etc.
+  status: text("status").notNull(), // "Registration Open", "Live Now", "Coming Soon", etc.
+  image: text("image").notNull(),
+  speaker: text("speaker"), // For webinars
+  progress: text("progress"), // For ongoing events (percentage as string)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertEventSchema = createInsertSchema(events).pick({
+  title: true,
+  description: true,
+  date: true,
+  time: true,
+  location: true,
+  participants: true,
+  prize: true,
+  type: true,
+  status: true,
+  image: true,
+  speaker: true,
+  progress: true,
+}).extend({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  date: z.string().min(1, "Date is required"),
+  time: z.string().min(1, "Time is required"),
+  location: z.string().min(1, "Location is required"),
+  participants: z.string().min(1, "Participant count is required"),
+  type: z.string().min(1, "Event type is required"),
+  status: z.string().min(1, "Event status is required"),
+  image: z.string().url("Please enter a valid image URL"),
+  speaker: z.string().optional(),
+  progress: z.string().optional(),
+  prize: z.string().optional(),
+});
+
+export type InsertEvent = z.infer<typeof insertEventSchema>;
+export type Event = typeof events.$inferSelect;
