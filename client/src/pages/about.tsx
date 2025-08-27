@@ -5,7 +5,8 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Target, Eye, Heart, Users, Code, Lightbulb, GraduationCap, Globe, Award, Rocket } from "lucide-react";
-import karanImage from "@assets/WhatsApp Image 2025-08-18 at 02.44.30_14a452d7_1756295205409.jpg";
+import karanImage from "@assets/karan_1756295348934.jpeg";
+import mayureshImage from "@assets/mayuresh.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,7 +133,7 @@ export default function About() {
     {
       name: "MAYURESH SHARMA",
       role: "Founder & CEO",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      image: mayureshImage,
       bio: "Founder | Tech Entrepreneur | AWS Certified | AI Enthusiast | GGSIPU'28",
       expertise: ["Leadership", "AI/ML", "AWS Cloud", "Entrepreneurship"]
     },

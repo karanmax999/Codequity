@@ -113,50 +113,53 @@ export class MemStorage implements IStorage {
   }
 }
 
-const connection = neon(process.env.DATABASE_URL!);
-const db = drizzle(connection);
+class DbStorage implements IStorage {
+  private db: any;
 
-export class DbStorage implements IStorage {
+  constructor(db: any) {
+    this.db = db;
+  }
+
   async getUser(id: string): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+    const result = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
     return result[0];
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
+    const result = await this.db.select().from(users).where(eq(users.username, username)).limit(1);
     return result[0];
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await db.insert(users).values(insertUser).returning();
+    const result = await this.db.insert(users).values(insertUser).returning();
     return result[0];
   }
 
   async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
-    const result = await db.insert(contactSubmissions).values(insertSubmission).returning();
+    const result = await this.db.insert(contactSubmissions).values(insertSubmission).returning();
     return result[0];
   }
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    return await db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
+    return await this.db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
   }
 
   async createEvent(insertEvent: InsertEvent): Promise<Event> {
-    const result = await db.insert(events).values(insertEvent).returning();
+    const result = await this.db.insert(events).values(insertEvent).returning();
     return result[0];
   }
 
   async getEvents(): Promise<Event[]> {
-    return await db.select().from(events).orderBy(events.createdAt);
+    return await this.db.select().from(events).orderBy(events.createdAt);
   }
 
   async getEvent(id: string): Promise<Event | undefined> {
-    const result = await db.select().from(events).where(eq(events.id, id)).limit(1);
+    const result = await this.db.select().from(events).where(eq(events.id, id)).limit(1);
     return result[0];
   }
 
   async updateEvent(id: string, updateData: Partial<InsertEvent>): Promise<Event> {
-    const result = await db.update(events).set(updateData).where(eq(events.id, id)).returning();
+    const result = await this.db.update(events).set(updateData).where(eq(events.id, id)).returning();
     if (!result[0]) {
       throw new Error("Event not found");
     }
@@ -164,9 +167,28 @@ export class DbStorage implements IStorage {
   }
 
   async deleteEvent(id: string): Promise<boolean> {
-    const result = await db.delete(events).where(eq(events.id, id)).returning();
+    const result = await this.db.delete(events).where(eq(events.id, id)).returning();
     return result.length > 0;
   }
 }
 
-export const storage = new DbStorage();
+// Initialize storage based on available configuration
+let storageInstance: IStorage;
+
+if (process.env.DATABASE_URL) {
+  try {
+    const connection = neon(process.env.DATABASE_URL);
+    const db = drizzle(connection);
+    storageInstance = new DbStorage(db);
+    console.log('Using database storage');
+  } catch (error) {
+    console.warn('Failed to initialize database storage:', error);
+    storageInstance = new MemStorage();
+    console.log('Falling back to memory storage');
+  }
+} else {
+  storageInstance = new MemStorage();
+  console.log('Using memory storage (no DATABASE_URL provided)');
+}
+
+export const storage = storageInstance;

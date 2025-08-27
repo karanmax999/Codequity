@@ -5,17 +5,17 @@ import { motion } from "framer-motion";
 export default function EventsSection() {
   const events = [
     {
-      date: "March 15, 2024",
-      title: "CodeQuity Hackathon 2024",
-      description: "48-hour intensive hackathon focused on building innovative solutions for real-world problems.",
+      date: "June 15, 2025",
+      title: "CodeQuity Hackathon 2k25",
+      description: "Build What Matters. Pitch What’s Real.",
       location: "Virtual + Delhi",
       image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     },
     {
       date: "March 22, 2024",
-      title: "AI/ML Workshop Series",
+      title: "CodeQuity learner Series",
       description: "Learn machine learning fundamentals and build your first AI model with industry experts.",
-      location: "Bangalore",
+      location: "Luma live",
       image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     },
     {
@@ -76,7 +76,7 @@ export default function EventsSection() {
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
                     data-testid={`button-register-${index}`}
                   >
-                    Register
+                    finished
                   </Button>
                 </div>
               </div>
