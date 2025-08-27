@@ -7,19 +7,19 @@ export default function ContactSection() {
     {
       icon: Mail,
       title: "General Inquiries",
-      detail: "hello@codequity.in",
+      detail: "codequitycommunity@gmail.com",
       color: "text-primary",
     },
     {
       icon: Users,
       title: "Partnerships",
-      detail: "partners@codequity.in",
+      detail: "codequitycommunity@gmail.com",
       color: "text-accent",
     },
     {
       icon: Calendar,
       title: "Events",
-      detail: "events@codequity.in",
+      detail: "codequitycommunity@gmail.com",
       color: "text-primary",
     },
   ];

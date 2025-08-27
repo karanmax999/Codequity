@@ -122,8 +122,8 @@ export default function Contact() {
       icon: Mail,
       title: "Email Us",
       description: "Get in touch with our team",
-      value: "hello@codequity.in",
-      action: "mailto:hello@codequity.in"
+      value: "codequitycommunity@gmail.com",
+      action: "mailto:codequitycommunity@gmail.com"
     },
     {
       icon: Phone,
@@ -135,8 +135,8 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Visit Us",
-      description: "Find us across major Indian cities",
-      value: "Delhi, Mumbai, Bangalore",
+      description: "Our location in India",
+      value: "codequity -india, India",
       action: "#"
     },
     {
