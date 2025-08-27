@@ -129,8 +129,8 @@ export default function Contact() {
       icon: Phone,
       title: "Call Us",
       description: "Speak with our community managers",
-      value: "+91 98765 43210",
-      action: "tel:+919876543210"
+      value: "+91 9582520423",
+      action: "tel:+919582520423"
     },
     {
       icon: MapPin,
