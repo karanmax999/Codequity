@@ -5,8 +5,8 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Target, Eye, Heart, Users, Code, Lightbulb, GraduationCap, Globe, Award, Rocket } from "lucide-react";
-import karanImage from "@assets/karan_1756295348934.jpeg";
-import mayureshImage from "@assets/mayuresh.jpg";
+import karanImage from "../../../attached_assets/karan_1756295348934.jpeg";
+import mayureshImage from "../../../attached_assets/mayuresh.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
