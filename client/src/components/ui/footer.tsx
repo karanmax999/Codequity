@@ -3,11 +3,13 @@ export default function Footer() {
     <footer className="py-12 bg-background border-t border-border" data-testid="footer">
       <div className="container mx-auto px-6">
         <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="text-3xl font-orbitron font-bold gradient-text" data-testid="footer-logo-symbol">
-              {"{}"}
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center">
+              <div className="text-2xl font-orbitron font-bold text-white" data-testid="footer-logo-symbol">
+                {"{}"}
+              </div>
             </div>
-            <span className="text-2xl font-orbitron font-semibold" data-testid="footer-logo-text">
+            <span className="text-2xl font-orbitron font-semibold gradient-text" data-testid="footer-logo-text">
               CodeQuity
             </span>
           </div>

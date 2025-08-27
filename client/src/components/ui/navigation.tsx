@@ -11,18 +11,20 @@ export default function Navigation() {
     { href: "/community", label: "Community" },
     { href: "/events", label: "Events" },
     { href: "/about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
     <nav className="fixed top-0 w-full z-50 nav-blur border-b border-border" data-testid="main-navigation">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-orbitron font-bold gradient-text" data-testid="logo-symbol">
-              {"{}"}
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+              <div className="text-xl font-orbitron font-bold text-white" data-testid="logo-symbol">
+                {"{}"}
+              </div>
             </div>
-            <span className="text-xl font-orbitron font-semibold" data-testid="logo-text">
+            <span className="text-xl font-orbitron font-semibold gradient-text" data-testid="logo-text">
               CodeQuity
             </span>
           </Link>
@@ -30,27 +32,16 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              link.href.startsWith('#') ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="hover:text-primary transition-colors"
-                  data-testid={`nav-link-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`hover:text-primary transition-colors ${
-                    location === link.href ? 'text-primary' : ''
-                  }`}
-                  data-testid={`nav-link-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                </Link>
-              )
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`hover:text-primary transition-colors ${
+                  location === link.href ? 'text-primary' : ''
+                }`}
+                data-testid={`nav-link-${link.label.toLowerCase()}`}
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
           
@@ -72,29 +63,17 @@ export default function Navigation() {
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border" data-testid="mobile-menu">
             {navLinks.map((link) => (
-              link.href.startsWith('#') ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="block py-3 hover:text-primary transition-colors"
-                  onClick={() => setIsOpen(false)}
-                  data-testid={`mobile-nav-link-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`block py-3 hover:text-primary transition-colors ${
-                    location === link.href ? 'text-primary' : ''
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                  data-testid={`mobile-nav-link-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                </Link>
-              )
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`block py-3 hover:text-primary transition-colors ${
+                  location === link.href ? 'text-primary' : ''
+                }`}
+                onClick={() => setIsOpen(false)}
+                data-testid={`mobile-nav-link-${link.label.toLowerCase()}`}
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
         )}
