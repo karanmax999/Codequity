@@ -5,6 +5,7 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Target, Eye, Heart, Users, Code, Lightbulb, GraduationCap, Globe, Award, Rocket } from "lucide-react";
+import karanImage from "@assets/WhatsApp Image 2025-08-18 at 02.44.30_14a452d7_1756295205409.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -142,46 +143,18 @@ export default function About() {
 
   const team = [
     {
-      name: "KARAN BANSAL",
-      role: "co-founder & CEO",
-      image: "",
-      bio: "Serial entrepreneur passionate about building inclusive tech communities.",
-      expertise: ["Community Building", "Leadership", "Strategy"]
-    },
-    {
       name: "MAYURESH SHARMA",
-      role: "Founder & CTO",
+      role: "Founder & CEO",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
-      bio: "Full-stack developer with 10+ years of experience in scalable systems.",
-      expertise: ["Full Stack", "Cloud Architecture", "DevOps"]
+      bio: "Founder | Tech Entrepreneur | AWS Certified | AI Enthusiast | GGSIPU'28",
+      expertise: ["Leadership", "AI/ML", "AWS Cloud", "Entrepreneurship"]
     },
     {
-      name: "Priya Verma",
-      role: "Head of Community",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
-      bio: "Community management expert dedicated to fostering inclusive environments.",
-      expertise: ["Community Management", "Event Planning", "Engagement"]
-    },
-    {
-      name: "Arjun Patel",
-      role: "Head of Events",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
-      bio: "Event management specialist with experience in large-scale tech conferences.",
-      expertise: ["Event Management", "Operations", "Logistics"]
-    },
-    {
-      name: "Sneha Gupta",
-      role: "Head of Partnerships",
-      image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
-      bio: "Business development expert focused on strategic partnerships and growth.",
-      expertise: ["Business Development", "Partnerships", "Growth"]
-    },
-    {
-      name: "Karan Singh",
-      role: "Head of Education",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
-      bio: "Education technology specialist creating impactful learning experiences.",
-      expertise: ["EdTech", "Curriculum Design", "Mentorship"]
+      name: "KARAN BANSAL",
+      role: "Co-Founder & CTO",
+      image: karanImage,
+      bio: "ASPIRING Blockchain Developer || Solidity || DSA 😎 || Web Developer helping brands grow (either mine or someone's). Web3 enthusiast || Co-founder - @Codequity || Collaborating with communities across India!",
+      expertise: ["Blockchain", "Web3", "Solidity", "Web Development"]
     }
   ];
 
