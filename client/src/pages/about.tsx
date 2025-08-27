@@ -111,28 +111,28 @@ export default function About() {
 
   const timeline = [
     {
-      year: "2025",
+      year: "2023",
       title: "Foundation",
       description: "CodeQuity was founded with a vision to connect developers across India and made a high value Model.",
       icon: Rocket,
       side: "left"
     },
     {
-      year: "2025",
+      year: "Early 2024",
       title: "First Hackathon",
       description: "Organized our first virtual hackathon with 500+ participants.",
       icon: Code,
       side: "right"
     },
     {
-      year: "2025",
+      year: "Mid 2024",
       title: "Community Growth",
       description: "Expanded to 15+ states with 500+ active community members.",
       icon: Users,
       side: "left"
     },
     {
-      year: "2025",
+      year: "Late 2024",
       title: "Major Events",
       description: "Hosted 15+ events including workshops, bootcamps, and conferences.",
       icon: Award,
@@ -254,7 +254,7 @@ export default function About() {
             
             {timeline.map((item, index) => (
               <div
-                key={item.year}
+key={`timeline-${index}`}
                 className={`timeline-item relative flex items-center mb-16 ${
                   item.side === 'left' ? 'flex-row-reverse' : 'flex-row'
                 }`}

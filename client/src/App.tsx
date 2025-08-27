@@ -11,7 +11,6 @@ import Events from "@/pages/events";
 import Community from "@/pages/community";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
-import Admin from "@/pages/admin";
 
 function Router() {
   return (
@@ -21,7 +20,6 @@ function Router() {
       <Route path="/community" component={Community} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
-      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

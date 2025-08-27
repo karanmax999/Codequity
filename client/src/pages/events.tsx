@@ -5,7 +5,11 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, MapPin, Clock, Users, Trophy, Code2, Video, Wifi, Play, Download } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { Calendar, MapPin, Clock, Users, Trophy, Code2, Video, Wifi, Play, Download, Zap, Star, Target, TrendingUp, Award, Sparkles } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -238,30 +242,85 @@ export default function Events() {
       <section className="min-h-screen flex items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
+          {/* Top badges */}
+          <div className="flex justify-center gap-4 mb-8">
+            <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 px-4 py-2 text-sm backdrop-blur-sm">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Live Events Running
+            </Badge>
+            <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30 px-4 py-2 text-sm backdrop-blur-sm">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              3000+ Participants
+            </Badge>
+            <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/30 px-4 py-2 text-sm backdrop-blur-sm">
+              <Award className="w-4 h-4 mr-2" />
+              ₹20L+ Prizes
+            </Badge>
+          </div>
+
           <h1 
             ref={titleRef}
             className="text-6xl md:text-8xl font-orbitron font-black gradient-text mb-8 glow-text"
             data-testid="events-page-title"
           >
-            EVENTS
+            TECH EVENTS
           </h1>
           
-          <p className="hero-subtitle text-2xl md:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto">
-            Join India's most exciting tech events. From hackathons to conferences, 
-            level up your skills and network with the best.
+          <p className="hero-subtitle text-2xl md:text-3xl text-muted-foreground mb-8 max-w-4xl mx-auto">
+            🚀 Join India's most exciting tech events. From hackathons to conferences, 
+            level up your skills and network with the best developers.
           </p>
 
-          {/* Hero Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+          {/* Enhanced call to action */}
+          <div className="mb-12 space-y-4">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              ⚡ <strong className="text-primary">Live Events:</strong> Mega Hackathon • Weekly Tech Talks • Open Source Sprint
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button size="lg" className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 font-semibold px-8">
+                <Zap className="w-5 h-5 mr-2" />
+                Join Live Events
+              </Button>
+              <Button size="lg" variant="outline" className="border-primary/30 hover:border-primary/50 backdrop-blur-sm">
+                <Calendar className="w-5 h-5 mr-2" />
+                View Schedule
+              </Button>
+            </div>
+          </div>
+
+          {/* Enhanced Hero Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {stats.map((stat, index) => (
-              <div key={stat.label} className="hero-stats stat-card neon-border rounded-xl p-6">
-                <stat.icon className="w-8 h-8 text-primary mx-auto mb-2" />
-                <div className="text-3xl font-orbitron font-bold gradient-text mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
+              <Card key={stat.label} className="hero-stats group bg-card/40 backdrop-blur-xl border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105">
+                <CardContent className="p-6 text-center">
+                  <div className="relative">
+                    <stat.icon className="w-10 h-10 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="text-3xl font-orbitron font-bold gradient-text mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+                  <div className="mt-3">
+                    <Progress value={75 + index * 5} className="h-2" />
+                  </div>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+
+          {/* Quick info section */}
+          <Separator className="my-12 max-w-2xl mx-auto opacity-30" />
+          <div className="text-center space-y-4">
+            <p className="text-muted-foreground">
+              <Target className="w-4 h-4 inline mr-2" />
+              Next Event: <span className="text-primary font-semibold">CodeQuity Mega Hackathon 2024</span> • March 15-17
+            </p>
+            <div className="flex justify-center items-center gap-2 text-sm text-muted-foreground">
+              <Star className="w-4 h-4 text-yellow-500" />
+              <span>4.9/5 rating from 2000+ participants</span>
+              <Star className="w-4 h-4 text-yellow-500" />
+            </div>
           </div>
         </div>
       </section>
