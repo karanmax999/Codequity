@@ -111,53 +111,46 @@ export default function About() {
 
   const timeline = [
     {
-      year: "2020",
+      year: "2025",
       title: "Foundation",
-      description: "CodeQuity was founded with a vision to connect developers across India.",
+      description: "CodeQuity was founded with a vision to connect developers across India and made a high value Model.",
       icon: Rocket,
       side: "left"
     },
     {
-      year: "2021",
+      year: "2025",
       title: "First Hackathon",
-      description: "Organized our first virtual hackathon with 100+ participants.",
+      description: "Organized our first virtual hackathon with 500+ participants.",
       icon: Code,
       side: "right"
     },
     {
-      year: "2022",
+      year: "2025",
       title: "Community Growth",
       description: "Expanded to 15+ states with 500+ active community members.",
       icon: Users,
       side: "left"
     },
     {
-      year: "2023",
+      year: "2025",
       title: "Major Events",
       description: "Hosted 15+ events including workshops, bootcamps, and conferences.",
       icon: Award,
       side: "right"
     },
-    {
-      year: "2024",
-      title: "Global Reach",
-      description: "Extended our community to 10+ countries with international partnerships.",
-      icon: Globe,
-      side: "left"
-    }
   ];
 
   const team = [
     {
-      name: "Aditi Sharma",
-      role: "Founder & CEO",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b62a6ae0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      name: "KARAN BANSAL",
+      role: "co-founder & CEO",
+      image: "",
       bio: "Serial entrepreneur passionate about building inclusive tech communities.",
       expertise: ["Community Building", "Leadership", "Strategy"]
     },
     {
-      name: "Rohit Kumar",
-      role: "CTO",
+      name: "MAYURESH SHARMA",
+      role: "Founder & CTO",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
       bio: "Full-stack developer with 10+ years of experience in scalable systems.",
       expertise: ["Full Stack", "Cloud Architecture", "DevOps"]

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useLocation } from "wouter";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
@@ -83,13 +83,75 @@ export default function AdminPanel() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setIsAuthenticated(false);
+        setIsCheckingAuth(false);
+        setLocation("/login");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("user");
+          setLocation("/login");
+        }
+      } catch (error) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        setLocation("/login");
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuth();
+  }, [setLocation]);
 
   // Fetch events
   const { data: eventsResponse, isLoading } = useQuery({
     queryKey: ["/api/events"],
+    enabled: isAuthenticated,
+    queryFn: async () => {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch("/api/events", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        setLocation("/login");
+        throw new Error("Unauthorized");
+      }
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch events");
+      }
+      
+      return response.json();
+    },
   });
 
   const events: Event[] = (eventsResponse as any)?.data || [];
@@ -121,11 +183,23 @@ export default function AdminPanel() {
   // Create event mutation
   const createEventMutation = useMutation({
     mutationFn: async (data: InsertEvent) => {
+      const token = localStorage.getItem("authToken");
       const response = await fetch("/api/events", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(data),
       });
+      
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        setLocation("/login");
+        throw new Error("Unauthorized");
+      }
+      
       if (!response.ok) {
         throw new Error("Failed to create event");
       }
@@ -152,11 +226,23 @@ export default function AdminPanel() {
   // Update event mutation
   const updateEventMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: InsertEvent }) => {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`/api/events/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(data),
       });
+      
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        setLocation("/login");
+        throw new Error("Unauthorized");
+      }
+      
       if (!response.ok) {
         throw new Error("Failed to update event");
       }
@@ -183,9 +269,21 @@ export default function AdminPanel() {
   // Delete event mutation
   const deleteEventMutation = useMutation({
     mutationFn: async (id: string) => {
+      const token = localStorage.getItem("authToken");
       const response = await fetch(`/api/events/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+      
+      if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+        setLocation("/login");
+        throw new Error("Unauthorized");
+      }
+      
       if (!response.ok) {
         throw new Error("Failed to delete event");
       }
@@ -245,6 +343,37 @@ export default function AdminPanel() {
     deleteEventMutation.mutate(id);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setLocation("/login");
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+  };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p>Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p>Redirecting to login...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -261,28 +390,39 @@ export default function AdminPanel() {
       <Navigation />
       
       <div className="container mx-auto px-6 py-24">
-        <div className="mb-8">
-          <h1 className="text-4xl font-orbitron font-bold mb-4">
-            Event <span className="gradient-text">Management</span>
-          </h1>
-          <p className="text-muted-foreground mb-6">
-            Create, edit, and manage CodeQuity events
-          </p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-orbitron font-bold mb-4">
+              Event <span className="gradient-text">Management</span>
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              Create, edit, and manage CodeQuity events
+            </p>
+          </div>
+          
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            className="bg-destructive/10 text-destructive hover:bg-destructive/20"
+          >
+            Logout
+          </Button>
+        </div>
 
-          {/* Create Event Button */}
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-primary text-primary-foreground">
-                <Plus className="w-4 h-4 mr-2" />
-                Create Event
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Create New Event</DialogTitle>
-              </DialogHeader>
-              <Form {...createForm}>
-                <form onSubmit={createForm.handleSubmit(handleCreateEvent)} className="space-y-6">
+        {/* Create Event Button */}
+        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="bg-primary text-primary-foreground">
+              <Plus className="w-4 h-4 mr-2" />
+              Create Event
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Create New Event</DialogTitle>
+            </DialogHeader>
+            <Form {...createForm}>
+              <form onSubmit={createForm.handleSubmit(handleCreateEvent)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={createForm.control}

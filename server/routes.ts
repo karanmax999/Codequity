@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSubmissionSchema, insertEventSchema } from "@shared/schema";
 import { z } from "zod";
+import { authenticateToken, requireAdmin, AuthRequest } from "./middleware/auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact submission endpoint
@@ -37,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get contact submissions (for admin purposes)
-  app.get("/api/contact", async (req, res) => {
+  app.get("/api/contact", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
       const submissions = await storage.getContactSubmissions();
       res.json({ success: true, data: submissions });
@@ -53,7 +54,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Event management endpoints
   
   // Create event
-  app.post("/api/events", async (req, res) => {
+  app.post("/api/events", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
       const validatedData = insertEventSchema.parse(req.body);
       const event = await storage.createEvent(validatedData);
@@ -115,7 +116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update event
-  app.put("/api/events/:id", async (req, res) => {
+  app.put("/api/events/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
       const validatedData = insertEventSchema.partial().parse(req.body);
       const event = await storage.updateEvent(req.params.id, validatedData);
@@ -148,7 +149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete event
-  app.delete("/api/events/:id", async (req, res) => {
+  app.delete("/api/events/:id", authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
     try {
       const deleted = await storage.deleteEvent(req.params.id);
       if (!deleted) {
