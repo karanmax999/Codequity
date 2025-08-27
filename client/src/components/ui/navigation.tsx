@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,11 +20,12 @@ export default function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-              <div className="text-xl font-orbitron font-bold text-white" data-testid="logo-symbol">
-                {"{}"}
-              </div>
-            </div>
+            <img 
+              src={codeQuityLogo} 
+              alt="CodeQuity Logo" 
+              className="w-10 h-10 object-contain"
+              data-testid="logo-image"
+            />
             <span className="text-xl font-orbitron font-semibold gradient-text" data-testid="logo-text">
               CodeQuity
             </span>

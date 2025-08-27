@@ -30,24 +30,28 @@ export default function ContactSection() {
       handle: "@CodeQuity",
       icon: "fab fa-twitter",
       color: "text-blue-400",
+      url: "https://x.com/CodeQuity"
     },
     {
       name: "LinkedIn",
       handle: "CodeQuity Community",
       icon: "fab fa-linkedin",
       color: "text-blue-600",
+      url: "https://www.linkedin.com/company/codequitycommunity/"
     },
     {
       name: "WhatsApp",
       handle: "Join Group",
       icon: "fab fa-whatsapp",
       color: "text-green-500",
+      url: "https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich"
     },
     {
-      name: "Discord",
-      handle: "Real-time Chat",
-      icon: "fab fa-discord",
-      color: "text-indigo-500",
+      name: "Instagram",
+      handle: "@codequity_official",
+      icon: "fab fa-instagram",
+      color: "text-pink-500",
+      url: "https://www.instagram.com/codequity_official/"
     },
   ];
 
@@ -111,7 +115,9 @@ export default function ContactSection() {
               {socialPlatforms.map((platform, index) => (
                 <motion.a
                   key={platform.name}
-                  href="#"
+                  href={platform.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 neon-border rounded-lg bg-card hover:bg-card/80 transition-all"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -140,17 +146,23 @@ export default function ContactSection() {
               viewport={{ once: true }}
             >
               <Button
+                asChild
                 className="w-full bg-primary text-primary-foreground py-4 px-6 font-orbitron font-semibold hover:bg-primary/90 neon-border"
-                data-testid="button-become-ambassador"
+                data-testid="button-join-events"
               >
-                Become an Ambassador
+                <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer">
+                  Join Our Events
+                </a>
               </Button>
               <Button
+                asChild
                 variant="outline"
                 className="w-full border-primary text-primary py-4 px-6 font-orbitron font-semibold hover:bg-primary/10 neon-border"
-                data-testid="button-visit-website"
+                data-testid="button-join-whatsapp"
               >
-                Visit Website
+                <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
+                  Join WhatsApp Group
+                </a>
               </Button>
             </motion.div>
           </motion.div>

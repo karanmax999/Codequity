@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import emailjs from "@emailjs/browser";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Mail, 
   Phone, 
@@ -17,7 +19,9 @@ import {
   Twitter,
   Github,
   Linkedin,
-  Instagram
+  Instagram,
+  CheckCircle,
+  Loader2
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +29,18 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Contact() {
   const heroRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const contactFormRef = useRef<HTMLFormElement>(null);
+  const { toast } = useToast();
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -125,19 +141,78 @@ export default function Contact() {
     },
     {
       icon: MessageCircle,
-      title: "Discord",
+      title: "WhatsApp Group",
       description: "Join our active community",
-      value: "discord.gg/codequity",
-      action: "https://discord.gg/codequity"
+      value: "WhatsApp Community",
+      action: "https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich"
     }
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "https://twitter.com/codequity", label: "Twitter" },
+    { icon: Twitter, href: "https://x.com/CodeQuity", label: "Twitter" },
     { icon: Github, href: "https://github.com/codequity", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com/company/codequity", label: "LinkedIn" },
-    { icon: Instagram, href: "https://instagram.com/codequity", label: "Instagram" }
+    { icon: Linkedin, href: "https://www.linkedin.com/company/codequitycommunity/", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/codequity_official/", label: "Instagram" }
   ];
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!contactFormRef.current) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Initialize EmailJS
+      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+      
+      // Send email using EmailJS
+      const result = await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        contactFormRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      
+      if (result.status === 200) {
+        setIsSubmitted(true);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "",
+          message: ""
+        });
+        
+        toast({
+          title: "Message sent successfully! 🎉",
+          description: "We'll get back to you within 24 hours.",
+        });
+        
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      toast({
+        title: "Failed to send message",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen" ref={heroRef}>
@@ -235,24 +310,37 @@ export default function Contact() {
                   Fill out the form below and we'll get back to you within 24 hours.
                 </p>
                 
-                <form className="space-y-6" data-testid="contact-form">
+                <form 
+                  ref={contactFormRef}
+                  onSubmit={handleSubmit}
+                  className="space-y-6" 
+                  data-testid="contact-form"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium mb-2">First Name</label>
                       <Input 
                         type="text" 
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         placeholder="Your first name"
                         className="bg-background/50 border-white/20 focus:border-primary"
                         data-testid="input-first-name"
+                        required
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Last Name</label>
                       <Input 
                         type="text" 
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
                         placeholder="Your last name"
                         className="bg-background/50 border-white/20 focus:border-primary"
                         data-testid="input-last-name"
+                        required
                       />
                     </div>
                   </div>
@@ -261,9 +349,13 @@ export default function Contact() {
                     <label className="block text-sm font-medium mb-2">Email</label>
                     <Input 
                       type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder="your.email@example.com"
                       className="bg-background/50 border-white/20 focus:border-primary"
                       data-testid="input-email"
+                      required
                     />
                   </div>
                   
@@ -271,29 +363,53 @@ export default function Contact() {
                     <label className="block text-sm font-medium mb-2">Subject</label>
                     <Input 
                       type="text" 
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
                       placeholder="What's this about?"
                       className="bg-background/50 border-white/20 focus:border-primary"
                       data-testid="input-subject"
+                      required
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">Message</label>
                     <Textarea 
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       placeholder="Tell us more about your inquiry..."
                       rows={6}
                       className="bg-background/50 border-white/20 focus:border-primary resize-none"
                       data-testid="textarea-message"
+                      required
+                      minLength={10}
                     />
                   </div>
                   
                   <Button 
                     type="submit"
-                    className="w-full bg-gradient-to-r from-primary to-accent text-white font-medium py-3 rounded-xl hover:opacity-90 transition-opacity"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-primary to-accent text-white font-medium py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
                     data-testid="button-send-message"
                   >
-                    <Send className="w-5 h-5 mr-2" />
-                    Send Message
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Sending...
+                      </>
+                    ) : isSubmitted ? (
+                      <>
+                        <CheckCircle className="w-5 h-5 mr-2" />
+                        Message Sent!
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>

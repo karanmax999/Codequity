@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Code, Rocket, Users, Zap, Star, Globe } from "lucide-react";
 import { motion } from "framer-motion";
+import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -136,7 +137,11 @@ export default function HeroSection() {
           data-testid="animated-logo"
         >
           <div className="logo-brackets text-8xl md:text-9xl font-orbitron font-black gradient-text mb-4 glow-text drop-shadow-2xl">
-            {"{}"}
+            <img 
+              src={codeQuityLogo} 
+              alt="CodeQuity Logo" 
+              className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto"
+            />
           </div>
           <h1 className="logo-text text-4xl md:text-6xl font-orbitron font-bold mb-4">
             CODE<span className="gradient-text">QUITY</span>
@@ -157,19 +162,25 @@ export default function HeroSection() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
+              asChild
               className="hero-buttons bg-primary text-primary-foreground px-8 py-4 font-semibold hover:bg-primary/90 neon-border animate-glow transform hover:scale-105 transition-transform"
               data-testid="button-join-community"
             >
-              <Users className="w-5 h-5 mr-2" />
-              Join Community
+              <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
+                <Users className="w-5 h-5 mr-2" />
+                Join Community
+              </a>
             </Button>
             <Button
+              asChild
               variant="outline"
               className="hero-buttons border-primary text-primary px-8 py-4 font-semibold hover:bg-primary/10 neon-border transform hover:scale-105 transition-transform"
               data-testid="button-explore-events"
             >
-              <Rocket className="w-5 h-5 mr-2" />
-              Explore Events
+              <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer">
+                <Rocket className="w-5 h-5 mr-2" />
+                Explore Events
+              </a>
             </Button>
           </div>
         </div>

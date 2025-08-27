@@ -1,14 +1,17 @@
+import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
+
 export default function Footer() {
   return (
     <footer className="py-12 bg-background border-t border-border" data-testid="footer">
       <div className="container mx-auto px-6">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center">
-              <div className="text-2xl font-orbitron font-bold text-white" data-testid="footer-logo-symbol">
-                {"{}"}
-              </div>
-            </div>
+            <img 
+              src={codeQuityLogo} 
+              alt="CodeQuity Logo" 
+              className="w-12 h-12 object-contain"
+              data-testid="footer-logo-image"
+            />
             <span className="text-2xl font-orbitron font-semibold gradient-text" data-testid="footer-logo-text">
               CodeQuity
             </span>
