@@ -130,14 +130,34 @@
     background-clip: text;
   }
 
-  .logo-container {
+  .logo-brackets {
     opacity: 0;
-    transform: scale(0.5);
+    transform: rotateY(180deg) scale(0.5);
   }
 
-  .hero-content {
+  .logo-text {
+    opacity: 0;
+    transform: translateY(50px);
+    letter-spacing: 20px;
+  }
+
+  .hero-subtitle {
     opacity: 0;
     transform: translateY(30px);
+  }
+
+  .hero-description {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .hero-buttons {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .floating-particle {
+    transform-origin: center center;
   }
 }
 
@@ -174,6 +194,49 @@
   }
 }
 
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.4);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes magnetic-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+}
+
 .animate-glow {
   animation: glow 2s ease-in-out infinite alternate;
 }
@@ -184,4 +247,35 @@
 
 .animate-circuit {
   animation: circuit 4s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-magnetic-float {
+  animation: magnetic-float 4s ease-in-out infinite;
+}
+
+/* Enhanced hover effects */
+.card-hover-effect {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+}
+
+/* Advanced loading skeleton */
+.skeleton-loading {
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s infinite;
+}
+
+@keyframes skeleton-wave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }

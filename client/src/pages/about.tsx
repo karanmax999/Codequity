@@ -1,0 +1,385 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Navigation from "@/components/ui/navigation";
+import Footer from "@/components/ui/footer";
+import { Button } from "@/components/ui/button";
+import { Target, Eye, Heart, Users, Code, Lightbulb, GraduationCap, Globe, Award, Rocket } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function About() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const teamRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero animations
+      gsap.timeline()
+        .from(".about-title", {
+          rotationX: 90,
+          opacity: 0,
+          duration: 1.5,
+          ease: "power4.out"
+        })
+        .from(".about-subtitle", {
+          y: 100,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power3.out"
+        }, "-=0.8")
+        .from(".mission-cards", {
+          scale: 0,
+          rotation: 180,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: "back.out(1.7)"
+        }, "-=0.5");
+
+      // Timeline animation
+      gsap.from(".timeline-item", {
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        },
+        x: (index) => index % 2 === 0 ? -100 : 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.3,
+        ease: "power3.out"
+      });
+
+      // Team cards with 3D effect
+      gsap.from(".team-card", {
+        scrollTrigger: {
+          trigger: teamRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        },
+        rotationY: 180,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power3.out"
+      });
+
+      // Continuous animation for floating elements
+      gsap.to(".floating-icon", {
+        y: "random(-20, 20)",
+        x: "random(-10, 10)",
+        rotation: "random(-15, 15)",
+        duration: "random(2, 4)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        stagger: {
+          amount: 1,
+          from: "random"
+        }
+      });
+
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const missionValues = [
+    {
+      icon: Target,
+      title: "Our Mission",
+      description: "Building India's largest tech community through innovation, collaboration, and excellence.",
+      color: "text-primary"
+    },
+    {
+      icon: Eye,
+      title: "Our Vision",
+      description: "To create a thriving ecosystem where every developer can learn, grow, and contribute to India's tech revolution.",
+      color: "text-accent"
+    },
+    {
+      icon: Heart,
+      title: "Our Values",
+      description: "Inclusivity, innovation, collaboration, and excellence drive everything we do in our community.",
+      color: "text-red-400"
+    }
+  ];
+
+  const timeline = [
+    {
+      year: "2020",
+      title: "Foundation",
+      description: "CodeQuity was founded with a vision to connect developers across India.",
+      icon: Rocket,
+      side: "left"
+    },
+    {
+      year: "2021",
+      title: "First Hackathon",
+      description: "Organized our first virtual hackathon with 100+ participants.",
+      icon: Code,
+      side: "right"
+    },
+    {
+      year: "2022",
+      title: "Community Growth",
+      description: "Expanded to 15+ states with 500+ active community members.",
+      icon: Users,
+      side: "left"
+    },
+    {
+      year: "2023",
+      title: "Major Events",
+      description: "Hosted 15+ events including workshops, bootcamps, and conferences.",
+      icon: Award,
+      side: "right"
+    },
+    {
+      year: "2024",
+      title: "Global Reach",
+      description: "Extended our community to 10+ countries with international partnerships.",
+      icon: Globe,
+      side: "left"
+    }
+  ];
+
+  const team = [
+    {
+      name: "Aditi Sharma",
+      role: "Founder & CEO",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b62a6ae0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Serial entrepreneur passionate about building inclusive tech communities.",
+      expertise: ["Community Building", "Leadership", "Strategy"]
+    },
+    {
+      name: "Rohit Kumar",
+      role: "CTO",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Full-stack developer with 10+ years of experience in scalable systems.",
+      expertise: ["Full Stack", "Cloud Architecture", "DevOps"]
+    },
+    {
+      name: "Priya Verma",
+      role: "Head of Community",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Community management expert dedicated to fostering inclusive environments.",
+      expertise: ["Community Management", "Event Planning", "Engagement"]
+    },
+    {
+      name: "Arjun Patel",
+      role: "Head of Events",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Event management specialist with experience in large-scale tech conferences.",
+      expertise: ["Event Management", "Operations", "Logistics"]
+    },
+    {
+      name: "Sneha Gupta",
+      role: "Head of Partnerships",
+      image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Business development expert focused on strategic partnerships and growth.",
+      expertise: ["Business Development", "Partnerships", "Growth"]
+    },
+    {
+      name: "Karan Singh",
+      role: "Head of Education",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300",
+      bio: "Education technology specialist creating impactful learning experiences.",
+      expertise: ["EdTech", "Curriculum Design", "Mentorship"]
+    }
+  ];
+
+  const achievements = [
+    { label: "Community Members", value: "500+", icon: Users },
+    { label: "Events Hosted", value: "25+", icon: Award },
+    { label: "States Covered", value: "25+", icon: Globe },
+    { label: "Industry Partners", value: "10+", icon: Lightbulb }
+  ];
+
+  return (
+    <div className="min-h-screen" ref={heroRef}>
+      <Navigation />
+      
+      {/* Floating Background Icons */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden opacity-5">
+        {[Code, Users, Lightbulb, Globe, Award, Heart].map((Icon, i) => (
+          <Icon
+            key={i}
+            className="floating-icon absolute w-12 h-12 text-primary"
+            style={{
+              left: `${Math.random() * 90 + 5}%`,
+              top: `${Math.random() * 90 + 5}%`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h1 className="about-title text-6xl md:text-8xl font-orbitron font-black gradient-text mb-8 glow-text">
+            ABOUT US
+          </h1>
+          
+          <p className="about-subtitle text-2xl md:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto">
+            Discover the story behind India's premier tech community and our journey 
+            towards building a connected developer ecosystem.
+          </p>
+
+          {/* Mission, Vision, Values */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {missionValues.map((item, index) => (
+              <div key={item.title} className="mission-cards stat-card neon-border rounded-xl p-8">
+                <item.icon className={`w-12 h-12 ${item.color} mx-auto mb-4`} />
+                <h3 className="text-xl font-orbitron font-semibold mb-4">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story Timeline */}
+      <section className="py-20 bg-gradient-to-b from-background to-card" ref={timelineRef}>
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+              Our <span className="gradient-text">Journey</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              From a small idea to India's fastest-growing tech community.
+            </p>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary via-accent to-primary opacity-30"></div>
+            
+            {timeline.map((item, index) => (
+              <div
+                key={item.year}
+                className={`timeline-item relative flex items-center mb-16 ${
+                  item.side === 'left' ? 'flex-row-reverse' : 'flex-row'
+                }`}
+                data-testid={`timeline-item-${item.year}`}
+              >
+                {/* Content Card */}
+                <div className={`w-5/12 ${item.side === 'left' ? 'text-right' : 'text-left'}`}>
+                  <div className="neon-border rounded-xl p-6 bg-card/50 backdrop-blur-sm">
+                    <div className="text-3xl font-orbitron font-bold gradient-text mb-2">
+                      {item.year}
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+                
+                {/* Timeline Node */}
+                <div className="w-2/12 flex justify-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center neon-border">
+                    <item.icon className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                
+                {/* Spacer */}
+                <div className="w-5/12"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team */}
+      <section className="py-20 circuit-pattern" ref={teamRef}>
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+              Meet Our <span className="gradient-text">Team</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Passionate leaders driving innovation and community growth across India.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {team.map((member, index) => (
+              <div
+                key={member.name}
+                className="team-card neon-border rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm"
+                data-testid={`team-member-${index}`}
+              >
+                <div className="relative">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-xl font-orbitron font-semibold mb-1">{member.name}</h3>
+                    <p className="text-accent font-medium">{member.role}</p>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <p className="text-muted-foreground mb-4 text-sm">{member.bio}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {member.expertise.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium border border-primary/30"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Achievements */}
+      <section className="py-20 bg-gradient-to-b from-card to-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+              Our <span className="gradient-text">Achievements</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Milestones that showcase our community's growth and impact.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mb-12">
+            {achievements.map((achievement) => (
+              <div key={achievement.label} className="text-center">
+                <achievement.icon className="w-12 h-12 text-primary mx-auto mb-4" />
+                <div className="text-4xl font-orbitron font-bold gradient-text mb-2">
+                  {achievement.value}
+                </div>
+                <div className="text-muted-foreground">{achievement.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button
+              className="bg-primary text-primary-foreground px-8 py-4 font-orbitron font-semibold hover:bg-primary/90 neon-border"
+              data-testid="button-join-mission"
+            >
+              Join Our Mission
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
