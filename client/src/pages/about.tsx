@@ -54,20 +54,7 @@ export default function About() {
         ease: "power3.out"
       });
 
-      // Team cards with 3D effect
-      gsap.from(".team-card", {
-        scrollTrigger: {
-          trigger: teamRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        },
-        rotationY: 180,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out"
-      });
+      // Team animation removed for simplicity
 
       // Continuous animation for floating elements
       gsap.to(".floating-icon", {
@@ -271,33 +258,33 @@ key={`timeline-${index}`}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             {team.map((member, index) => (
               <div
                 key={member.name}
-                className="team-card neon-border rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm"
+                className="bg-card rounded-xl overflow-hidden border border-border"
                 data-testid={`team-member-${index}`}
               >
                 <div className="relative">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-80 object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-orbitron font-semibold mb-1">{member.name}</h3>
-                    <p className="text-accent font-medium">{member.role}</p>
+                    <h3 className="text-2xl font-orbitron font-semibold mb-1 text-white">{member.name}</h3>
+                    <p className="text-primary font-medium text-lg">{member.role}</p>
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  <p className="text-muted-foreground mb-4 text-sm">{member.bio}</p>
+                <div className="p-8">
+                  <p className="text-muted-foreground mb-6 text-base leading-relaxed">{member.bio}</p>
                   <div className="flex flex-wrap gap-2">
                     {member.expertise.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium border border-primary/30"
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium border border-primary/30"
                       >
                         {skill}
                       </span>
