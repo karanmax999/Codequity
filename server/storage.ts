@@ -1,4 +1,7 @@
-import { type User, type InsertUser, type ContactSubmission, type InsertContactSubmission, type Event, type InsertEvent } from "@shared/schema";
+import { type User, type InsertUser, type ContactSubmission, type InsertContactSubmission, type Event, type InsertEvent, users, contactSubmissions, events } from "@shared/schema";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -110,4 +113,60 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+const connection = neon(process.env.DATABASE_URL!);
+const db = drizzle(connection);
+
+export class DbStorage implements IStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
+    return result[0];
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const result = await db.insert(users).values(insertUser).returning();
+    return result[0];
+  }
+
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const result = await db.insert(contactSubmissions).values(insertSubmission).returning();
+    return result[0];
+  }
+
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    return await db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
+  }
+
+  async createEvent(insertEvent: InsertEvent): Promise<Event> {
+    const result = await db.insert(events).values(insertEvent).returning();
+    return result[0];
+  }
+
+  async getEvents(): Promise<Event[]> {
+    return await db.select().from(events).orderBy(events.createdAt);
+  }
+
+  async getEvent(id: string): Promise<Event | undefined> {
+    const result = await db.select().from(events).where(eq(events.id, id)).limit(1);
+    return result[0];
+  }
+
+  async updateEvent(id: string, updateData: Partial<InsertEvent>): Promise<Event> {
+    const result = await db.update(events).set(updateData).where(eq(events.id, id)).returning();
+    if (!result[0]) {
+      throw new Error("Event not found");
+    }
+    return result[0];
+  }
+
+  async deleteEvent(id: string): Promise<boolean> {
+    const result = await db.delete(events).where(eq(events.id, id)).returning();
+    return result.length > 0;
+  }
+}
+
+export const storage = new DbStorage();

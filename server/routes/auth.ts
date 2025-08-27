@@ -1,19 +1,25 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { z } from "zod";
+import { storage } from "../storage";
 
 const router = Router();
 
-// Simple in-memory user store for demo purposes
-// In production, you should use a proper database
-const users = [
-  {
-    id: "1",
-    username: "admin",
-    password: "admin123", // In production, use hashed passwords
-    role: "admin"
+// Initialize default admin user if not exists
+async function ensureAdminUser() {
+  const existingAdmin = await storage.getUserByUsername("admin");
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash("admin123", 12);
+    await storage.createUser({
+      username: "admin",
+      password: hashedPassword
+    });
   }
-];
+}
+
+// Call this on startup
+ensureAdminUser().catch(console.error);
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -25,10 +31,20 @@ router.post("/api/auth/login", async (req, res) => {
     const validatedData = loginSchema.parse(req.body);
     const { username, password } = validatedData;
 
-    // Find user (in production, use proper database lookup with hashed passwords)
-    const user = users.find(u => u.username === username && u.password === password);
+    // Find user in database
+    const user = await storage.getUserByUsername(username);
     
     if (!user) {
+      return res.status(401).json({ 
+        success: false, 
+        message: "Invalid username or password" 
+      });
+    }
+    
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    
+    if (!isValidPassword) {
       return res.status(401).json({ 
         success: false, 
         message: "Invalid username or password" 
@@ -49,8 +65,7 @@ router.post("/api/auth/login", async (req, res) => {
         token,
         user: {
           id: user.id,
-          username: user.username,
-          role: user.role
+          username: user.username
         }
       }
     });
@@ -80,7 +95,7 @@ router.post("/api/auth/logout", (req, res) => {
   });
 });
 
-router.get("/api/auth/me", (req, res) => {
+router.get("/api/auth/me", async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -90,7 +105,7 @@ router.get("/api/auth/me", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string; username: string };
-    const user = users.find(u => u.id === decoded.id);
+    const user = await storage.getUser(decoded.id);
     
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -100,8 +115,7 @@ router.get("/api/auth/me", (req, res) => {
       success: true,
       data: {
         id: user.id,
-        username: user.username,
-        role: user.role
+        username: user.username
       }
     });
   } catch (error) {
