@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 7%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover: hsl(240, 10%, 7%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(195, 100%, 50%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 4%, 15%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 4%, 15%);
+  --muted-foreground: hsl(240, 5%, 64%);
+  --accent: hsl(180, 100%, 50%);
+  --accent-foreground: hsl(240, 10%, 3.9%);
+  --destructive: hsl(0, 85%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 6%, 20%);
+  --input: hsl(240, 6%, 20%);
+  --ring: hsl(195, 100%, 50%);
+  --chart-1: hsl(195, 100%, 50%);
+  --chart-2: hsl(159.7826, 100%, 36.0784%);
+  --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
+  --chart-4: hsl(147.1429, 78.5047%, 41.9608%);
+  --chart-5: hsl(341.4894, 75.2000%, 50.9804%);
+  --sidebar: hsl(240, 10%, 7%);
+  --sidebar-foreground: hsl(0, 0%, 98%);
+  --sidebar-primary: hsl(195, 100%, 50%);
+  --sidebar-primary-foreground: hsl(240, 10%, 3.9%);
+  --sidebar-accent: hsl(240, 4%, 15%);
+  --sidebar-accent-foreground: hsl(180, 100%, 50%);
+  --sidebar-border: hsl(240, 6%, 20%);
+  --sidebar-ring: hsl(195, 100%, 50%);
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-orbitron: 'Orbitron', monospace;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 7%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover: hsl(240, 10%, 7%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(195, 100%, 50%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 4%, 15%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 4%, 15%);
+  --muted-foreground: hsl(240, 5%, 64%);
+  --accent: hsl(180, 100%, 50%);
+  --accent-foreground: hsl(240, 10%, 3.9%);
+  --destructive: hsl(0, 85%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 6%, 20%);
+  --input: hsl(240, 6%, 20%);
+  --ring: hsl(195, 100%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, #000000 0%, #0A0A0F 50%, #001122 100%);
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .hero-bg {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #0A0A0F 100%);
+  }
+
+  .circuit-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, #00D4FF 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, #0080FF 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(0, 128, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px, 30px 30px, 20px 20px, 20px 20px;
+    animation: circuit 20s linear infinite;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .neon-border {
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .neon-border:hover {
+    border-color: rgba(0, 212, 255, 0.8);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 128, 255, 0.05) 100%);
+  }
+
+  .event-card {
+    background: linear-gradient(135deg, rgba(26, 26, 31, 0.8) 0%, rgba(0, 212, 255, 0.05) 100%);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-blur {
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 15, 0.8);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #00D4FF 0%, #0080FF 50%, #00FFFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-container {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .hero-content {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+@layer utilities {
+  .font-orbitron {
+    font-family: var(--font-orbitron);
+  }
+}
+
+@keyframes glow {
+  from { 
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); 
+  }
+  to { 
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.3); 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+@keyframes circuit {
+  0% { 
+    background-position: 0 0, 0 0, 0 0, 0 0; 
+  }
+  100% { 
+    background-position: 50px 50px, 30px 30px, 20px 20px, 20px 20px; 
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-circuit {
+  animation: circuit 4s linear infinite;
+}
