@@ -100,28 +100,28 @@ export default function About() {
 
   const timeline = [
     {
-      year: "2023",
+      year: "2024",
       title: "Foundation",
       description: "CodeQuity was founded with a vision to connect developers across India and made a high value Model.",
       icon: Rocket,
       side: "left"
     },
     {
-      year: "Early 2024",
+      year: "Early 2025",
       title: "First Hackathon",
       description: "Organized our first virtual hackathon with 500+ participants.",
       icon: Code,
       side: "right"
     },
     {
-      year: "Mid 2024",
+      year: "Mid 2025",
       title: "Community Growth",
       description: "Expanded to 15+ states with 500+ active community members.",
       icon: Users,
       side: "left"
     },
     {
-      year: "Late 2024",
+      year: "Late 2025",
       title: "Major Events",
       description: "Hosted 15+ events including workshops, bootcamps, and conferences.",
       icon: Award,
