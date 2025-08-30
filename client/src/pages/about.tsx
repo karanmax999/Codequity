@@ -100,7 +100,7 @@ export default function About() {
 
   const timeline = [
     {
-      year: "2024",
+      year: "2025",
       title: "Foundation",
       description: "CodeQuity was founded with a vision to connect developers across India and made a high value Model.",
       icon: Rocket,
