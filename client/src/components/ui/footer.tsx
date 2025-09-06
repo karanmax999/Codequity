@@ -1,4 +1,6 @@
-import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
+// import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
+import codeQuityLogo from "@assets/codequity-logo.jpg";
+
 import { motion } from "framer-motion";
 import { Heart, Github, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 

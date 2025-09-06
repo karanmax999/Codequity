@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import codeQuityLogo from "@assets/WhatsApp Image 2025-08-09 at 23.54.36_e9b4a964_1756273841031.jpg";
+import codeQuityLogo from "@assets/codequity-logo.jpg";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
