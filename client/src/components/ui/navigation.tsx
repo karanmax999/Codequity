@@ -19,6 +19,7 @@ export default function Navigation() {
     { href: "/events", label: "Events" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
+    {href:"admin",label:"Admin"},
     ...(isAuthenticated ? [{ href: "/admin", label: "Admin" }] : []),
   ];
 
