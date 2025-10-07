@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import VideoPreloader from "@/components/ui/video-preloader";
+import { useScrollTop } from "@/hooks/use-scroll-top";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Events from "@/pages/events";
@@ -13,6 +14,8 @@ import About from "@/pages/about";
 import Contact from "@/pages/contact";
 
 function Router() {
+  useScrollTop();
+  
   return (
     <Switch>
       <Route path="/" component={Home} />

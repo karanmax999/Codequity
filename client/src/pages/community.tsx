@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Community() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const ambassadorsRef = useRef<HTMLDivElement>(null);
   const statesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,23 +36,7 @@ export default function Community() {
           ease: "back.out(1.7)"
         }, "-=0.5");
 
-      // Ambassador cards with magnetic effect
-      gsap.set(".ambassador-card", { transformOrigin: "center center" });
-      
-      gsap.from(".ambassador-card", {
-        scrollTrigger: {
-          trigger: ambassadorsRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        },
-        scale: 0,
-        rotation: 360,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "back.out(1.7)"
-      });
+
 
       // States map animation
       gsap.from(".state-marker", {
@@ -108,62 +91,7 @@ export default function Community() {
     { label: "Total Events", value: "25+", icon: Award, color: "text-primary" }
   ];
 
-  const ambassadors = [
-    {
-      name: "Arjun Sharma",
-      city: "Delhi",
-      role: "Lead Ambassador",
-      specialization: "Full Stack Development",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 12,
-      rating: 4.9
-    },
-    {
-      name: "Priya Patel",
-      city: "Mumbai",
-      role: "Technical Ambassador",
-      specialization: "AI/ML Engineering",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b62a6ae0?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 8,
-      rating: 4.8
-    },
-    {
-      name: "Rahul Verma",
-      city: "Bangalore",
-      role: "Community Ambassador",
-      specialization: "DevOps & Cloud",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 15,
-      rating: 4.9
-    },
-    {
-      name: "Sneha Gupta",
-      city: "Chennai",
-      role: "Events Ambassador",
-      specialization: "Mobile Development",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 10,
-      rating: 4.7
-    },
-    {
-      name: "Karan Singh",
-      city: "Pune",
-      role: "Technical Ambassador",
-      specialization: "Web3 & Blockchain",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 9,
-      rating: 4.8
-    },
-    {
-      name: "Anita Reddy",
-      city: "Hyderabad",
-      role: "Community Ambassador",
-      specialization: "Data Science",
-      avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
-      events: 7,
-      rating: 4.6
-    }
-  ];
+
 
   const features = [
     {
@@ -302,60 +230,7 @@ export default function Community() {
         </div>
       </section>
 
-      {/* Community Ambassadors */}
-      <section className="py-20 circuit-pattern" ref={ambassadorsRef}>
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
-              Meet Our <span className="gradient-text">Ambassadors</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Passionate leaders driving community growth across India.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ambassadors.map((ambassador, index) => (
-              <div
-                key={ambassador.name}
-                className="ambassador-card neon-border rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:scale-105 transition-transform duration-300"
-                data-testid={`ambassador-card-${index}`}
-              >
-                <div className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={ambassador.avatar}
-                      alt={ambassador.name}
-                      className="w-16 h-16 rounded-full object-cover neon-border"
-                    />
-                    <div>
-                      <h3 className="text-xl font-orbitron font-semibold">{ambassador.name}</h3>
-                      <p className="text-sm text-accent">{ambassador.role}</p>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {ambassador.city}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground mb-4">{ambassador.specialization}</p>
-                  
-                  <div className="flex justify-between items-center">
-                    <div className="text-sm">
-                      <span className="text-primary font-semibold">{ambassador.events}</span>
-                      <span className="text-muted-foreground"> events</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="text-sm font-semibold">{ambassador.rating}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* States Coverage */}
       <section className="py-20 bg-gradient-to-b from-card to-background" ref={statesRef}>

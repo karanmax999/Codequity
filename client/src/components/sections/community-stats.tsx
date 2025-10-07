@@ -51,10 +51,10 @@ export default function CommunityStats() {
     return () => ctx.revert();
   }, []);
   const stats = [
-    { value: "500+", label: "Active Members" },
+    { value: "1000+", label: "Active Members" },
     { value: "6+", label: "Major Events" },
     { value: "25+", label: "Indian States" },
-    { value: "10+", label: "Countries" },
+    
   ];
 
   const features = [

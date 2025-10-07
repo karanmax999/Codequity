@@ -6,20 +6,9 @@ export default function ContactSection() {
   const contactInfo = [
     {
       icon: Mail,
-      title: "General Inquiries",
+      title: "Contact Us",
       detail: "codequitycommunity@gmail.com",
-      color: "text-primary",
-    },
-    {
-      icon: Users,
-      title: "Partnerships",
-      detail: "codequitycommunity@gmail.com",
-      color: "text-accent",
-    },
-    {
-      icon: Calendar,
-      title: "Events",
-      detail: "codequitycommunity@gmail.com",
+      subtext: "For General Inquiries, Partnerships & Events",
       color: "text-primary",
     },
   ];
@@ -95,6 +84,9 @@ export default function ContactSection() {
                   <div>
                     <div className="font-semibold">{contact.title}</div>
                     <div className="text-muted-foreground">{contact.detail}</div>
+                    {contact.subtext && (
+                      <div className="text-sm text-muted-foreground mt-1">{contact.subtext}</div>
+                    )}
                   </div>
                 </motion.div>
               ))}

@@ -32,7 +32,7 @@ export default function EventsSection() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
-            Upcoming <span className="gradient-text">Events</span>
+            <span className="gradient-text">Event</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Join our hackathons, workshops, bootcamps, and meetups to learn, build, and network with fellow developers.
