@@ -151,14 +151,15 @@ export default function HeroSection() {
         {/* Enhanced Hero Content */}
         <div ref={contentRef} data-testid="hero-content">
           <p className="hero-subtitle text-xl md:text-2xl text-muted-foreground mb-4 max-w-4xl mx-auto font-medium">
-            India's Premier Tech Community
+            India's Web3 Startup Foundry
           </p>
           <h2 className="hero-description text-2xl md:text-3xl font-medium mb-8 max-w-4xl mx-auto leading-relaxed">
-            Building India's Largest Tech Community Through{" "}
-            <span className="gradient-text font-semibold">Innovation</span>,{" "}
-            <span className="gradient-text font-semibold">Collaboration</span> &{" "}
-            <span className="gradient-text font-semibold">Excellence</span> 🇮🇳
+            From Hackathon Repo to{" "}
+            <span className="gradient-text font-semibold">On-Chain Revenue</span>
           </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Turn your weekend projects into Web3 startups. Ship real on-chain products, find users, and raise funding.
+          </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
@@ -167,8 +168,8 @@ export default function HeroSection() {
               data-testid="button-join-community"
             >
               <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
-                <Users className="w-5 h-5 mr-2" />
-                Join Community
+                <Rocket className="w-5 h-5 mr-2" />
+                Apply to Launchpad
               </a>
             </Button>
             <Button
@@ -178,8 +179,8 @@ export default function HeroSection() {
               data-testid="button-explore-events"
             >
               <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer">
-                <Rocket className="w-5 h-5 mr-2" />
-                Explore Events
+                <Code className="w-5 h-5 mr-2" />
+                Join Builder Guild
               </a>
             </Button>
           </div>

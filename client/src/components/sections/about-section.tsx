@@ -3,23 +3,23 @@ import { motion } from "framer-motion";
 export default function AboutSection() {
   const highlights = [
     {
-      title: "Inclusive Community",
-      description: "Open to developers of all skill levels and backgrounds",
+      title: "On-Chain Products",
+      description: "Ship real Web3 products with actual users and revenue",
       color: "text-primary",
     },
     {
-      title: "Real Impact",
-      description: "Hands-on projects and career advancement opportunities",
+      title: "Structured Pipeline",
+      description: "Hackathons, sprints, and funding days to take you from demo to launch",
       color: "text-accent",
     },
     {
-      title: "Global Network",
-      description: "Connect with developers worldwide and access international opportunities",
+      title: "Builder Guild",
+      description: "Deep specialization in L2s, wallets, DeFi, and Web3 infrastructure",
       color: "text-primary",
     },
     {
-      title: "Innovation Focus",
-      description: "Cutting-edge technology and forward-thinking solutions",
+      title: "Fair Ownership",
+      description: "On-chain equity and meaningful upside for builders and community",
       color: "text-accent",
     },
   ];
@@ -35,20 +35,17 @@ export default function AboutSection() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-8">
-              Our <span className="gradient-text">Mission</span>
+              Our <span className="gradient-text">Vision</span>
             </h2>
             <div className="space-y-6 text-lg text-muted-foreground">
               <p data-testid="mission-statement">
-                "Building India's largest tech community through innovation, collaboration, and excellence."
+                "India's Web3 startup foundry for student builders: the best place to ship your first real on-chain product."
               </p>
               <p data-testid="community-description">
-                CodeQuity is India's fastest-growing tech community that brings together passionate hackers, 
-                innovative developers, creative designers, and visionary entrepreneurs to create the future 
-                of technology together.
+                CodeQuity is an on-chain startup launchpad and Web3 builder guild that takes student and early-stage teams from hackathon repo to live on-chain product, real users, and funding. We're built for devs who are serious about turning weekend projects into Web3 startups, not just winning prizes.
               </p>
               <p data-testid="ecosystem-description">
-                We're building a supportive ecosystem where developers of all skill levels can learn, 
-                grow, and contribute to India's technological advancement.
+                Through our structured pipeline—on-chain hackathons, shipping sprints, and funding days—we help you build something people want, own meaningful upside on-chain, and graduate into serious Web3 startups.
               </p>
             </div>
 
@@ -97,8 +94,8 @@ export default function AboutSection() {
               viewport={{ once: true }}
               data-testid="floating-stat-states"
             >
-              <div className="text-2xl font-orbitron font-bold text-primary">25+</div>
-              <div className="text-sm text-muted-foreground">States Covered</div>
+              <div className="text-2xl font-orbitron font-bold text-primary">15+</div>
+              <div className="text-sm text-muted-foreground">On-Chain Products</div>
             </motion.div>
             <motion.div
               className="absolute bottom-6 left-6 bg-card/90 backdrop-blur rounded-lg p-4 neon-border"
@@ -108,8 +105,8 @@ export default function AboutSection() {
               viewport={{ once: true }}
               data-testid="floating-stat-ambassadors"
             >
-              <div className="text-2xl font-orbitron font-bold text-accent">10+</div>
-              <div className="text-sm text-muted-foreground">Ambassadors</div>
+              <div className="text-2xl font-orbitron font-bold text-accent">8+</div>
+              <div className="text-sm text-muted-foreground">Teams Funded</div>
             </motion.div>
           </motion.div>
         </div>

@@ -3,6 +3,7 @@ import Navigation from "@/components/ui/navigation";
 import HeroSection from "@/components/sections/hero-section";
 import CommunityStats from "@/components/sections/community-stats";
 import EventsSection from "@/components/sections/events-section";
+import BuilderGuildSection from "@/components/sections/builder-guild-section";
 import AboutSection from "@/components/sections/about-section";
 import ContactSection from "@/components/sections/contact-section";
 import Footer from "@/components/ui/footer";
@@ -35,6 +36,7 @@ export default function Home() {
       <HeroSection />
       <CommunityStats />
       <EventsSection />
+      <BuilderGuildSection />
       <AboutSection />
       <ContactSection />
       <Footer />

@@ -5,25 +5,25 @@ import { motion } from "framer-motion";
 export default function EventsSection() {
   const events = [
     {
-      date: "June 15, 2025",
-      title: "CodeQuity Hackathon 2k25",
-      description: "Build What Matters. Pitch What’s Real.",
-      location: "Virtual + Delhi",
-      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      date: "April 2025",
+      title: "On-Chain Hackathon",
+      description: "Deploy your project on-chain (testnet or mainnet). Define problem, users, and business model.",
+      location: "Virtual + Bangalore",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     },
     {
-      date: "March 22, 2024",
-      title: "CodeQuity learner Series",
-      description: "Learn machine learning fundamentals and build your first AI model with industry experts.",
-      location: "Luma live",
-      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      date: "May 2025",
+      title: "6-Week Shipping Sprint",
+      description: "User onboarding challenges, L2 selection, smart contract audits, and tokenomics design.",
+      location: "Virtual",
+      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     },
     {
-      date: "March 30, 2024",
-      title: "Developer Meetup Mumbai",
-      description: "Monthly meetup for developers to network, share knowledge, and discuss latest tech trends.",
-      location: "Mumbai",
-      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      date: "June 2025",
+      title: "Funding Day",
+      description: "Pitch to Web3 accelerators, launchpads, and angel investors. YC-style intensive session.",
+      location: "Delhi + Virtual",
+      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     },
   ];
 
@@ -32,10 +32,10 @@ export default function EventsSection() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
-            <span className="gradient-text">Event</span>
+            <span className="gradient-text">The Pipeline</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join our hackathons, workshops, bootcamps, and meetups to learn, build, and network with fellow developers.
+            Three stages to take your project from hackathon demo to funded Web3 startup with real users.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function EventsSection() {
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
                     data-testid={`button-register-${index}`}
                   >
-                    finished
+                    Apply Now
                   </Button>
                 </div>
               </div>

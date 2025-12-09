@@ -49,21 +49,21 @@ export default function Footer() {
                   CodeQuity
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  India's Premier Tech Community
+                  India's Web3 Startup Foundry
                 </p>
               </div>
             </motion.div>
 
-            <motion.p 
+            <motion.p
               className="text-muted-foreground mb-6 leading-relaxed max-w-md"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Together, we're building the future of Indian tech! 🇮🇳
+              From hackathon repo to on-chain revenue. Building India's Web3 future.
               <br />
-              <span className="text-sm text-primary/80">Made with ❤️ for the Indian developer community</span>
+              <span className="text-sm text-primary/80">Fair ownership. Real upside. For builders.</span>
             </motion.p>
 
             <motion.div 

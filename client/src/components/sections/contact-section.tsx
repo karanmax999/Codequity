@@ -8,7 +8,7 @@ export default function ContactSection() {
       icon: Mail,
       title: "Contact Us",
       detail: "codequitycommunity@gmail.com",
-      subtext: "For General Inquiries, Partnerships & Events",
+      subtext: "For Launchpad Applications, Partnerships & Inquiries",
       color: "text-primary",
     },
   ];
@@ -52,7 +52,7 @@ export default function ContactSection() {
             Get <span className="gradient-text">Connected</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join our community through various platforms and start your journey with India's premier tech community.
+            Apply to the launchpad or join the builder guild. Start shipping Web3 products that matter.
           </p>
         </div>
 
@@ -143,7 +143,7 @@ export default function ContactSection() {
                 data-testid="button-join-events"
               >
                 <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer">
-                  Join Our Events
+                  Apply to Launchpad
                 </a>
               </Button>
               <Button
@@ -153,7 +153,7 @@ export default function ContactSection() {
                 data-testid="button-join-whatsapp"
               >
                 <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
-                  Join WhatsApp Group
+                  Join Builder Guild
                 </a>
               </Button>
             </motion.div>

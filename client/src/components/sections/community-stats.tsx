@@ -51,27 +51,27 @@ export default function CommunityStats() {
     return () => ctx.revert();
   }, []);
   const stats = [
-    { value: "1000+", label: "Active Members" },
-    { value: "6+", label: "Major Events" },
-    { value: "25+", label: "Indian States" },
-    
+    { value: "500+", label: "Student Builders" },
+    { value: "15+", label: "On-Chain Products" },
+    { value: "8+", label: "Teams Funded" },
+    { value: "₹2Cr+", label: "Raised by Teams" },
   ];
 
   const features = [
     {
       icon: Code,
-      title: "Connect",
-      description: "Connect with developers across India and beyond through our vibrant community platforms.",
+      title: "On-Chain Hackathons",
+      description: "Deploy real products on testnet or mainnet. Define problem, users, and business potential.",
     },
     {
       icon: Lightbulb,
-      title: "Inspire",
-      description: "Get inspired through cutting-edge tech events, workshops, and learning experiences.",
+      title: "Shipping Sprints",
+      description: "Focused challenges on user onboarding, L2 choices, audits, and tokenomics.",
     },
     {
       icon: GraduationCap,
-      title: "Educate",
-      description: "Learn with hands-on experiences and empower the next generation of tech leaders.",
+      title: "Funding Days",
+      description: "Pitch to Web3 accelerators, launchpads, and angels. YC-style fast path to funding.",
     },
   ];
 
@@ -80,11 +80,10 @@ export default function CommunityStats() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="stats-title text-4xl md:text-5xl font-orbitron font-bold mb-6">
-            Our <span className="gradient-text">Community</span>
+            The <span className="gradient-text">Launchpad</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join India's fastest-growing tech community that brings together passionate hackers, 
-            innovative developers, creative designers, and visionary entrepreneurs.
+            A repeatable pipeline from hackathon repo to on-chain revenue. Ship products, find users, raise funding.
           </p>
         </div>
 
