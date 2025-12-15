@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
-import { Code, Rocket, Users, Zap, Star, Globe } from "lucide-react";
+import { Code, Rocket, Users, Zap, Star, Globe, TrendingUp, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 
@@ -14,13 +14,20 @@ export default function HeroSection() {
   const contentRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
 
+  const trustMetrics = [
+    { value: "500+", label: "Builders" },
+    { value: "15+", label: "Products" },
+    { value: "₹2Cr+", label: "Raised" },
+    { value: "8+", label: "Funded" },
+  ];
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Wait for elements to mount then animate
       gsap.delayedCall(0.1, () => {
         // Advanced logo entrance animation
         const tl = gsap.timeline();
-        
+
         tl.to(".logo-brackets", {
           rotationY: 0,
           scale: 1,
@@ -28,32 +35,39 @@ export default function HeroSection() {
           duration: 1.5,
           ease: "elastic.out(1, 0.5)"
         })
-        .to(".logo-text", {
-          y: 0,
-          opacity: 1,
-          letterSpacing: "0px",
-          duration: 1.2,
-          ease: "power4.out"
-        }, "-=0.8")
-        .to(".hero-subtitle", {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out"
-        }, "-=0.5")
-        .to(".hero-description", {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out"
-        }, "-=0.3")
-        .to(".hero-buttons", {
-          scale: 1,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "back.out(1.7)"
-        }, "-=0.2");
+          .to(".logo-text", {
+            y: 0,
+            opacity: 1,
+            letterSpacing: "0px",
+            duration: 1.2,
+            ease: "power4.out"
+          }, "-=0.8")
+          .to(".hero-subtitle", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out"
+          }, "-=0.5")
+          .to(".hero-description", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out"
+          }, "-=0.3")
+          .to(".hero-buttons", {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "back.out(1.7)"
+          }, "-=0.2")
+          .from(".trust-item", {
+            y: 20,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.out"
+          }, "-=0.5");
 
         // Continuous floating animation for particles
         gsap.to(".floating-particle", {
@@ -104,12 +118,12 @@ export default function HeroSection() {
     <section
       id="home"
       ref={heroRef}
-      className="min-h-screen flex items-center justify-center hero-bg circuit-pattern relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20"
       data-testid="hero-section"
     >
       {/* Parallax Background */}
       <div className="parallax-bg absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50"></div>
-      
+
       {/* Advanced Particle System */}
       <div className="absolute inset-0 pointer-events-none" ref={particlesRef}>
         {[...Array(50)].map((_, i) => (
@@ -128,8 +142,8 @@ export default function HeroSection() {
         ))}
       </div>
 
-      <div className="container mx-auto px-6 text-center relative z-10">
-        
+      <div className="container mx-auto px-6 text-center relative z-10 flex-grow flex flex-col justify-center">
+
         {/* Enhanced Animated Logo */}
         <div
           ref={logoRef}
@@ -137,9 +151,9 @@ export default function HeroSection() {
           data-testid="animated-logo"
         >
           <div className="logo-brackets text-8xl md:text-9xl font-orbitron font-black gradient-text mb-4 glow-text drop-shadow-2xl">
-            <img 
-              src={codeQuityLogo} 
-              alt="CodeQuity Logo" 
+            <img
+              src={codeQuityLogo}
+              alt="CodeQuity Logo"
               className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto"
             />
           </div>
@@ -153,36 +167,59 @@ export default function HeroSection() {
           <p className="hero-subtitle text-xl md:text-2xl text-muted-foreground mb-4 max-w-4xl mx-auto font-medium">
             India's Web3 Startup Foundry
           </p>
-          <h2 className="hero-description text-2xl md:text-3xl font-medium mb-8 max-w-4xl mx-auto leading-relaxed">
+          <h2 className="hero-description text-2xl md:text-3xl font-medium mb-10 max-w-4xl mx-auto leading-relaxed">
             From Hackathon Repo to{" "}
             <span className="gradient-text font-semibold">On-Chain Revenue</span>
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Turn your weekend projects into Web3 startups. Ship real on-chain products, find users, and raise funding.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-stretch md:items-center max-w-2xl mx-auto mb-16">
             <Button
               asChild
-              className="hero-buttons bg-primary text-primary-foreground px-8 py-4 font-semibold hover:bg-primary/90 neon-border animate-glow transform hover:scale-105 transition-transform"
+              className="hero-buttons flex-1 h-auto py-4 bg-primary text-primary-foreground hover:bg-primary/90 neon-border animate-glow group relative overflow-hidden"
               data-testid="button-join-community"
             >
-              <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
-                <Rocket className="w-5 h-5 mr-2" />
-                Apply to Launchpad
+              <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-2 font-bold text-lg">
+                  <Rocket className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+                  Apply to Launchpad
+                </div>
+                <span className="text-xs opacity-90 font-light tracking-wide">For teams with a project</span>
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </a>
             </Button>
+
             <Button
               asChild
               variant="outline"
-              className="hero-buttons border-primary text-primary px-8 py-4 font-semibold hover:bg-primary/10 neon-border transform hover:scale-105 transition-transform"
+              className="hero-buttons flex-1 h-auto py-4 border-primary/50 text-primary hover:bg-primary/5 hover:border-primary neon-border group relative overflow-hidden"
               data-testid="button-explore-events"
             >
-              <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer">
-                <Code className="w-5 h-5 mr-2" />
-                Join Builder Guild
+              <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-2 font-bold text-lg">
+                  <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  Join Builder Guild
+                </div>
+                <span className="text-xs text-muted-foreground group-hover:text-primary/90 font-light tracking-wide">For devs exploring Web3</span>
               </a>
             </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust Band */}
+      <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-6 relative z-10 mt-auto">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-wrap justify-center md:justify-around gap-8 md:gap-4">
+            {trustMetrics.map((metric, i) => (
+              <div key={i} className="trust-item flex items-center gap-3 opacity-0 translate-y-4">
+                <div className="text-3xl md:text-4xl font-orbitron font-bold text-white">
+                  {metric.value}
+                </div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wider font-medium">
+                  {metric.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -190,7 +227,7 @@ export default function HeroSection() {
       {/* Enhanced Floating Elements */}
       <motion.div
         className="absolute top-1/4 left-10 text-4xl text-primary/40"
-        animate={{ 
+        animate={{
           y: [-15, 15, -15],
           x: [-5, 5, -5],
           rotate: [-5, 5, -5]
@@ -202,7 +239,7 @@ export default function HeroSection() {
       </motion.div>
       <motion.div
         className="absolute top-1/3 right-10 text-3xl text-accent/40"
-        animate={{ 
+        animate={{
           y: [-12, 12, -12],
           x: [-3, 3, -3],
           rotate: [5, -5, 5]
@@ -214,7 +251,7 @@ export default function HeroSection() {
       </motion.div>
       <motion.div
         className="absolute bottom-1/4 left-1/4 text-5xl text-primary/30"
-        animate={{ 
+        animate={{
           y: [-20, 20, -20],
           scale: [1, 1.1, 1],
           rotate: [-3, 3, -3]
@@ -226,7 +263,7 @@ export default function HeroSection() {
       </motion.div>
       <motion.div
         className="absolute top-3/4 right-1/4 text-3xl text-accent/30"
-        animate={{ 
+        animate={{
           y: [-10, 10, -10],
           x: [-8, 8, -8],
           rotate: [0, 360, 0]
@@ -235,30 +272,6 @@ export default function HeroSection() {
         data-testid="floating-zap-icon"
       >
         <Zap className="drop-shadow-lg" />
-      </motion.div>
-      <motion.div
-        className="absolute top-1/2 left-16 text-2xl text-primary/20"
-        animate={{ 
-          scale: [1, 1.3, 1],
-          rotate: [0, 180, 360],
-          opacity: [0.2, 0.6, 0.2]
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        data-testid="floating-star-icon"
-      >
-        <Star className="drop-shadow-lg" />
-      </motion.div>
-      <motion.div
-        className="absolute bottom-1/3 right-16 text-4xl text-accent/25"
-        animate={{ 
-          y: [-18, 18, -18],
-          rotate: [-10, 10, -10],
-          scale: [0.8, 1.2, 0.8]
-        }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
-        data-testid="floating-globe-icon"
-      >
-        <Globe className="drop-shadow-lg" />
       </motion.div>
     </section>
   );

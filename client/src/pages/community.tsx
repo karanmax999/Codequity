@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
-import { Users, MapPin, Star, Award, Heart, Code, Lightbulb, GraduationCap, Globe, Zap } from "lucide-react";
+import { Users, MapPin, Star, Award, Heart, Code, Lightbulb, GraduationCap, Globe, Zap, Rocket, ShieldCheck } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,8 +35,6 @@ export default function Community() {
           stagger: 0.1,
           ease: "back.out(1.7)"
         }, "-=0.5");
-
-
 
       // States map animation
       gsap.from(".state-marker", {
@@ -85,31 +83,29 @@ export default function Community() {
   }, []);
 
   const communityStats = [
-    { label: "Active Members", value: "500+", icon: Users, color: "text-primary" },
-    { label: "States Covered", value: "25+", icon: MapPin, color: "text-accent" },
-    { label: "Community Rating", value: "4.9★", icon: Star, color: "text-yellow-400" },
-    { label: "Total Events", value: "25+", icon: Award, color: "text-primary" }
+    { label: "Active Builders", value: "500+", icon: Users, color: "text-primary" },
+    { label: "Cities Covered", value: "12+", icon: MapPin, color: "text-accent" },
+    { label: "Partner Protocols", value: "15+", icon: ShieldCheck, color: "text-green-400" },
+    { label: "Grants Disbursed", value: "₹20L+", icon: Award, color: "text-primary" }
   ];
-
-
 
   const features = [
     {
       icon: Code,
-      title: "Connect & Collaborate",
-      description: "Join a vibrant community of developers, designers, and tech enthusiasts across India.",
+      title: "The Builder Guild",
+      description: "Join 500+ developers in our exclusive Discord. Daily standups, code reviews, and bounty hunting squads.",
       color: "text-primary"
     },
     {
-      icon: Lightbulb,
-      title: "Learn & Grow",
-      description: "Access exclusive workshops, bootcamps, and learning resources from industry experts.",
+      icon: Rocket,
+      title: "Launchpad Access",
+      description: "Direct pipeline to our incubator. Top hackathon teams get seed funding and mentorship.",
       color: "text-accent"
     },
     {
       icon: GraduationCap,
-      title: "Skill Development",
-      description: "Enhance your technical skills through hands-on projects and mentorship programs.",
+      title: "Masterclasses",
+      description: "Weekly deep dives into ZK-Rollups, Account Abstraction, and DeFi mechanics from protocol engineers.",
       color: "text-primary"
     },
     {
@@ -120,31 +116,31 @@ export default function Community() {
     },
     {
       icon: Zap,
-      title: "Innovation Hub",
-      description: "Be part of cutting-edge projects and innovative solutions for real-world problems.",
+      title: "Permissionless Innovation",
+      description: "We don't just teach. We ship. Build real products that solve real problems on-chain.",
       color: "text-primary"
     },
     {
       icon: Heart,
-      title: "Inclusive Community",
-      description: "Join a supportive environment welcoming developers of all backgrounds and skill levels.",
+      title: "Meritocratic Culture",
+      description: "Your background doesn't matter. Your GitHub commit graph does. Standardize your skillset.",
       color: "text-red-400"
     }
   ];
 
   const indianStates = [
-    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", 
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
     "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
     "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", 
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
     "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
   ];
 
   return (
     <div className="min-h-screen" ref={heroRef}>
       <Navigation />
-      
-      {/* Parallax Background Elements */}
+
+      {/* Parallax Background Elements (PRESERVED) */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="parallax-slow absolute inset-0 opacity-10">
           {[...Array(15)].map((_, i) => (
@@ -181,16 +177,16 @@ export default function Community() {
           <h1 className="community-title text-6xl md:text-8xl font-orbitron font-black gradient-text mb-8 glow-text">
             COMMUNITY
           </h1>
-          
+
           <p className="community-subtitle text-2xl md:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto">
-            Join India's most vibrant tech community. Connect, learn, and grow with 
+            Join India's most vibrant Web3 guild. Connect, build, and ship with
             passionate developers across the nation.
           </p>
 
           {/* Community Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
             {communityStats.map((stat, index) => (
-              <div key={stat.label} className="community-stats stat-card neon-border rounded-xl p-6">
+              <div key={stat.label} className="community-stats stat-card neon-border rounded-xl p-6 bg-black/40 backdrop-blur-md">
                 <stat.icon className={`w-8 h-8 ${stat.color} mx-auto mb-2`} />
                 <div className="text-3xl font-orbitron font-bold gradient-text mb-1">
                   {stat.value}
@@ -210,7 +206,7 @@ export default function Community() {
               Why Join <span className="gradient-text">CodeQuity?</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Discover the benefits of being part of India's fastest-growing tech community.
+              The unfair advantage for Indian Web3 builders.
             </p>
           </div>
 
@@ -222,15 +218,13 @@ export default function Community() {
                 data-testid={`feature-card-${feature.title.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 <feature.icon className={`w-12 h-12 ${feature.color} mb-4`} />
-                <h3 className="text-xl font-orbitron font-semibold mb-4">{feature.title}</h3>
+                <h3 className="text-xl font-orbitron font-semibold mb-4 text-white">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-
 
       {/* States Coverage */}
       <section className="py-20 bg-gradient-to-b from-card to-background" ref={statesRef}>
@@ -240,7 +234,7 @@ export default function Community() {
               Pan-India <span className="gradient-text">Presence</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              From Kashmir to Kanyakumari, our community spans across 25+ Indian states.
+              From Kashmir to Kanyakumari, our guild spans across 25+ Indian states.
             </p>
           </div>
 
@@ -248,10 +242,10 @@ export default function Community() {
             {indianStates.map((state, index) => (
               <div
                 key={state}
-                className="state-marker neon-border rounded-lg p-4 bg-card/30 backdrop-blur-sm text-center hover:bg-card/50 transition-all duration-300"
+                className="state-marker neon-border rounded-lg p-4 bg-card/30 backdrop-blur-sm text-center hover:bg-card/50 transition-all duration-300 border-white/5"
                 data-testid={`state-${state.toLowerCase().replace(/\s+/g, '-')}`}
               >
-                <div className="text-sm font-medium">{state}</div>
+                <div className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">{state}</div>
               </div>
             ))}
           </div>

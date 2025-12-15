@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-4 mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -37,9 +37,9 @@ export default function Footer() {
                 whileHover={{ scale: 1.05, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <img 
-                  src={codeQuityLogo} 
-                  alt="CodeQuity Logo" 
+                <img
+                  src={codeQuityLogo}
+                  alt="CodeQuity Logo"
                   className="w-16 h-16 object-contain rounded-lg shadow-lg border border-border/20"
                   data-testid="footer-logo-image"
                 />
@@ -63,10 +63,31 @@ export default function Footer() {
             >
               From hackathon repo to on-chain revenue. Building India's Web3 future.
               <br />
-              <span className="text-sm text-primary/80">Fair ownership. Real upside. For builders.</span>
+              <span className="text-sm text-primary/80 font-medium">Join 500+ builders shaping the future.</span>
             </motion.p>
 
-            <motion.div 
+            {/* Newsletter Input */}
+            <motion.div
+              className="mb-8 max-w-sm"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              viewport={{ once: true }}
+            >
+              <label className="text-xs font-semibold uppercase text-muted-foreground mb-2 block">Newsletter Signup</label>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Get weekly builder tips"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary/50 transition-colors"
+                />
+                <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
+                  Join
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div
               className="flex space-x-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -95,7 +116,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <motion.h4 
+            <motion.h4
               className="font-semibold text-foreground mb-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -104,7 +125,7 @@ export default function Footer() {
             >
               Quick Links
             </motion.h4>
-            <motion.ul 
+            <motion.ul
               className="space-y-3 text-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -124,8 +145,8 @@ export default function Footer() {
                   transition={{ delay: 0.5 + index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <a 
-                    href={item.href} 
+                  <a
+                    href={item.href}
                     className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
                     {item.label}
@@ -137,7 +158,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <motion.h4 
+            <motion.h4
               className="font-semibold text-foreground mb-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -146,7 +167,7 @@ export default function Footer() {
             >
               Connect
             </motion.h4>
-            <motion.div 
+            <motion.div
               className="space-y-3 text-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -172,7 +193,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <motion.div 
+        <motion.div
           className="mt-12 pt-8 border-t border-border/20"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -181,7 +202,7 @@ export default function Footer() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} CodeQuity. All rights reserved. 
+              © {currentYear} CodeQuity. All rights reserved.
               <span className="ml-2 text-primary">Community Love Made in India 🇮🇳</span>
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
