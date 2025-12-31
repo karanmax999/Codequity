@@ -12,17 +12,27 @@ import Events from "@/pages/events";
 import Community from "@/pages/community";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import Program from "@/pages/program";
+import Apply from "@/pages/apply";
+import Portfolio from "@/pages/portfolio";
+import Partners from "@/pages/partners";
+import Portal from "@/pages/portal";
 
 function Router() {
   useScrollTop();
-  
+
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/events" component={Events} />
+      <Route path="/program" component={Program} />
+      <Route path="/apply" component={Apply} />
+      <Route path="/portfolio" component={Portfolio} />
+      <Route path="/partners" component={Partners} />
       <Route path="/community" component={Community} />
+      <Route path="/events" component={Events} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/portal" component={Portal} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -39,11 +49,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        
+
         {!loadingComplete && (
           <VideoPreloader onLoadingComplete={handleLoadingComplete} />
         )}
-        
+
         {loadingComplete && <Router />}
       </TooltipProvider>
     </QueryClientProvider>

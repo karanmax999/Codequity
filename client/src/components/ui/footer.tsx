@@ -2,13 +2,14 @@
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 
 import { motion } from "framer-motion";
-import { Heart, Github, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Heart, Github, Twitter, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 
 export default function Footer() {
   const socialLinks = [
     { icon: Github, href: "https://github.com/codequity", label: "GitHub" },
     { icon: Twitter, href: "https://twitter.com/codequity", label: "Twitter" },
     { icon: Linkedin, href: "https://linkedin.com/company/codequity", label: "LinkedIn" },
+    { icon: Send, href: "https://t.me/codequiity", label: "Telegram" },
     { icon: Mail, href: "mailto:codequitycommunity@gmail.com", label: "Email" }
   ];
 

@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Shield, Boxes, Wallet, Coins, Lock, Zap, ArrowRight, Server, Link as LinkIcon, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import builderBgVideo from "@assets/builder-guild-bg.mp4";
+
 export default function BuilderGuildSection() {
   const tracks = [
     {
@@ -50,8 +52,22 @@ export default function BuilderGuildSection() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-card relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent"></div>
+    <section className="py-24 relative overflow-hidden">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-30"
+        >
+          <source src={builderBgVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]"></div> {/* Overlay for readability */}
+      </div>
+
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent z-0"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">

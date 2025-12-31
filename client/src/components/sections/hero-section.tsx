@@ -118,7 +118,7 @@ export default function HeroSection() {
     <section
       id="home"
       ref={heroRef}
-      className="min-h-screen flex flex-col items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20"
+      className="min-h-screen flex flex-col items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20 pb-20 md:pb-32"
       data-testid="hero-section"
     >
       {/* Parallax Background */}
@@ -176,14 +176,14 @@ export default function HeroSection() {
             <Button
               asChild
               className="hero-buttons flex-1 h-auto py-4 bg-primary text-primary-foreground hover:bg-primary/90 neon-border animate-glow group relative overflow-hidden"
-              data-testid="button-join-community"
+              data-testid="button-apply-cohort"
             >
-              <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
+              <a href="/apply" className="flex flex-col items-center gap-1">
                 <div className="flex items-center gap-2 font-bold text-lg">
                   <Rocket className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-                  Apply to Launchpad
+                  Apply for Cohort 3
                 </div>
-                <span className="text-xs opacity-90 font-light tracking-wide">For teams with a project</span>
+                <span className="text-xs opacity-90 font-light tracking-wide">Limited Spots Available</span>
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </a>
             </Button>
@@ -192,14 +192,14 @@ export default function HeroSection() {
               asChild
               variant="outline"
               className="hero-buttons flex-1 h-auto py-4 border-primary/50 text-primary hover:bg-primary/5 hover:border-primary neon-border group relative overflow-hidden"
-              data-testid="button-explore-events"
+              data-testid="button-watch-demo"
             >
-              <a href="https://luma.com/CodeConnect?k=c" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
+              <a href="https://www.youtube.com/@CodeQuity" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
                 <div className="flex items-center gap-2 font-bold text-lg">
-                  <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  Join Builder Guild
+                  <Globe className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  Watch Demo Day
                 </div>
-                <span className="text-xs text-muted-foreground group-hover:text-primary/90 font-light tracking-wide">For devs exploring Web3</span>
+                <span className="text-xs text-muted-foreground group-hover:text-primary/90 font-light tracking-wide">See what we ship</span>
               </a>
             </Button>
           </div>
@@ -207,16 +207,20 @@ export default function HeroSection() {
       </div>
 
       {/* Trust Band */}
-      <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-6 relative z-10 mt-auto">
+      <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-8 relative z-10 mt-auto">
         <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center md:justify-around gap-8 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {trustMetrics.map((metric, i) => (
-              <div key={i} className="trust-item flex items-center gap-3 opacity-0 translate-y-4">
-                <div className="text-3xl md:text-4xl font-orbitron font-bold text-white">
-                  {metric.value}
-                </div>
-                <div className="text-sm text-muted-foreground uppercase tracking-wider font-medium">
-                  {metric.label}
+              <div key={i} className="trust-item relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative bg-gradient-to-br from-white/10 to-white/0 border border-white/20 rounded-2xl p-6 flex flex-col items-center justify-center hover:border-primary/50 transition-all duration-500 backdrop-blur-md group-hover:bg-white/10 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+                  <div className="relative z-10 text-3xl md:text-5xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 group-hover:from-white group-hover:to-primary transition-all duration-300">
+                    {metric.value}
+                  </div>
+                  <div className="relative z-10 text-sm text-gray-400 uppercase tracking-widest font-bold mt-2 group-hover:text-white transition-colors">
+                    {metric.label}
+                  </div>
                 </div>
               </div>
             ))}
