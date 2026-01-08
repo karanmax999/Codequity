@@ -1,33 +1,4 @@
-// Re-introducing the states list
-const indianStates = [
-  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-];
-
-return (
-  <div className="min-h-screen" ref={heroRef}>
-    <Navigation />
-
-    {/* ... previous sections (Hero, Stats, Features, Hive) ... */}
-    {/* Kept minimal for replace_file_content match, assuming strict adherence to context lines isn't possible spanning 200 lines. 
-          Actually I need to match specific block. 
-          I will target the specific map-container block and the variable declartion area.
-          Since I cannot do multiple disjoint edits easily with replace_file_content without potentially messing up context if I don't see the whole file,
-          and I just saw the whole file in Step 169 (though it was slightly different before the last edit, Step 190 failed, Step 197 overwrote the map file, not community.tsx ... wait. Step 133 modified community.tsx. Step 139 fixed import.
-          
-          I will make two edits or one large edit.
-          Edit 1: Add indianStates array.
-          Edit 2: Replace map-container with grid.
-          
-          Actually I can do this in one `multi_replace_file_content` call? Yes.
-      */}
-    <div />
-  </div>
-);
-// This content is dummy, I will use multi_replace_file_content
+import { useEffect, useRef } from "react";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -35,7 +6,7 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Users, MapPin, Star, Award, Heart, Code, Lightbulb, GraduationCap, Globe, Zap, Rocket, ShieldCheck, MessageCircle } from "lucide-react";
-import IndiaNetworkMap from "@/components/ui/india-network-map";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
