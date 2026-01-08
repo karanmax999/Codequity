@@ -1,4 +1,34 @@
-import { useEffect, useRef } from "react";
+// Re-introducing the states list
+const indianStates = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
+
+return (
+  <div className="min-h-screen" ref={heroRef}>
+    <Navigation />
+
+    {/* ... previous sections (Hero, Stats, Features, Hive) ... */}
+    {/* Kept minimal for replace_file_content match, assuming strict adherence to context lines isn't possible spanning 200 lines. 
+          Actually I need to match specific block. 
+          I will target the specific map-container block and the variable declartion area.
+          Since I cannot do multiple disjoint edits easily with replace_file_content without potentially messing up context if I don't see the whole file,
+          and I just saw the whole file in Step 169 (though it was slightly different before the last edit, Step 190 failed, Step 197 overwrote the map file, not community.tsx ... wait. Step 133 modified community.tsx. Step 139 fixed import.
+          
+          I will make two edits or one large edit.
+          Edit 1: Add indianStates array.
+          Edit 2: Replace map-container with grid.
+          
+          Actually I can do this in one `multi_replace_file_content` call? Yes.
+      */}
+    <div />
+  </div>
+);
+// This content is dummy, I will use multi_replace_file_content
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/ui/navigation";
@@ -107,6 +137,14 @@ export default function Community() {
     top: `${10 + Math.random() * 70}%`,
     delay: Math.random() * 2
   }));
+
+  const indianStates = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  ];
 
   return (
     <div className="min-h-screen" ref={heroRef}>
@@ -256,8 +294,15 @@ export default function Community() {
             </p>
           </div>
 
-          <div className="map-container relative h-[400px] md:h-[600px] w-full max-w-5xl mx-auto">
-            <IndiaNetworkMap />
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            {indianStates.map((state, index) => (
+              <div
+                key={state}
+                className="state-marker neon-border rounded-lg p-4 bg-card/30 backdrop-blur-sm text-center hover:bg-card/50 transition-all duration-300 border-white/5"
+              >
+                <div className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">{state}</div>
+              </div>
+            ))}
           </div>
 
           <div className="text-center mt-12 bg-black/20 p-4 rounded-xl border border-white/5 backdrop-blur-sm inline-block mx-auto">
