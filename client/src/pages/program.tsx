@@ -11,6 +11,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Program() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
+    const stars1Ref = useRef<HTMLDivElement>(null);
+    const stars2Ref = useRef<HTMLDivElement>(null);
+    const stars3Ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -35,9 +39,72 @@ export default function Program() {
                     start: "top 85%",
                 }
             });
+
+            // Multi-Layer Parallax on Scroll
+            gsap.to(stars1Ref.current, {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            gsap.to(stars2Ref.current, {
+                yPercent: 40,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            gsap.to(stars3Ref.current, {
+                yPercent: 60,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Continuous floating animation for particles
+            gsap.to(".floating-particle", {
+                y: "random(-50, 50)",
+                x: "random(-50, 50)",
+                rotation: "random(0, 360)",
+                duration: "random(3, 8)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+            });
+
         }, containerRef);
         return () => ctx.revert();
     }, []);
+
+    // Helper to generate random stars for a layer
+    const renderStars = (count: number, sizeRange: [number, number], opacity: number) => (
+        [...Array(count)].map((_, i) => (
+            <div
+                key={i}
+                className="absolute rounded-full bg-white"
+                style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    width: `${Math.random() * (sizeRange[1] - sizeRange[0]) + sizeRange[0]}px`,
+                    height: `${Math.random() * (sizeRange[1] - sizeRange[0]) + sizeRange[0]}px`,
+                    opacity: Math.random() * opacity + 0.1,
+                }}
+            />
+        ))
+    );
 
     const milestones = [
         {
@@ -81,8 +148,41 @@ export default function Program() {
             <Navigation />
 
             {/* Hero: High Energy */}
-            <div className="pt-32 pb-20 relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+            <div
+                ref={heroRef}
+                className="relative overflow-hidden pt-32 pb-32 hero-bg circuit-pattern"
+            >
+                {/* Parallax Background Layers */}
+                <div ref={stars1Ref} className="absolute inset-0 pointer-events-none z-0">
+                    {renderStars(50, [1, 2], 0.3)}
+                </div>
+                <div ref={stars2Ref} className="absolute inset-0 pointer-events-none z-0">
+                    {renderStars(30, [2, 3], 0.5)}
+                </div>
+                <div ref={stars3Ref} className="absolute inset-0 pointer-events-none z-0">
+                    {renderStars(15, [3, 4], 0.7)}
+                </div>
+
+                {/* Floating Particles (Decorations) */}
+                <div className="absolute inset-0 pointer-events-none z-0">
+                    {[...Array(20)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="floating-particle absolute"
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`,
+                                width: `${Math.random() * 4 + 1}px`,
+                                height: `${Math.random() * 4 + 1}px`,
+                            }}
+                        >
+                            <div className="w-full h-full bg-gradient-to-r from-primary/30 to-accent/30 rounded-full blur-sm"></div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Gradient Overlay for Depth */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none z-0"></div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
@@ -106,6 +206,10 @@ export default function Program() {
                     <div className="flex flex-col md:flex-row justify-center gap-6">
                         <Button asChild className="h-16 px-10 text-xl font-bold bg-white text-black hover:bg-gray-200 rounded-full transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
                             <a href="/apply">Start the Game</a>
+                        </Button>
+
+                        <Button asChild variant="ghost" className="h-16 px-8 text-xl font-semibold border border-white/10 rounded-full">
+                            <a href="/program/initiative">48w × 48 Chains Initiative</a>
                         </Button>
                     </div>
                 </div>

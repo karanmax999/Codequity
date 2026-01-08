@@ -5,6 +5,7 @@ import CommunityStats from "@/components/sections/community-stats";
 import EventsSection from "@/components/sections/events-section";
 import BuilderGuildSection from "@/components/sections/builder-guild-section";
 import AboutSection from "@/components/sections/about-section";
+import HowItWorksSection from "@/components/sections/how-it-works-section";
 import ContactSection from "@/components/sections/contact-section";
 import Footer from "@/components/ui/footer";
 import transitionCity from "@/assets/transition-city.jpg";
@@ -56,6 +57,7 @@ export default function Home() {
       <EventsSection />
       <BuilderGuildSection />
       <AboutSection />
+      <HowItWorksSection />
       <ContactSection />
       <Footer />
     </div>

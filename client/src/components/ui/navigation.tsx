@@ -16,6 +16,7 @@ const navLinks: NavItem[] = [
     label: "Program",
     children: [
       { label: "Program Details", href: "/program" },
+      { label: "Initiative", href: "/program/initiative" },
       { label: "Apply for Cohort 3", href: "/apply" },
     ],
   },

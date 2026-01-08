@@ -1,8 +1,33 @@
 import * as React from "react"
-import { OTPInput, OTPInputContext } from "input-otp"
 import { Dot } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+
+// Minimal local OTPInput implementation to avoid external dependency
+interface OTPSlot {
+  char: string;
+  hasFakeCaret: boolean;
+  isActive: boolean;
+}
+
+const OTPInputContext = React.createContext<{ slots: OTPSlot[] } | null>(null)
+
+const OTPInput = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<"div"> & { length?: number; containerClassName?: string }
+>(
+  ({ children, length = 6, containerClassName, ...props }, ref) => {
+    const [values] = React.useState(() => Array.from({ length }, () => ""))
+    const slots: OTPSlot[] = values.map((char) => ({ char, hasFakeCaret: false, isActive: false }))
+
+    return (
+      <div ref={ref} {...props}>
+        <OTPInputContext.Provider value={{ slots }}>{children}</OTPInputContext.Provider>
+      </div>
+    )
+  }
+)
+OTPInput.displayName = "OTPInput"
 
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
@@ -33,6 +58,7 @@ const InputOTPSlot = React.forwardRef<
   React.ComponentPropsWithoutRef<"div"> & { index: number }
 >(({ index, className, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext)
+  if (!inputOTPContext) return null
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
 
   return (

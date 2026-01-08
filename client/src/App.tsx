@@ -13,6 +13,7 @@ import Community from "@/pages/community";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import Program from "@/pages/program";
+import ProgramInitiative from "@/pages/program-initiative";
 import Apply from "@/pages/apply";
 import Portfolio from "@/pages/portfolio";
 import Partners from "@/pages/partners";
@@ -24,6 +25,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/program/initiative" component={ProgramInitiative} />
       <Route path="/program" component={Program} />
       <Route path="/apply" component={Apply} />
       <Route path="/portfolio" component={Portfolio} />

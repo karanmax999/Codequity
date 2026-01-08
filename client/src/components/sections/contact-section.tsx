@@ -15,6 +15,20 @@ export default function ContactSection() {
 
   const socialPlatforms = [
     {
+      name: "Discord",
+      handle: "Join Server",
+      icon: "fab fa-discord",
+      color: "text-indigo-500",
+      url: "https://discord.gg/B8hgSk62"
+    },
+    {
+      name: "Telegram",
+      handle: "Join Channel",
+      icon: "fab fa-telegram",
+      color: "text-blue-400",
+      url: "https://t.me/codequiity"
+    },
+    {
       name: "Twitter/X",
       handle: "@CodeQuity",
       icon: "fab fa-twitter",
@@ -66,7 +80,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-orbitron font-semibold mb-6">Contact Information</h3>
-            
+
             <div className="space-y-4">
               {contactInfo.map((contact, index) => (
                 <motion.div
@@ -102,7 +116,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-orbitron font-semibold mb-6">Join Our Community</h3>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {socialPlatforms.map((platform, index) => (
                 <motion.a
