@@ -4,7 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
-import { Users, MapPin, Star, Award, Heart, Code, Lightbulb, GraduationCap, Globe, Zap, Rocket, ShieldCheck } from "lucide-react";
+import { Users, MapPin, Star, Award, Heart, Code, Lightbulb, GraduationCap, Globe, Zap, Rocket, ShieldCheck, MessageCircle } from "lucide-react";
+import IndiaNetworkMap from "@/components/ui/india-network-map";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,45 +37,17 @@ export default function Community() {
           ease: "back.out(1.7)"
         }, "-=0.5");
 
-      // States map animation
-      gsap.from(".state-marker", {
+      // Map pins animation (simulated)
+      gsap.from(".map-pin", {
         scrollTrigger: {
-          trigger: statesRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
+          trigger: ".map-container",
+          start: "top 70%",
         },
         scale: 0,
         opacity: 0,
+        stagger: 0.05,
         duration: 0.8,
-        stagger: {
-          amount: 0.5,
-          from: "random"
-        },
-        ease: "elastic.out(1, 0.3)"
-      });
-
-      // Parallax effect for background elements
-      gsap.to(".parallax-slow", {
-        yPercent: -50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-
-      gsap.to(".parallax-fast", {
-        yPercent: -100,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
+        ease: "back.out(2)"
       });
 
     }, heroRef);
@@ -128,47 +101,16 @@ export default function Community() {
     }
   ];
 
-  const indianStates = [
-    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-  ];
+  // Visual Map Pins (random positions for visual effect in this demo)
+  const mapPins = [...Array(15)].map((_, i) => ({
+    left: `${20 + Math.random() * 60}%`,
+    top: `${10 + Math.random() * 70}%`,
+    delay: Math.random() * 2
+  }));
 
   return (
     <div className="min-h-screen" ref={heroRef}>
       <Navigation />
-
-      {/* Parallax Background Elements (PRESERVED) */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="parallax-slow absolute inset-0 opacity-10">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`
-              }}
-            />
-          ))}
-        </div>
-        <div className="parallax-fast absolute inset-0 opacity-5">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-20 bg-gradient-to-b from-primary/30 to-transparent"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                transform: `rotate(${Math.random() * 360}deg)`
-              }}
-            />
-          ))}
-        </div>
-      </div>
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center hero-bg circuit-pattern relative overflow-hidden pt-20">
@@ -215,7 +157,6 @@ export default function Community() {
               <div
                 key={feature.title}
                 className="neon-border rounded-xl p-8 bg-card/50 backdrop-blur-sm hover:scale-105 transition-transform duration-300"
-                data-testid={`feature-card-${feature.title.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 <feature.icon className={`w-12 h-12 ${feature.color} mb-4`} />
                 <h3 className="text-xl font-orbitron font-semibold mb-4 text-white">{feature.title}</h3>
@@ -227,7 +168,7 @@ export default function Community() {
       </section>
 
       {/* Connect with the Hive Section */}
-      <section className="py-20 relative overflow-hidden">
+      <section className="py-20 relative overflow-hidden bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
@@ -245,7 +186,7 @@ export default function Community() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Priority WhatsApp Card */}
             <a
-              href="https://chat.whatsapp.com/L1234567890" // Placeholder
+              href="https://chat.whatsapp.com/G5g223232323"
               target="_blank"
               rel="noopener noreferrer"
               className="md:col-span-2 group relative overflow-hidden rounded-2xl border border-green-500/30 bg-green-950/10 hover:bg-green-950/20 transition-all duration-300 hover:shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]"
@@ -254,7 +195,6 @@ export default function Community() {
 
               <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10">
                 <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50 group-hover:scale-110 transition-transform duration-300">
-                  {/* Using MessageCircle as generic chat icon if Whatsapp specific isn't available, but usually distinct styling implies it */}
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -281,10 +221,10 @@ export default function Community() {
             {/* Other Socials Grid */}
             <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { name: "Telegram", icon: "Send", color: "text-blue-400", bg: "bg-blue-950/20", border: "border-blue-500/20", link: "https://t.me/codequiity" },
-                { name: "Twitter", icon: "Twitter", color: "text-sky-400", bg: "bg-sky-950/20", border: "border-sky-500/20", link: "https://twitter.com/codequity" },
-                { name: "Discord", icon: "MessageCircle", color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "#" },
-                { name: "LinkedIn", icon: "Linkedin", color: "text-blue-500", bg: "bg-blue-900/20", border: "border-blue-600/20", link: "https://linkedin.com/company/codequity" },
+                { name: "Telegram", icon: Zap, color: "text-blue-400", bg: "bg-blue-950/20", border: "border-blue-500/20", link: "https://t.me/codequiity" },
+                { name: "Twitter", icon: Globe, color: "text-sky-400", bg: "bg-sky-950/20", border: "border-sky-500/20", link: "https://x.com/CodeQuity" },
+                { name: "Discord", icon: Code, color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "https://discord.gg/B8hgSk62" },
+                { name: "LinkedIn", icon: Users, color: "text-blue-500", bg: "bg-blue-900/20", border: "border-blue-600/20", link: "https://linkedin.com/company/codequity" },
               ].map((social) => (
                 <a
                   key={social.name}
@@ -293,12 +233,8 @@ export default function Community() {
                   rel="noopener noreferrer"
                   className={`group p-4 rounded-xl border ${social.border} ${social.bg} backdrop-blur-sm flex flex-col items-center justify-center gap-3 hover:-translate-y-1 transition-transform duration-300`}
                 >
-                  {/* Icon Placeholder Mapping - In real code use proper imports */}
                   <div className={`${social.color} opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all`}>
-                    {social.name === "Telegram" && <Zap className="w-6 h-6" />}
-                    {social.name === "Twitter" && <Globe className="w-6 h-6" />}
-                    {social.name === "Discord" && <Code className="w-6 h-6" />}
-                    {social.name === "LinkedIn" && <Users className="w-6 h-6" />}
+                    <social.icon className="w-6 h-6" />
                   </div>
                   <span className="text-sm font-semibold text-gray-400 group-hover:text-white transition-colors">{social.name}</span>
                 </a>
@@ -308,7 +244,7 @@ export default function Community() {
         </div>
       </section>
 
-      {/* States Coverage */}
+      {/* Visual Map States Coverage */}
       <section className="py-20 bg-gradient-to-b from-card to-background" ref={statesRef}>
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -320,22 +256,13 @@ export default function Community() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            {indianStates.map((state, index) => (
-              <div
-                key={state}
-                className="state-marker neon-border rounded-lg p-4 bg-card/30 backdrop-blur-sm text-center hover:bg-card/50 transition-all duration-300 border-white/5"
-                data-testid={`state-${state.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                <div className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">{state}</div>
-              </div>
-            ))}
+          <div className="map-container relative h-[400px] md:h-[600px] w-full max-w-5xl mx-auto">
+            <IndiaNetworkMap />
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 bg-black/20 p-4 rounded-xl border border-white/5 backdrop-blur-sm inline-block mx-auto">
             <Button
-              className="bg-primary text-primary-foreground px-8 py-4 font-orbitron font-semibold hover:bg-primary/90 neon-border"
-              data-testid="button-join-community"
+              className="bg-primary text-primary-foreground px-8 py-4 font-orbitron font-semibold hover:bg-primary/90 neon-border min-w-[200px]"
             >
               Join Our Community
             </Button>

@@ -396,8 +396,8 @@
 }
 
 .nav-hyper-bg {
-  background-color: rgba(5, 5, 15, 0.30);
-  /* 30% Opacity for Glassmorphism */
+  background-color: rgba(5, 5, 15, 0.85);
+  /* 85% Opacity for Readability */
   /* Dual layered grid system */
   background-image:
     linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),

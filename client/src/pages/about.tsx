@@ -214,38 +214,40 @@ export default function About() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {/* Mission */}
-            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-card/40 backdrop-blur-xl relative overflow-hidden group hover:border-primary/30 transition-colors">
-              <Rocket className="w-10 h-10 text-primary mb-6" />
+            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-card/60 to-black backdrop-blur-xl relative overflow-hidden group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/50">
+              <div className="absolute top-0 right-0 p-32 bg-primary/5 blur-[80px] group-hover:bg-primary/10 transition-all duration-500"></div>
+              <Rocket className="w-12 h-12 text-primary mb-6 drop-shadow-[0_0_15px_rgba(var(--primary),0.5)]" />
               <h2 className="text-3xl font-orbitron font-bold text-white mb-6">Our Mission</h2>
               <h3 className="text-xl font-bold text-white mb-4">India's Web3 Builder Pipeline</h3>
-              <div className="space-y-4 text-muted-foreground">
+              <div className="space-y-4 text-muted-foreground relative z-10">
                 <p>Transform builders from zero to funded in 90 days:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex gap-2"><ArrowRight className="w-4 h-4 text-primary" /> Week 0-2: On-chain hackathon</li>
-                  <li className="flex gap-2"><ArrowRight className="w-4 h-4 text-primary" /> Week 3-8: 6-week shipping sprint</li>
-                  <li className="flex gap-2"><ArrowRight className="w-4 h-4 text-primary" /> Week 9-12: Pitch to VCs & Grants</li>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 0-2: On-chain hackathon</li>
+                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 3-8: 6-week shipping sprint</li>
+                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 9-12: Pitch to VCs & Grants</li>
                 </ul>
-                <p className="border-l-2 border-primary pl-4 italic text-white/80 mt-4">
+                <p className="border-l-4 border-primary pl-4 italic text-white/90 mt-6 bg-white/5 py-4 rounded-r-lg">
                   "Not theory. Real products. Real funding."
                 </p>
               </div>
             </div>
 
             {/* Vision */}
-            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-card/40 backdrop-blur-xl relative overflow-hidden group hover:border-accent/30 transition-colors">
-              <Eye className="w-10 h-10 text-accent mb-6" />
+            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-card/60 to-black backdrop-blur-xl relative overflow-hidden group hover:border-accent/50 transition-all duration-500 shadow-2xl shadow-black/50">
+              <div className="absolute top-0 right-0 p-32 bg-accent/5 blur-[80px] group-hover:bg-accent/10 transition-all duration-500"></div>
+              <Eye className="w-12 h-12 text-accent mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
               <h2 className="text-3xl font-orbitron font-bold text-white mb-6">Vision</h2>
               <h3 className="text-xl font-bold text-white mb-4">Prove Yourself On-Chain</h3>
-              <div className="space-y-4 text-muted-foreground">
+              <div className="space-y-4 text-muted-foreground relative z-10">
                 <p>No degrees. No resumes. Just:</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex gap-2"><CheckCircle className="w-4 h-4 text-accent" /> Your deployed contracts</li>
-                  <li className="flex gap-2"><CheckCircle className="w-4 h-4 text-accent" /> Your on-chain activity</li>
-                  <li className="flex gap-2"><CheckCircle className="w-4 h-4 text-accent" /> Open source contributions</li>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Your deployed contracts</li>
+                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Your on-chain activity</li>
+                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Open source contributions</li>
                 </ul>
-                <p className="font-bold text-white mt-4">
+                <div className="font-bold text-white mt-6 bg-accent/10 border border-accent/20 p-4 rounded-xl text-center">
                   Build in public. Ship to production. Get funded.
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -330,41 +332,65 @@ export default function About() {
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-center mb-16">
             The <span className="gradient-text">Squad</span>
           </h2>
-          <div className="grid grid-cols-1 gap-12 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 gap-12 max-w-3xl mx-auto">
             {team.map((member, i) => (
-              <div key={i} className="group relative fade-up">
-                <div className={`absolute inset-0 bg-gradient-to-r ${member.color} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-3xl`} />
-                <div className="relative bg-card/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 overflow-hidden hover:border-white/20 transition-all duration-300">
-                  <div className="flex flex-col md:flex-row gap-8 items-start">
-                    <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0 mx-auto md:mx-0">
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-2xl border-2 border-white/10" />
-                      <div className={`absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r ${member.color} text-[10px] font-bold uppercase rounded-full tracking-widest text-white shadow-lg`}>
-                        {member.type}
+              <div key={i} className="group relative fade-up perspective-1000">
+                <div className={`absolute inset-0 bg-gradient-to-r ${member.color} blur-3xl opacity-10 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl`} />
+
+                {/* Character Card Frame */}
+                <div className="relative bg-[#0a0a0a] border border-white/10 rounded-3xl p-1 overflow-hidden hover:border-white/30 transition-all duration-300 shadow-2xl">
+                  {/* Holo Overlay */}
+                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+
+                  <div className="bg-[#050505] rounded-[22px] p-8 md:p-10 relative z-10 h-full">
+                    <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
+                      {/* Avatar / Portrait */}
+                      <div className="relative w-48 h-48 shrink-0">
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500 to-pink-500 opacity-20 blur-lg animate-pulse"></div>
+                        <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-2xl border-2 border-white/10 relative z-10 shadow-xl" />
+                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black border border-white/20 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-lg z-20">
+                          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Online</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex-1 text-center md:text-left w-full">
-                      <h3 className="text-2xl font-orbitron font-bold text-white mb-1">{member.name}</h3>
-                      <p className={`text-sm font-medium bg-gradient-to-r ${member.color} bg-clip-text text-transparent mb-4`}>{member.role}</p>
 
-                      <p className="text-muted-foreground mb-6 text-sm italic border-l-2 border-white/10 pl-4">
-                        "{member.bio}"
-                      </p>
-
-                      <div className="space-y-3">
-                        {Object.entries(member.stats).map(([key, val], idx) => (
-                          <div key={idx} className="space-y-1">
-                            <div className="flex justify-between text-xs uppercase text-muted-foreground font-semibold">
-                              <span>{key}</span>
-                              <span>{val}%</span>
-                            </div>
-                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full bg-gradient-to-r ${member.color}`}
-                                style={{ width: `${val}%` }}
-                              />
+                      {/* Stats & Bio */}
+                      <div className="flex-1 w-full">
+                        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 mb-6 text-center md:text-left">
+                          <div>
+                            <h3 className="text-3xl font-orbitron font-black text-white italic tracking-wider uppercase mb-1">{member.name}</h3>
+                            <div className={`inline-block px-3 py-1 rounded bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest bg-gradient-to-r ${member.color} bg-clip-text text-transparent`}>
+                              {member.role}
                             </div>
                           </div>
-                        ))}
+                          <div className="text-right hidden md:block">
+                            <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Class</div>
+                            <div className="text-xl font-bold text-white font-orbitron">{member.type}</div>
+                          </div>
+                        </div>
+
+                        <div className="bg-white/5 rounded-xl p-5 mb-6 border-l-4 border-purple-500">
+                          <p className="text-gray-300 text-sm italic leading-relaxed">
+                            "{member.bio}"
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          {Object.entries(member.stats).map(([key, val], idx) => (
+                            <div key={idx} className="bg-black/40 rounded-lg p-3 border border-white/5">
+                              <div className="flex justify-between items-end mb-2">
+                                <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">{key}</span>
+                                <span className="text-xs font-mono text-primary">{val}</span>
+                              </div>
+                              <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full bg-gradient-to-r ${member.color}`}
+                                  style={{ width: `${val}%` }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -379,12 +405,13 @@ export default function About() {
       <section className="py-20 border-t border-white/5">
         <div className="container mx-auto px-6 text-center">
           <h3 className="uppercase tracking-widest text-sm font-bold text-muted-foreground mb-8">Building With Ecosystem Partners</h3>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Placeholder Text Logos for now as requested */}
-            <span className="text-xl font-bold font-orbitron">ETHEREUM</span>
-            <span className="text-xl font-bold font-orbitron">POLYGON</span>
-            <span className="text-xl font-bold font-orbitron">APTOS</span>
-            <span className="text-xl font-bold font-orbitron">SOLANA</span>
+          <div className="flex flex-wrap justify-center gap-6 md:gap-12 opacity-60">
+            {["ETHEREUM", "POLYGON", "APTOS", "SOLANA", "OPTIMISM", "ARBITRUM"].map((p, i) => (
+              <div key={i} className="group relative px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-default">
+                <span className="text-sm md:text-lg font-bold font-orbitron text-gray-400 group-hover:text-white transition-colors">{p}</span>
+                <div className="absolute inset-0 border border-white/0 group-hover:border-primary/30 rounded-lg transition-colors duration-500"></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
