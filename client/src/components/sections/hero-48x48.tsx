@@ -55,9 +55,15 @@ export default function Hero48x48() {
             <a href="#curriculum" className="px-6 py-3 border border-white/10 text-white rounded-md">See the 48-Chain Roadmap ↓</a>
           </div>
 
-          <div className="mt-6 flex items-center justify-center gap-6">
-            <div className="text-sm text-gray-300">Starting: <strong>Feb 18, 2026</strong></div>
-            <div className="text-sm text-gray-300">Applications close: <strong>Jan 31, 2026</strong></div>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm shadow-lg">
+              <span className="text-gray-400 font-medium">Starting:</span>
+              <span className="text-white font-bold font-orbitron tracking-wide">Jan 31, 2026</span>
+            </div>
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm shadow-lg">
+              <span className="text-gray-400 font-medium">Applications close:</span>
+              <span className="text-red-400 font-bold font-orbitron tracking-wide">Feb 31, 2026</span>
+            </div>
           </div>
 
           <div className="mt-8 flex items-center justify-center gap-6">
