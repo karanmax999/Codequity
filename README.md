@@ -4,11 +4,6 @@
   # CodeQuity
   **Beyond Limits — India's Definitive Web3 Ecosystem**
 
-  [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-  [![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://greensock.com/gsap/)
 
 </div>
 
@@ -32,12 +27,6 @@ CodeQuity is a high-pressure foundry where India's most ambitious builders bridg
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** React, Vite, Tailwind CSS
-- **Animations:** GSAP (GreenSock Animation Platform), Framer Motion
-- **Icons:** Lucide-React
-- **Scheduling:** Cal.com Integration
-- **Infrastructure:** Supabase, Vercel
 
 ---
 
@@ -78,19 +67,5 @@ CodeQuity is a high-pressure foundry where India's most ambitious builders bridg
 
 ---
 
-## 💻 Development Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/karanmax999/Codequity.git
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-
----
 
 <p align="center">Made with ❤️ for the Indian Web3 Ecosystem</p>
