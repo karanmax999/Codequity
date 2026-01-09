@@ -9,7 +9,7 @@ import {
   ArrowRight, CheckCircle, TrendingUp, Shield, Server, Box, Terminal,
   AlertTriangle, XCircle, Layout
 } from "lucide-react";
-import karanImage from "@assets/karan_1756295348934.jpeg";
+import karanImage from "../assets/founder.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -133,74 +133,50 @@ export default function About() {
     <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30" ref={containerRef}>
       <Navigation />
 
-      {/* 1. Cinematic 3D Hero */}
-      <section
-        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-black"
-        onMouseMove={handleMouseMove}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-primary/20 rounded-full blur-[120px] opacity-40"
-            style={{ transform: `translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)` }} />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-accent/20 rounded-full blur-[100px] opacity-40"
-            style={{ transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)` }} />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-        </div>
-
-        <div className="container relative z-10 mx-auto px-6 text-center perspective-1000">
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md animate-fade-in-up">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">Launching 2025</span>
+      {/* 1. Elegant Editorial Hero */}
+      <section className="relative min-h-[70vh] flex items-center bg-black overflow-hidden pt-32">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-4 mb-12 fade-up">
+              <div className="h-px w-12 bg-primary/50"></div>
+              <span className="text-sm font-medium tracking-[0.3em] uppercase text-primary/80">Est. 2025</span>
+            </div>
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1]">
+              The Future of <br />
+              <span className="text-primary">Ecosystem Building.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed fade-up">
+              India's definitive Web3 ecosystem. We bridge the gap between <span className="text-white italic">ambition</span> and <span className="text-white">on-chain reality</span>.
+            </p>
           </div>
-
-          <h1 className="text-7xl md:text-9xl font-black font-orbitron tracking-tighter leading-[0.9] mb-8 mix-blend-difference text-white">
-            BEYOND <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">LIMITS</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-200">
-            India's definitive Web3 ecosystem. Where <span className="text-white font-medium">ambition</span> meets <span className="text-white font-medium">opportunity</span>.
-          </p>
         </div>
       </section>
 
-      {/* 2. Your Path Journey Map (New) */}
-      <section className="py-20 bg-background relative z-10">
+      {/* 2. Editorial Journey Map */}
+      <section className="py-32 bg-black border-t border-white/10">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-center mb-16 fade-up">How It Works</h2>
-          <div className="journey-container relative max-w-4xl mx-auto pl-8 md:pl-0">
-            {/* Vertical Line */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 via-accent/50 to-transparent -translate-x-1/2 journey-line"></div>
+          <div className="max-w-4xl mx-auto text-center mb-24 fade-up">
+            <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE PATH</span>
+            <h2 className="text-5xl font-bold text-white mb-6">How It Works</h2>
+            <p className="text-gray-400 text-lg">A structured sprint from ideation to production.</p>
+          </div>
 
-            <div className="space-y-12">
+          <div className="journey-container relative max-w-5xl mx-auto">
+            {/* Horizontal Line (Desktop) */}
+            <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-px bg-white/10"></div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 relative z-10">
               {journeySteps.map((step, idx) => (
-                <div key={idx} className={`flex flex-col md:flex-row items-center gap-8 fade-up ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
-                  <div className="flex-1 w-full text-center md:text-left">
-                    {idx % 2 !== 0 && <div className="hidden md:block text-right">
-                      <h3 className="text-2xl font-bold font-orbitron text-white">{step.title}</h3>
-                      <p className="text-muted-foreground text-sm mt-2">{step.desc}</p>
-                    </div>}
-                    {idx % 2 === 0 && <div>
-                      <h3 className="text-2xl font-bold font-orbitron text-white">{step.title}</h3>
-                      <p className="text-muted-foreground text-sm mt-2">{step.desc}</p>
-                    </div>}
-                  </div>
-
-                  <div className="relative z-10 w-12 h-12 rounded-full bg-black border-2 border-primary flex items-center justify-center shrink-0 shadow-[0_0_20px_var(--primary)]">
-                    <span className="font-bold text-white">{idx + 1}</span>
-                  </div>
-
-                  <div className="flex-1 w-full text-center md:text-left">
-                    {idx % 2 !== 0 && <Button variant="outline" className="border-primary/50 text-white hover:bg-primary/20">{step.ctas[0]}</Button>}
-                    {idx % 2 === 0 && <div className="hidden md:block text-right">
-                      <Button variant="outline" className="border-primary/50 text-white hover:bg-primary/20">{step.ctas[0]}</Button>
-                    </div>}
-                    {/* Mobile Only Content alignment fix */}
-                    <div className="md:hidden mt-4">
-                      <Button variant="outline" className="border-primary/50 text-white hover:bg-primary/20">{step.ctas[0]}</Button>
+                <div key={idx} className="fade-up group">
+                  <div className="mb-10 flex flex-col items-center lg:items-start">
+                    <div className="w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center text-white font-bold mb-8 group-hover:border-primary transition-colors">
+                      0{idx + 1}
                     </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
+                    <p className="text-gray-400 text-base leading-relaxed mb-8">{step.desc}</p>
+                    <Button variant="link" className="text-primary p-0 h-auto font-bold tracking-widest uppercase text-xs group-hover:translate-x-2 transition-transform">
+                      {step.ctas[0]} →
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -209,44 +185,43 @@ export default function About() {
         </div>
       </section>
 
-      {/* 3. Mission & Vision (Rewritten) */}
-      <section className="py-20 relative">
+      {/* 3. Editorial Mission & Vision */}
+      <section className="py-32 bg-black">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Mission */}
-            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-card/60 to-black backdrop-blur-xl relative overflow-hidden group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/50">
-              <div className="absolute top-0 right-0 p-32 bg-primary/5 blur-[80px] group-hover:bg-primary/10 transition-all duration-500"></div>
-              <Rocket className="w-12 h-12 text-primary mb-6 drop-shadow-[0_0_15px_rgba(var(--primary),0.5)]" />
-              <h2 className="text-3xl font-orbitron font-bold text-white mb-6">Our Mission</h2>
-              <h3 className="text-xl font-bold text-white mb-4">India's Web3 Builder Pipeline</h3>
-              <div className="space-y-4 text-muted-foreground relative z-10">
-                <p>Transform builders from zero to funded in 90 days:</p>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 0-2: On-chain hackathon</li>
-                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 3-8: 6-week shipping sprint</li>
-                  <li className="flex gap-3 items-center"><div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]"></div> Week 9-12: Pitch to VCs & Grants</li>
-                </ul>
-                <p className="border-l-4 border-primary pl-4 italic text-white/90 mt-6 bg-white/5 py-4 rounded-r-lg">
-                  "Not theory. Real products. Real funding."
-                </p>
+          {/* Mission Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20 mb-32">
+            <div className="fade-up">
+              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 01 — MISSION</span>
+              <h2 className="text-5xl font-bold text-white mb-8">India's Web3 <br />Builder Pipeline</h2>
+            </div>
+            <div className="fade-up text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
+              <p>
+                We've built a structured path to transform high-potential builders into funded founders within 90 days. CodeQuity isn't just a community; it's a high-pressure foundry where real products are shipped to mainnet.
+              </p>
+              <div className="bg-white/5 p-8 border-l border-primary">
+                <p className="text-white italic">"Not theory. Real products. Real funding."</p>
               </div>
             </div>
+          </div>
 
-            {/* Vision */}
-            <div className="fade-up p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-card/60 to-black backdrop-blur-xl relative overflow-hidden group hover:border-accent/50 transition-all duration-500 shadow-2xl shadow-black/50">
-              <div className="absolute top-0 right-0 p-32 bg-accent/5 blur-[80px] group-hover:bg-accent/10 transition-all duration-500"></div>
-              <Eye className="w-12 h-12 text-accent mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
-              <h2 className="text-3xl font-orbitron font-bold text-white mb-6">Vision</h2>
-              <h3 className="text-xl font-bold text-white mb-4">Prove Yourself On-Chain</h3>
-              <div className="space-y-4 text-muted-foreground relative z-10">
-                <p>No degrees. No resumes. Just:</p>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Your deployed contracts</li>
-                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Your on-chain activity</li>
-                  <li className="flex gap-3 items-center"><CheckCircle className="w-5 h-5 text-accent" /> Open source contributions</li>
-                </ul>
-                <div className="font-bold text-white mt-6 bg-accent/10 border border-accent/20 p-4 rounded-xl text-center">
-                  Build in public. Ship to production. Get funded.
+          {/* Vision Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20">
+            <div className="fade-up lg:order-2">
+              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 02 — VISION</span>
+              <h2 className="text-5xl font-bold text-white mb-8">Prove Yourself <br />On-Chain</h2>
+            </div>
+            <div className="fade-up lg:order-1 text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
+              <p>
+                In the new world, resumes are obsolete. We believe your reputation should be built on your contributions. No degrees, no corporate ladders—just your deployed contracts and on-chain activity.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 text-white">
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span>On-chain Activity</span>
+                </div>
+                <div className="flex items-center gap-3 text-white">
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span>Open Source Code</span>
                 </div>
               </div>
             </div>
@@ -254,144 +229,134 @@ export default function About() {
         </div>
       </section>
 
-      {/* 4. Why Now? (New) */}
-      <section className="py-20 bg-gradient-to-b from-black via-red-950/10 to-black">
-        <div className="container mx-auto px-6 text-center max-w-4xl">
-          <h2 className="text-4xl font-orbitron font-bold mb-8 fade-up">Why Now?</h2>
-          <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-8 backdrop-blur-sm fade-up">
-            <p className="text-xl text-white mb-6">
-              India has <span className="text-red-400 font-bold">5M+ developers</span>. Only <span className="text-primary font-bold">~50K</span> know Web3.
-              The next $1B+ protocol could be built in Bangalore or Delhi.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="p-4 bg-black/40 rounded-lg border border-white/5 flex flex-col items-center">
-                <XCircle className="text-red-500 mb-2" />
-                <span className="text-sm text-muted-foreground">No structured education</span>
-              </div>
-              <div className="p-4 bg-black/40 rounded-lg border border-white/5 flex flex-col items-center">
-                <XCircle className="text-red-500 mb-2" />
-                <span className="text-sm text-muted-foreground">Limited VC access</span>
-              </div>
-              <div className="p-4 bg-black/40 rounded-lg border border-white/5 flex flex-col items-center">
-                <XCircle className="text-red-500 mb-2" />
-                <span className="text-sm text-muted-foreground">Few accelerators</span>
-              </div>
+      {/* 4. Editorial Call to Action */}
+      <section className="py-32 bg-black border-y border-white/10">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="fade-up">
+              <h2 className="text-5xl font-bold text-white mb-8 leading-tight">
+                India has 5M+ developers. <br />
+                Only ~50K know Web3.
+              </h2>
+              <p className="text-gray-400 text-xl leading-relaxed mb-12">
+                We're here to change that ratio. The next $1B+ protocol could be built in Bangalore, Delhi, or Mumbai. We provide the forge; you bring the fire.
+              </p>
+              <Button className="bg-primary text-black font-bold h-14 px-10 rounded-none hover:bg-primary/90 transition-colors">
+                Apply for Q1 2025 Cohort
+              </Button>
             </div>
-            <Button className="bg-primary text-primary-foreground font-bold neon-border">Be Part of the First Cohort</Button>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-up">
+              {[
+                { icon: XCircle, text: "No structured education" },
+                { icon: XCircle, text: "Limited VC access" },
+                { icon: XCircle, text: "Few accelerators" }
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col items-center text-center">
+                  <item.icon className="w-10 h-10 text-primary/40 mb-4" />
+                  <span className="text-xs uppercase font-bold tracking-widest text-gray-500">{item.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Core Values */}
-      <section className="py-24">
+      {/* 5. Editorial Core Values */}
+      <section className="py-32 bg-black">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-center mb-16 gradient-text">Core Values</h2>
-          <div className="values-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 mb-20">
+            <div className="fade-up lg:col-span-1">
+              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 03 — VALUES</span>
+              <h2 className="text-5xl font-bold text-white mb-4">Integrity.<br />Then Everything Else.</h2>
+            </div>
+            <div className="fade-up lg:col-span-2 text-gray-400 text-lg">
+              <p>Four guiding principles shape our work at CodeQuity. They've helped us maintain a standard of excellence that sets our builders apart.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-white/10">
             {coreValues.map((value, index) => (
               <div
                 key={index}
-                className={`value-card relative group p-6 rounded-xl border ${value.border} ${value.bg} backdrop-blur-sm overflow-hidden hover:-translate-y-2 transition-transform duration-300 fade-up`}
+                className="p-10 border border-white/10 hover:bg-white/5 transition-colors group fade-up"
               >
-                <value.icon className={`w-10 h-10 ${value.color} mb-4 relative z-10`} />
-                <h3 className="text-xl font-orbitron font-bold mb-2 text-white relative z-10">{value.title}</h3>
-                <p className="text-sm text-muted-foreground relative z-10 leading-relaxed">{value.desc}</p>
+                <div className="text-4xl font-bold text-primary/20 group-hover:text-primary transition-colors mb-8">0{index + 1}</div>
+                <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{value.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 6. Builder Success Stories (New) */}
-      <section className="py-20 bg-white/5 border-y border-white/5">
+      {/* 6. Editorial Success Stories */}
+      <section className="py-32 bg-black">
         <div className="container mx-auto px-6">
-          <div className="flex items-center gap-4 mb-10 justify-center">
-            <div className="h-px bg-white/20 w-12" />
-            <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Ships from the Foundry</span>
-            <div className="h-px bg-white/20 w-12" />
+          <div className="flex flex-col lg:flex-row justify-between items-end mb-24 fade-up">
+            <div className="max-w-2xl">
+              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE OUTPUT</span>
+              <h2 className="text-5xl font-bold text-white uppercase tracking-tight">Ships from the Foundry</h2>
+            </div>
+            <div className="text-gray-500 text-sm uppercase font-bold tracking-widest pb-2">
+              Pilot Cohort Projects
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
             {stories.map((story, i) => (
-              <div key={i} className="bg-black border border-white/10 p-6 rounded-xl flex gap-4 items-start fade-up hover:border-primary/50 transition-colors">
-                <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center font-bold text-xl font-orbitron">{story.name[0]}</div>
-                <div>
-                  <h4 className="text-lg font-bold text-white mb-1">{story.name}</h4>
-                  <p className="text-sm text-muted-foreground leading-snug">{story.text}</p>
-                </div>
+              <div key={i} className="bg-black p-12 fade-up hover:bg-white/5 transition-colors group">
+                <h4 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{story.name}</h4>
+                <p className="text-gray-400 text-lg leading-relaxed mb-8">{story.text}</p>
+                <div className="h-px w-8 bg-white/20 group-hover:w-full transition-all duration-500"></div>
               </div>
             ))}
-          </div>
-          <div className="text-center mt-8 text-xs text-muted-foreground italic">
-            * Early projects from our pilot cohorts
           </div>
         </div>
       </section>
 
-      {/* 7. Squad / Team Section */}
-      <section className="py-24 relative">
+      {/* 7. Modern Squad Section */}
+      <section className="py-32 bg-black overflow-hidden">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-center mb-16">
-            The <span className="gradient-text">Squad</span>
-          </h2>
-          <div className="grid grid-cols-1 gap-12 max-w-3xl mx-auto">
+          <div className="text-center mb-24 fade-up">
+            <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE FOUNDATION</span>
+            <h2 className="text-6xl font-bold text-white">The Squad</h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-32 max-w-6xl mx-auto">
             {team.map((member, i) => (
-              <div key={i} className="group relative fade-up perspective-1000">
-                <div className={`absolute inset-0 bg-gradient-to-r ${member.color} blur-3xl opacity-10 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl`} />
+              <div key={i} className="flex flex-col lg:flex-row gap-16 items-start fade-up border-b border-white/10 pb-20 last:border-0">
+                {/* Portrait */}
+                <div className="relative w-full lg:w-[450px] aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
+                  />
+                </div>
 
-                {/* Character Card Frame */}
-                <div className="relative bg-[#0a0a0a] border border-white/10 rounded-3xl p-1 overflow-hidden hover:border-white/30 transition-all duration-300 shadow-2xl">
-                  {/* Holo Overlay */}
-                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+                {/* Info */}
+                <div className="flex-1 pt-4">
+                  <div className="mb-12">
+                    <h3 className="text-5xl font-bold text-white mb-2 uppercase tracking-tight">{member.name}</h3>
+                    <div className="text-primary text-sm font-bold tracking-widest uppercase">{member.role}</div>
+                  </div>
 
-                  <div className="bg-[#050505] rounded-[22px] p-8 md:p-10 relative z-10 h-full">
-                    <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
-                      {/* Avatar / Portrait */}
-                      <div className="relative w-48 h-48 shrink-0">
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500 to-pink-500 opacity-20 blur-lg animate-pulse"></div>
-                        <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-2xl border-2 border-white/10 relative z-10 shadow-xl" />
-                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black border border-white/20 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-lg z-20">
-                          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Online</span>
-                        </div>
-                      </div>
+                  <div className="text-gray-400 text-xl leading-relaxed mb-12">
+                    <p>"{member.bio}"</p>
+                  </div>
 
-                      {/* Stats & Bio */}
-                      <div className="flex-1 w-full">
-                        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 mb-6 text-center md:text-left">
-                          <div>
-                            <h3 className="text-3xl font-orbitron font-black text-white italic tracking-wider uppercase mb-1">{member.name}</h3>
-                            <div className={`inline-block px-3 py-1 rounded bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest bg-gradient-to-r ${member.color} bg-clip-text text-transparent`}>
-                              {member.role}
-                            </div>
-                          </div>
-                          <div className="text-right hidden md:block">
-                            <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Class</div>
-                            <div className="text-xl font-bold text-white font-orbitron">{member.type}</div>
-                          </div>
-                        </div>
-
-                        <div className="bg-white/5 rounded-xl p-5 mb-6 border-l-4 border-purple-500">
-                          <p className="text-gray-300 text-sm italic leading-relaxed">
-                            "{member.bio}"
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                          {Object.entries(member.stats).map(([key, val], idx) => (
-                            <div key={idx} className="bg-black/40 rounded-lg p-3 border border-white/5">
-                              <div className="flex justify-between items-end mb-2">
-                                <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">{key}</span>
-                                <span className="text-xs font-mono text-primary">{val}</span>
-                              </div>
-                              <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                                <div
-                                  className={`h-full bg-gradient-to-r ${member.color}`}
-                                  style={{ width: `${val}%` }}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                  {/* Clean Links / Meta */}
+                  <div className="flex gap-8 border-t border-white/10 pt-8 mt-12">
+                    <div className="flex flex-col">
+                      <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Status</span>
+                      <span className="text-white text-sm flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        Available
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Focus</span>
+                      <span className="text-white text-sm uppercase tracking-wider">{member.type}</span>
                     </div>
                   </div>
                 </div>

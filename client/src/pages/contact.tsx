@@ -1,28 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import emailjs from "@emailjs/browser";
+import Cal, { getCalApi } from "@calcom/embed-react";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import {
   Mail,
   Phone,
   MapPin,
-  Send,
   MessageCircle,
   Users,
-  Code,
   Twitter,
   Github,
   Linkedin,
   Instagram,
-  CheckCircle,
-  Loader2,
-  Rocket
+  Rocket,
+  Send
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,19 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Contact() {
   const heroRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const contactFormRef = useRef<HTMLFormElement>(null);
-  const { toast } = useToast();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -52,6 +33,13 @@ export default function Contact() {
       y: (clientY / innerHeight - 0.5) * 2
     });
   };
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ "namespace": "15min" });
+      cal("ui", { "cssVarsPerTheme": { "light": { "cal-brand": "#1e4790" }, "dark": { "cal-brand": "#1e4790" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+    })();
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -93,7 +81,7 @@ export default function Contact() {
         ease: "back.out(1.7)"
       });
 
-      // Form animation
+      // Form animation (now Cal embed)
       gsap.from(".contact-form", {
         scrollTrigger: {
           trigger: formRef.current,
@@ -107,21 +95,7 @@ export default function Contact() {
         ease: "power4.out"
       });
 
-      // Social links animation
-      gsap.from(".social-link", {
-        scrollTrigger: {
-          trigger: formRef.current,
-          start: "top 60%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        },
-        scale: 0,
-        opacity: 0,
-        rotation: 180,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      });
+
 
     }, heroRef);
 
@@ -161,69 +135,10 @@ export default function Contact() {
 
   const socialLinks = [
     { icon: Twitter, href: "https://x.com/CodeQuity", label: "Twitter" },
-    { icon: Github, href: "https://github.com/codequity", label: "GitHub" },
     { icon: Linkedin, href: "https://www.linkedin.com/company/codequitycommunity/", label: "LinkedIn" },
+    { icon: Send, href: "https://t.me/codequiity", label: "Telegram" },
     { icon: Instagram, href: "https://www.instagram.com/codequity_official/", label: "Instagram" }
   ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!contactFormRef.current) return;
-
-    setIsSubmitting(true);
-
-    try {
-      // Initialize EmailJS
-      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-
-      // Send email using EmailJS
-      const result = await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        contactFormRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      if (result.status === 200) {
-        setIsSubmitted(true);
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "",
-          message: ""
-        });
-
-        toast({
-          title: "Message sent successfully! 🎉",
-          description: "We'll get back to you within 24 hours.",
-        });
-
-        // Reset form after 3 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 3000);
-      }
-    } catch (error) {
-      console.error("EmailJS error:", error);
-      toast({
-        title: "Failed to send message",
-        description: "Please try again or contact us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30" ref={heroRef} onMouseMove={handleMouseMove}>
@@ -303,118 +218,15 @@ export default function Contact() {
           {/* Main Contact Form and Info */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-            {/* Contact Form */}
+            {/* Cal.com Embed */}
             <div className="contact-form">
-              <div className="bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 neon-border">
-                <h2 className="text-3xl font-orbitron font-bold mb-6">
-                  Send us a <span className="gradient-text">Message</span>
-                </h2>
-                <p className="text-muted-foreground mb-8">
-                  Fill out the form below and we'll get back to you within 24 hours.
-                </p>
-
-                <form
-                  ref={contactFormRef}
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                  data-testid="contact-form"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2 text-white">First Name</label>
-                      <Input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        placeholder="Your first name"
-                        className="bg-background/50 border-white/20 focus:border-primary text-white"
-                        data-testid="input-first-name"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2 text-white">Last Name</label>
-                      <Input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        placeholder="Your last name"
-                        className="bg-background/50 border-white/20 focus:border-primary text-white"
-                        data-testid="input-last-name"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white">Email</label>
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="your.email@example.com"
-                      className="bg-background/50 border-white/20 focus:border-primary text-white"
-                      data-testid="input-email"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white">Subject</label>
-                    <Input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      placeholder="What's this about?"
-                      className="bg-background/50 border-white/20 focus:border-primary text-white"
-                      data-testid="input-subject"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-white">Message</label>
-                    <Textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Tell us more about your inquiry..."
-                      rows={6}
-                      className="bg-background/50 border-white/20 focus:border-primary resize-none text-white"
-                      data-testid="textarea-message"
-                      required
-                      minLength={10}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-primary to-accent text-white font-medium py-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 neon-border animate-pulse-glow"
-                    data-testid="button-send-message"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                        Sending...
-                      </>
-                    ) : isSubmitted ? (
-                      <>
-                        <CheckCircle className="w-5 h-5 mr-2" />
-                        Message Sent!
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5 mr-2" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </form>
+              <div className="bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 neon-border h-full min-h-[600px]">
+                <Cal
+                  namespace="15min"
+                  calLink="codequity-organisation/15min"
+                  style={{ width: "100%", height: "100%", overflow: "scroll" }}
+                  config={{ "layout": "month_view" }}
+                />
               </div>
             </div>
 
