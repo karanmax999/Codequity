@@ -5,34 +5,21 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import {
-  Target, Eye, Users, Code, Globe, Award, Rocket, Zap, Layers,
-  ArrowRight, CheckCircle, TrendingUp, Shield, Server, Box, Terminal,
-  AlertTriangle, XCircle, Layout
+  Users, Award, Rocket, Zap, Layers,
+  CheckCircle, XCircle
 } from "lucide-react";
 import karanImage from "../assets/founder.jpg";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
+import codequityCardVideo from "../assets/codequity_card.mp4";
+import transitionCityImage from "../assets/transition-city.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    setMousePos({
-      x: (clientX / innerWidth - 0.5) * 2,
-      y: (clientY / innerHeight - 0.5) * 2
-    });
-  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero Animations
-      gsap.from(".hero-char", {
-        opacity: 0, y: 100, rotateX: -90, stagger: 0.05, duration: 1, ease: "back.out(1.7)"
-      });
-
       // Standard fade-ups
       const fadeUps = gsap.utils.toArray<HTMLElement>(".fade-up");
       fadeUps.forEach((elem) => {
@@ -133,278 +120,267 @@ export default function About() {
     <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30" ref={containerRef}>
       <Navigation />
 
-      {/* 1. Elegant Editorial Hero */}
-      <section className="relative min-h-[70vh] flex items-center bg-black overflow-hidden pt-32">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-12 fade-up">
-              <div className="h-px w-12 bg-primary/50"></div>
-              <span className="text-sm font-medium tracking-[0.3em] uppercase text-primary/80">Est. 2025</span>
+      <ScrollExpandMedia
+        mediaType="video"
+        mediaSrc={codequityCardVideo}
+        bgImageSrc={transitionCityImage}
+        date="Est. 2025"
+        scrollToExpand="Scroll to Expand Your Vision"
+        textBlend
+      >
+        <div className="space-y-32">
+          {/* 1. Introductory Copy (formerly Hero text) */}
+          <section className="container mx-auto px-6">
+            <div className="max-w-4xl">
+              <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1]">
+                The Future of <br />
+                <span className="text-primary">Ecosystem Building.</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed fade-up">
+                India's definitive Web3 ecosystem. We bridge the gap between <span className="text-white italic">ambition</span> and <span className="text-white">on-chain reality</span>.
+              </p>
             </div>
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1]">
-              The Future of <br />
-              <span className="text-primary">Ecosystem Building.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed fade-up">
-              India's definitive Web3 ecosystem. We bridge the gap between <span className="text-white italic">ambition</span> and <span className="text-white">on-chain reality</span>.
-            </p>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* 2. Editorial Journey Map */}
-      <section className="py-32 bg-black border-t border-white/10">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center mb-24 fade-up">
-            <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE PATH</span>
-            <h2 className="text-5xl font-bold text-white mb-6">How It Works</h2>
-            <p className="text-gray-400 text-lg">A structured sprint from ideation to production.</p>
-          </div>
+          {/* 2. Editorial Journey Map */}
+          <section className="bg-black border-t border-white/10 pt-32">
+            <div className="container mx-auto px-6">
+              <div className="max-w-4xl mx-auto text-center mb-24 fade-up">
+                <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE PATH</span>
+                <h2 className="text-5xl font-bold text-white mb-6">How It Works</h2>
+                <p className="text-gray-400 text-lg">A structured sprint from ideation to production.</p>
+              </div>
 
-          <div className="journey-container relative max-w-5xl mx-auto">
-            {/* Horizontal Line (Desktop) */}
-            <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-px bg-white/10"></div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 relative z-10">
-              {journeySteps.map((step, idx) => (
-                <div key={idx} className="fade-up group">
-                  <div className="mb-10 flex flex-col items-center lg:items-start">
-                    <div className="w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center text-white font-bold mb-8 group-hover:border-primary transition-colors">
-                      0{idx + 1}
+              <div className="journey-container relative max-w-5xl mx-auto">
+                <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-px bg-white/10"></div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 relative z-10">
+                  {journeySteps.map((step, idx) => (
+                    <div key={idx} className="fade-up group">
+                      <div className="mb-10 flex flex-col items-center lg:items-start">
+                        <div className="w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center text-white font-bold mb-8 group-hover:border-primary transition-colors">
+                          0{idx + 1}
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
+                        <p className="text-gray-400 text-base leading-relaxed mb-8">{step.desc}</p>
+                        <Button variant="link" className="text-primary p-0 h-auto font-bold tracking-widest uppercase text-xs group-hover:translate-x-2 transition-transform">
+                          {step.ctas[0]} →
+                        </Button>
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                    <p className="text-gray-400 text-base leading-relaxed mb-8">{step.desc}</p>
-                    <Button variant="link" className="text-primary p-0 h-auto font-bold tracking-widest uppercase text-xs group-hover:translate-x-2 transition-transform">
-                      {step.ctas[0]} →
-                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Editorial Mission & Vision */}
+          <section className="bg-black">
+            <div className="container mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20 mb-32">
+                <div className="fade-up">
+                  <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 01 — MISSION</span>
+                  <h2 className="text-5xl font-bold text-white mb-8">India's Web3 <br />Builder Pipeline</h2>
+                </div>
+                <div className="fade-up text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
+                  <p>
+                    We've built a structured path to transform high-potential builders into funded founders within 90 days. CodeQuity isn't just a community; it's a high-pressure foundry where real products are shipped to mainnet.
+                  </p>
+                  <div className="bg-white/5 p-8 border-l border-primary">
+                    <p className="text-white italic">"Not theory. Real products. Real funding."</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Editorial Mission & Vision */}
-      <section className="py-32 bg-black">
-        <div className="container mx-auto px-6">
-          {/* Mission Split */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20 mb-32">
-            <div className="fade-up">
-              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 01 — MISSION</span>
-              <h2 className="text-5xl font-bold text-white mb-8">India's Web3 <br />Builder Pipeline</h2>
-            </div>
-            <div className="fade-up text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
-              <p>
-                We've built a structured path to transform high-potential builders into funded founders within 90 days. CodeQuity isn't just a community; it's a high-pressure foundry where real products are shipped to mainnet.
-              </p>
-              <div className="bg-white/5 p-8 border-l border-primary">
-                <p className="text-white italic">"Not theory. Real products. Real funding."</p>
               </div>
-            </div>
-          </div>
 
-          {/* Vision Split */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20">
-            <div className="fade-up lg:order-2">
-              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 02 — VISION</span>
-              <h2 className="text-5xl font-bold text-white mb-8">Prove Yourself <br />On-Chain</h2>
-            </div>
-            <div className="fade-up lg:order-1 text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
-              <p>
-                In the new world, resumes are obsolete. We believe your reputation should be built on your contributions. No degrees, no corporate ladders—just your deployed contracts and on-chain activity.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 text-white">
-                  <CheckCircle className="w-5 h-5 text-primary" />
-                  <span>On-chain Activity</span>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start border-t border-white/10 pt-20">
+                <div className="fade-up lg:order-2">
+                  <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 02 — VISION</span>
+                  <h2 className="text-5xl font-bold text-white mb-8">Prove Yourself <br />On-Chain</h2>
                 </div>
-                <div className="flex items-center gap-3 text-white">
-                  <CheckCircle className="w-5 h-5 text-primary" />
-                  <span>Open Source Code</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Editorial Call to Action */}
-      <section className="py-32 bg-black border-y border-white/10">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="fade-up">
-              <h2 className="text-5xl font-bold text-white mb-8 leading-tight">
-                India has 5M+ developers. <br />
-                Only ~50K know Web3.
-              </h2>
-              <p className="text-gray-400 text-xl leading-relaxed mb-12">
-                We're here to change that ratio. The next $1B+ protocol could be built in Bangalore, Delhi, or Mumbai. We provide the forge; you bring the fire.
-              </p>
-              <Button className="bg-primary text-black font-bold h-14 px-10 rounded-none hover:bg-primary/90 transition-colors">
-                Apply for Q1 2025 Cohort
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-up">
-              {[
-                { icon: XCircle, text: "No structured education" },
-                { icon: XCircle, text: "Limited VC access" },
-                { icon: XCircle, text: "Few accelerators" }
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                  <item.icon className="w-10 h-10 text-primary/40 mb-4" />
-                  <span className="text-xs uppercase font-bold tracking-widest text-gray-500">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Editorial Core Values */}
-      <section className="py-32 bg-black">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 mb-20">
-            <div className="fade-up lg:col-span-1">
-              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 03 — VALUES</span>
-              <h2 className="text-5xl font-bold text-white mb-4">Integrity.<br />Then Everything Else.</h2>
-            </div>
-            <div className="fade-up lg:col-span-2 text-gray-400 text-lg">
-              <p>Four guiding principles shape our work at CodeQuity. They've helped us maintain a standard of excellence that sets our builders apart.</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-white/10">
-            {coreValues.map((value, index) => (
-              <div
-                key={index}
-                className="p-10 border border-white/10 hover:bg-white/5 transition-colors group fade-up"
-              >
-                <div className="text-4xl font-bold text-primary/20 group-hover:text-primary transition-colors mb-8">0{index + 1}</div>
-                <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{value.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Editorial Success Stories */}
-      <section className="py-32 bg-black">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col lg:flex-row justify-between items-end mb-24 fade-up">
-            <div className="max-w-2xl">
-              <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE OUTPUT</span>
-              <h2 className="text-5xl font-bold text-white uppercase tracking-tight">Ships from the Foundry</h2>
-            </div>
-            <div className="text-gray-500 text-sm uppercase font-bold tracking-widest pb-2">
-              Pilot Cohort Projects
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
-            {stories.map((story, i) => (
-              <div key={i} className="bg-black p-12 fade-up hover:bg-white/5 transition-colors group">
-                <h4 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{story.name}</h4>
-                <p className="text-gray-400 text-lg leading-relaxed mb-8">{story.text}</p>
-                <div className="h-px w-8 bg-white/20 group-hover:w-full transition-all duration-500"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Modern Squad Section */}
-      <section className="py-32 bg-black overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-24 fade-up">
-            <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE FOUNDATION</span>
-            <h2 className="text-6xl font-bold text-white">The Squad</h2>
-          </div>
-
-          <div className="grid grid-cols-1 gap-32 max-w-6xl mx-auto">
-            {team.map((member, i) => (
-              <div key={i} className="flex flex-col lg:flex-row gap-16 items-start fade-up border-b border-white/10 pb-20 last:border-0">
-                {/* Portrait */}
-                <div className="relative w-full lg:w-[450px] aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
-                  />
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 pt-4">
-                  <div className="mb-12">
-                    <h3 className="text-5xl font-bold text-white mb-2 uppercase tracking-tight">{member.name}</h3>
-                    <div className="text-primary text-sm font-bold tracking-widest uppercase">{member.role}</div>
-                  </div>
-
-                  <div className="text-gray-400 text-xl leading-relaxed mb-12">
-                    <p>"{member.bio}"</p>
-                  </div>
-
-                  {/* Clean Links / Meta */}
-                  <div className="flex gap-8 border-t border-white/10 pt-8 mt-12">
-                    <div className="flex flex-col">
-                      <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Status</span>
-                      <span className="text-white text-sm flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Available
-                      </span>
+                <div className="fade-up lg:order-1 text-gray-400 text-lg leading-relaxed space-y-6 max-w-xl">
+                  <p>
+                    In the new world, resumes are obsolete. We believe your reputation should be built on your contributions. No degrees, no corporate ladders—just your deployed contracts and on-chain activity.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckCircle className="w-5 h-5 text-primary" />
+                      <span>On-chain Activity</span>
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Focus</span>
-                      <span className="text-white text-sm uppercase tracking-wider">{member.type}</span>
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckCircle className="w-5 h-5 text-primary" />
+                      <span>Open Source Code</span>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* 8. Building With (New) */}
-      <section className="py-20 border-t border-white/5">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="uppercase tracking-widest text-sm font-bold text-muted-foreground mb-8">Building With Ecosystem Partners</h3>
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12 opacity-60">
-            {["ETHEREUM", "POLYGON", "APTOS", "SOLANA", "OPTIMISM", "ARBITRUM"].map((p, i) => (
-              <div key={i} className="group relative px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-default">
-                <span className="text-sm md:text-lg font-bold font-orbitron text-gray-400 group-hover:text-white transition-colors">{p}</span>
-                <div className="absolute inset-0 border border-white/0 group-hover:border-primary/30 rounded-lg transition-colors duration-500"></div>
+          {/* 4. Editorial Call to Action */}
+          <section className="bg-black border-y border-white/10 py-32">
+            <div className="container mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div className="fade-up">
+                  <h2 className="text-5xl font-bold text-white mb-8 leading-tight">
+                    India has 5M+ developers. <br />
+                    Only ~50K know Web3.
+                  </h2>
+                  <p className="text-gray-400 text-xl leading-relaxed mb-12">
+                    We're here to change that ratio. The next $1B+ protocol could be built in Bangalore, Delhi, or Mumbai. We provide the forge; you bring the fire.
+                  </p>
+                  <Button className="bg-primary text-black font-bold h-14 px-10 rounded-none hover:bg-primary/90 transition-colors">
+                    Apply for Q1 2025 Cohort
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-up">
+                  {[
+                    { icon: XCircle, text: "No structured education" },
+                    { icon: XCircle, text: "Limited VC access" },
+                    { icon: XCircle, text: "Few accelerators" }
+                  ].map((item, i) => (
+                    <div key={i} className="flex flex-col items-center text-center">
+                      <item.icon className="w-10 h-10 text-primary/40 mb-4" />
+                      <span className="text-xs uppercase font-bold tracking-widest text-gray-500">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Pre-Launch Status (Replaces Stats) */}
-      <section className="py-20 bg-primary/5 border-t border-primary/10">
-        <div className="container mx-auto px-6 text-center">
-          <div className="inline-block px-6 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary font-bold tracking-widest mb-8">
-            🚀 LAUNCHING Q1 2025
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="p-6 border border-white/10 rounded-xl bg-black/40">
-              <div className="text-5xl font-orbitron font-bold text-white mb-2">500+</div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider">Waitlist Applications</div>
             </div>
-            <div className="p-6 border border-white/10 rounded-xl bg-black/40">
-              <div className="text-5xl font-orbitron font-bold text-white mb-2">15+</div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider">Partner Protocols in Pipeline</div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <div className="text-center py-20">
-        <Button className="px-12 py-6 text-lg font-orbitron font-bold bg-primary hover:bg-primary/80 neon-border rounded-full animate-pulse-glow">
-          Join The CodeQuity Revolution
-        </Button>
-      </div>
+          {/* 5. Editorial Core Values */}
+          <section className="bg-black">
+            <div className="container mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 mb-20">
+                <div className="fade-up lg:col-span-1">
+                  <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// 03 — VALUES</span>
+                  <h2 className="text-5xl font-bold text-white mb-4">Integrity.<br />Then Everything Else.</h2>
+                </div>
+                <div className="fade-up lg:col-span-2 text-gray-400 text-lg">
+                  <p>Four guiding principles shape our work at CodeQuity. They've helped us maintain a standard of excellence that sets our builders apart.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-white/10">
+                {coreValues.map((value, index) => (
+                  <div
+                    key={index}
+                    className="p-10 border border-white/10 hover:bg-white/5 transition-colors group fade-up"
+                  >
+                    <div className="text-4xl font-bold text-primary/20 group-hover:text-primary transition-colors mb-8">0{index + 1}</div>
+                    <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{value.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 6. Editorial Success Stories */}
+          <section className="bg-black">
+            <div className="container mx-auto px-6">
+              <div className="flex flex-col lg:flex-row justify-between items-end mb-24 fade-up">
+                <div className="max-w-2xl">
+                  <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE OUTPUT</span>
+                  <h2 className="text-5xl font-bold text-white uppercase tracking-tight">Ships from the Foundry</h2>
+                </div>
+                <div className="text-gray-500 text-sm uppercase font-bold tracking-widest pb-2">
+                  Pilot Cohort Projects
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
+                {stories.map((story, i) => (
+                  <div key={i} className="bg-black p-12 fade-up hover:bg-white/5 transition-colors group">
+                    <h4 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{story.name}</h4>
+                    <p className="text-gray-400 text-lg leading-relaxed mb-8">{story.text}</p>
+                    <div className="h-px w-8 bg-white/20 group-hover:w-full transition-all duration-500"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 7. Modern Squad Section */}
+          <section className="bg-black overflow-hidden">
+            <div className="container mx-auto px-6">
+              <div className="text-center mb-24 fade-up">
+                <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE FOUNDATION</span>
+                <h2 className="text-6xl font-bold text-white">The Squad</h2>
+              </div>
+
+              <div className="grid grid-cols-1 gap-32 max-w-6xl mx-auto">
+                {team.map((member, i) => (
+                  <div key={i} className="flex flex-col lg:flex-row gap-16 items-start fade-up border-b border-white/10 pb-20 last:border-0">
+                    <div className="relative w-full lg:w-[450px] aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
+                      />
+                    </div>
+                    <div className="flex-1 pt-4">
+                      <div className="mb-12">
+                        <h3 className="text-5xl font-bold text-white mb-2 uppercase tracking-tight">{member.name}</h3>
+                        <div className="text-primary text-sm font-bold tracking-widest uppercase">{member.role}</div>
+                      </div>
+                      <div className="text-gray-400 text-xl leading-relaxed mb-12">
+                        <p>"{member.bio}"</p>
+                      </div>
+                      <div className="flex gap-8 border-t border-white/10 pt-8 mt-12">
+                        <div className="flex flex-col">
+                          <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Status</span>
+                          <span className="text-white text-sm flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            Available
+                          </span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Focus</span>
+                          <span className="text-white text-sm uppercase tracking-wider">{member.type}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 8. Building With */}
+          <section className="border-t border-white/5 pt-20">
+            <div className="container mx-auto px-6 text-center">
+              <h3 className="uppercase tracking-widest text-sm font-bold text-muted-foreground mb-8">Building With Ecosystem Partners</h3>
+              <div className="flex flex-wrap justify-center gap-6 md:gap-12 opacity-60">
+                {["ETHEREUM", "POLYGON", "APTOS", "SOLANA", "OPTIMISM", "ARBITRUM"].map((p, i) => (
+                  <div key={i} className="group relative px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-default">
+                    <span className="text-sm md:text-lg font-bold font-orbitron text-gray-400 group-hover:text-white transition-colors">{p}</span>
+                    <div className="absolute inset-0 border border-white/0 group-hover:border-primary/30 rounded-lg transition-colors duration-500"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 9. Pre-Launch Status */}
+          <section className="bg-primary/5 border-t border-primary/10 py-20 pb-40">
+            <div className="container mx-auto px-6 text-center">
+              <div className="inline-block px-6 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary font-bold tracking-widest mb-8">
+                🚀 LAUNCHING Q1 2025
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div className="p-6 border border-white/10 rounded-xl bg-black/40">
+                  <div className="text-5xl font-orbitron font-bold text-white mb-2">500+</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wider">Waitlist Applications</div>
+                </div>
+                <div className="p-6 border border-white/10 rounded-xl bg-black/40">
+                  <div className="text-5xl font-orbitron font-bold text-white mb-2">15+</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wider">Partner Protocols in Pipeline</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </ScrollExpandMedia>
 
       <Footer />
     </div>

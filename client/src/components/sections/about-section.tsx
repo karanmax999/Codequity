@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 
 export default function AboutSection() {
   const highlights = [
@@ -25,8 +26,9 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-card to-background" data-testid="about-section">
-      <div className="container mx-auto px-6">
+    <section id="about" className="relative py-20 bg-gradient-to-b from-card to-background overflow-hidden" data-testid="about-section">
+      <DottedSurface className="absolute inset-0" />
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -54,7 +56,7 @@ export default function AboutSection() {
               {highlights.map((highlight, index) => (
                 <motion.div
                   key={highlight.title}
-                  className="neon-border rounded-lg p-4 bg-card"
+                  className="neon-border rounded-lg p-4 bg-card/50 backdrop-blur-sm"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -84,7 +86,7 @@ export default function AboutSection() {
               data-testid="about-hero-image"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl"></div>
-            
+
             {/* Floating Stats */}
             <motion.div
               className="absolute top-6 right-6 bg-card/90 backdrop-blur rounded-lg p-4 neon-border"

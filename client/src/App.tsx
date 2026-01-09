@@ -18,6 +18,7 @@ import Apply from "@/pages/apply";
 import Portfolio from "@/pages/portfolio";
 import Partners from "@/pages/partners";
 import Portal from "@/pages/portal";
+import { ThemeProvider } from "next-themes";
 
 function Router() {
   useScrollTop();
@@ -48,17 +49,19 @@ function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
+    <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
 
-        {!loadingComplete && (
-          <VideoPreloader onLoadingComplete={handleLoadingComplete} />
-        )}
+          {!loadingComplete && (
+            <VideoPreloader onLoadingComplete={handleLoadingComplete} />
+          )}
 
-        {loadingComplete && <Router />}
-      </TooltipProvider>
-    </QueryClientProvider>
+          {loadingComplete && <Router />}
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
