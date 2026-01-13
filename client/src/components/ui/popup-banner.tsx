@@ -5,24 +5,38 @@ import { Button } from "@/components/ui/button";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function PopupBanner() {
+interface PopupBannerProps {
+    isOpen?: boolean;
+    onClose?: () => void;
+}
+
+export default function PopupBanner({ isOpen, onClose }: PopupBannerProps) {
     const [isVisible, setIsVisible] = useState(false);
     const bannerRef = useRef<HTMLDivElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
 
-    // Trigger popup after a delay, ONLY if not shown before
+    // Sync internal state with controlled prop
     useEffect(() => {
-        const hasSeenPopup = localStorage.getItem("codequity_popup_seen");
-
-        if (!hasSeenPopup) {
-            const timer = setTimeout(() => {
-                setIsVisible(true);
-                localStorage.setItem("codequity_popup_seen", "true");
-            }, 2000); // 2 second delay
-
-            return () => clearTimeout(timer);
+        if (isOpen !== undefined) {
+            setIsVisible(isOpen);
         }
-    }, []);
+    }, [isOpen]);
+
+    // Auto-trigger logic (only if not controlled)
+    useEffect(() => {
+        if (isOpen === undefined) {
+            const hasSeenPopup = localStorage.getItem("codequity_popup_seen");
+
+            if (!hasSeenPopup) {
+                const timer = setTimeout(() => {
+                    setIsVisible(true);
+                    localStorage.setItem("codequity_popup_seen", "true");
+                }, 2000); // 2 second delay
+
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isOpen]);
 
     useEffect(() => {
         if (isVisible && bannerRef.current) {
@@ -89,7 +103,10 @@ export default function PopupBanner() {
             scale: 0.8,
             opacity: 0,
             duration: 0.4,
-            onComplete: () => setIsVisible(false)
+            onComplete: () => {
+                setIsVisible(false);
+                if (onClose) onClose();
+            }
         });
         gsap.to(".popup-backdrop", { opacity: 0, duration: 0.4 });
     };

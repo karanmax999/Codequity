@@ -3,6 +3,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
+import PopupBanner from "@/components/ui/popup-banner";
 
 interface NavItem {
   label: string;
@@ -35,6 +36,7 @@ const navLinks: NavItem[] = [
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showTelegramPopup, setShowTelegramPopup] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
   const [location] = useLocation();
@@ -156,19 +158,19 @@ export default function Navigation() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             {/* Portal Text Link */}
-            <Link href="/portal">
+            <Link href="/program/initiative">
               <span className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors">
                 Portal
               </span>
             </Link>
 
-            <a href="https://linktr.ee/Codequity_Organisation" target="_blank" rel="noopener noreferrer">
-              <button
-                className="hidden lg:flex items-center px-8 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold font-orbitron uppercase tracking-wider text-sm skew-x-[-10deg] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-              >
-                <div className="skew-x-[10deg]">Join</div>
-              </button>
-            </a>
+            {/* Button triggers Popup instead of link */}
+            <button
+              onClick={() => setShowTelegramPopup(true)}
+              className="hidden lg:flex items-center px-8 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold font-orbitron uppercase tracking-wider text-sm skew-x-[-10deg] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+            >
+              <div className="skew-x-[10deg]">Join</div>
+            </button>
 
             {/* Mobile Toggle */}
             <button
@@ -250,24 +252,29 @@ export default function Navigation() {
                   </div>
                 ))}
 
-                <Link href="/portal">
+                <Link href="/program/initiative">
                   <div onClick={() => setIsOpen(false)} className="py-4 text-xl font-orbitron font-bold uppercase tracking-wider border-b border-white/10">
                     PORTAL
                   </div>
                 </Link>
 
                 <div className="pt-8">
-                  <a href="https://linktr.ee/Codequity_Organisation" target="_blank" rel="noopener noreferrer">
-                    <button className="w-full py-4 bg-white text-[#4338ca] font-black font-orbitron uppercase tracking-widest hover:bg-gray-100 transition-all rounded-sm text-lg">
-                      Join Now
-                    </button>
-                  </a>
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      setShowTelegramPopup(true);
+                    }}
+                    className="w-full py-4 bg-white text-[#4338ca] font-black font-orbitron uppercase tracking-widest hover:bg-gray-100 transition-all rounded-sm text-lg"
+                  >
+                    Join Now
+                  </button>
                 </div>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+      <PopupBanner isOpen={showTelegramPopup} onClose={() => setShowTelegramPopup(false)} />
     </>
   );
 }
