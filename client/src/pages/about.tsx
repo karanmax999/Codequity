@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "wouter";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/ui/navigation";
@@ -9,7 +10,10 @@ import {
   CheckCircle, XCircle
 } from "lucide-react";
 import karanImage from "../assets/founder.jpg";
+import adityaImage from "../assets/aditya.png";
+import aryanImage from "../assets/aryan.png";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
+
 import codequityCardVideo from "../assets/codequity_card.mp4";
 import transitionCityImage from "../assets/transition-city.jpg";
 
@@ -89,7 +93,28 @@ export default function About() {
       type: "Builder",
       bio: "10+ Web3 hackathon wins. Ships smart contracts at 2 AM. Built VaultBTC & AI Auditor. CodeQuity is the community I wish existed when I started.",
       stats: { solidity: 98, architecture: 90, community: 95 },
-      color: "from-purple-500 to-pink-500"
+      color: "from-purple-500 to-pink-500",
+      link: "/founder"
+    },
+    {
+      name: "ARYAN",
+      role: "Cofounder & CTO",
+      image: aryanImage,
+      type: "Builder",
+      bio: "Mastermind behind the core infrastructure. Scales distributed systems and optimizes gas costs. Believes in code as the ultimate truth.",
+      stats: { rust: 95, systems: 98, security: 92 },
+      color: "from-blue-500 to-cyan-500",
+      link: null
+    },
+    {
+      name: "ADITYA",
+      role: "Head of Growth & Consultant",
+      image: adityaImage,
+      type: "Growth",
+      bio: "Connecting the dots between protocols and people. Strategies that turn users into evangelists. Building the ecosystem one partnership at a time.",
+      stats: { strategy: 96, network: 94, analytics: 90 },
+      color: "from-green-500 to-emerald-500",
+      link: null
     }
   ];
 
@@ -142,36 +167,7 @@ export default function About() {
             </div>
           </section>
 
-          {/* 2. Editorial Journey Map */}
-          <section className="bg-black border-t border-white/10 pt-32">
-            <div className="container mx-auto px-6">
-              <div className="max-w-4xl mx-auto text-center mb-24 fade-up">
-                <span className="text-sm font-bold tracking-widest text-primary uppercase mb-6 block">// THE PATH</span>
-                <h2 className="text-5xl font-bold text-white mb-6">How It Works</h2>
-                <p className="text-gray-400 text-lg">A structured sprint from ideation to production.</p>
-              </div>
 
-              <div className="journey-container relative max-w-5xl mx-auto">
-                <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-px bg-white/10"></div>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 relative z-10">
-                  {journeySteps.map((step, idx) => (
-                    <div key={idx} className="fade-up group">
-                      <div className="mb-10 flex flex-col items-center lg:items-start">
-                        <div className="w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center text-white font-bold mb-8 group-hover:border-primary transition-colors">
-                          0{idx + 1}
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                        <p className="text-gray-400 text-base leading-relaxed mb-8">{step.desc}</p>
-                        <Button variant="link" className="text-primary p-0 h-auto font-bold tracking-widest uppercase text-xs group-hover:translate-x-2 transition-transform">
-                          {step.ctas[0]} →
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* 3. Editorial Mission & Vision */}
           <section className="bg-black">
@@ -309,39 +305,49 @@ export default function About() {
               </div>
 
               <div className="grid grid-cols-1 gap-32 max-w-6xl mx-auto">
-                {team.map((member, i) => (
-                  <div key={i} className="flex flex-col lg:flex-row gap-16 items-start fade-up border-b border-white/10 pb-20 last:border-0">
-                    <div className="relative w-full lg:w-[450px] aspect-[4/5] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-700"
-                      />
-                    </div>
-                    <div className="flex-1 pt-4">
-                      <div className="mb-12">
-                        <h3 className="text-5xl font-bold text-white mb-2 uppercase tracking-tight">{member.name}</h3>
-                        <div className="text-primary text-sm font-bold tracking-widest uppercase">{member.role}</div>
+                {team.map((member, i) => {
+                  const CardContent = (
+                    <div className={`flex flex-col lg:flex-row gap-16 items-start fade-up border-b border-white/10 pb-20 last:border-0 group ${member.link ? "cursor-pointer hover:bg-white/5 transition-colors p-6 rounded-xl -mx-6" : ""}`}>
+                      <div className="relative w-full lg:w-[450px] aspect-[4/5] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img
+                          src={member.image}
+                          alt={member.name}
+                          className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                        />
                       </div>
-                      <div className="text-gray-400 text-xl leading-relaxed mb-12">
-                        <p>"{member.bio}"</p>
-                      </div>
-                      <div className="flex gap-8 border-t border-white/10 pt-8 mt-12">
-                        <div className="flex flex-col">
-                          <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Status</span>
-                          <span className="text-white text-sm flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            Available
-                          </span>
+                      <div className="flex-1 pt-4">
+                        <div className="mb-12">
+                          <h3 className={`text-5xl font-bold text-white mb-2 uppercase tracking-tight ${member.link ? "group-hover:text-primary" : ""} transition-colors`}>{member.name}</h3>
+                          <div className="text-primary text-sm font-bold tracking-widest uppercase">{member.role}</div>
                         </div>
-                        <div className="flex flex-col">
-                          <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Focus</span>
-                          <span className="text-white text-sm uppercase tracking-wider">{member.type}</span>
+                        <div className="text-gray-400 text-xl leading-relaxed mb-12">
+                          <p>"{member.bio}"</p>
+                        </div>
+                        <div className="flex gap-8 border-t border-white/10 pt-8 mt-12">
+                          <div className="flex flex-col">
+                            <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Status</span>
+                            <span className="text-white text-sm flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                              Available
+                            </span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-gray-600 text-[10px] uppercase font-bold tracking-widest mb-1">Focus</span>
+                            <span className="text-white text-sm uppercase tracking-wider">{member.type}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+
+                  return member.link ? (
+                    <Link key={i} href={member.link}>
+                      {CardContent}
+                    </Link>
+                  ) : (
+                    <div key={i}>{CardContent}</div>
+                  );
+                })}
               </div>
             </div>
           </section>

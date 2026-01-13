@@ -18,6 +18,8 @@ import Apply from "@/pages/apply";
 import Portfolio from "@/pages/portfolio";
 import Partners from "@/pages/partners";
 import Portal from "@/pages/portal";
+import Founder from "@/pages/founder";
+
 import { ThemeProvider } from "next-themes";
 
 function Router() {
@@ -36,6 +38,8 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       <Route path="/portal" component={Portal} />
+      <Route path="/founder" component={Founder} />
+
       <Route component={NotFound} />
     </Switch>
   );
