@@ -312,6 +312,20 @@ export default function Events() {
               <TabsTrigger value="workshops" className="text-sm">Workshops</TabsTrigger>
             </TabsList>
 
+            {/* Luma Calendar Embed */}
+            <div className="mb-16">
+              <iframe
+                src="https://luma.com/embed/calendar/cal-HLmaVtbFChuV8sJ/events"
+                width="100%"
+                height="650"
+                frameBorder="0"
+                style={{ border: "1px solid #bfcbda88", borderRadius: "12px", background: "white" }}
+                allowFullScreen={true}
+                aria-hidden="false"
+                tabIndex={0}
+              ></iframe>
+            </div>
+
             <TabsContent value="upcoming" className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {upcomingEvents.map((event) => (
@@ -330,8 +344,8 @@ export default function Events() {
 
                       <div className="absolute top-4 left-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${event.status === 'Registration Open' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
-                            event.status === 'Invite Only' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
-                              'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                          event.status === 'Invite Only' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
+                            'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                           }`}>
                           {event.status}
                         </span>

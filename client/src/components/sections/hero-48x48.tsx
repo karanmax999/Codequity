@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 import { ShaderAnimation } from "@/components/ui/shader-animation";
+import { MetalButton } from "@/components/ui/liquid-glass-button";
+import { MissionControl } from "@/components/ui/mission-control";
 
 function currentWeek(startDate: string) {
   const start = new Date(startDate);
@@ -15,6 +17,7 @@ function currentWeek(startDate: string) {
 export default function Hero48x48() {
   const week = useMemo(() => currentWeek("2026-02-18"), []);
   const [animatedWeek, setAnimatedWeek] = useState(week);
+  const [showMissionControl, setShowMissionControl] = useState(false);
 
   useEffect(() => {
     let raf: number | null = null;
@@ -87,9 +90,14 @@ export default function Hero48x48() {
               <span className="relative z-10">APPLY FOR COHORT 1</span>
               <div className="absolute inset-0 bg-purple-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
             </a>
-            <a href="#curriculum" className="w-full sm:w-auto px-10 py-4 border border-white/20 hover:border-white text-white font-bold text-lg rounded-none transition-all hover:bg-white/5">
-              THE ROADMAP ↓
-            </a>
+
+            <MetalButton
+              onClick={() => setShowMissionControl(true)}
+              variant="default"
+              className="w-full sm:w-auto px-10 py-6 min-w-[200px]"
+            >
+              MISSION CONTROL ↓
+            </MetalButton>
           </motion.div>
 
           <motion.div
@@ -126,6 +134,11 @@ export default function Hero48x48() {
           </motion.div>
         </div>
       </div>
+
+      <MissionControl
+        isOpen={showMissionControl}
+        onClose={() => setShowMissionControl(false)}
+      />
     </section>
   );
 }

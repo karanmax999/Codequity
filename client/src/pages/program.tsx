@@ -4,6 +4,7 @@ import Footer from "@/components/ui/footer";
 import { motion } from "framer-motion";
 import { Rocket, Shield, Zap, Users, Code, Trophy, Target, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PixelCanvas } from "@/components/ui/pixel-canvas";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -227,13 +228,23 @@ export default function Program() {
                         <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-500 via-blue-500 to-purple-500 -z-10 opacity-30 dashed-line" />
 
                         {milestones.map((item, index) => (
-                            <div key={index} className="vibe-fade group relative">
+                            <div key={index} className="vibe-fade group relative overflow-hidden">
                                 <div className={`absolute inset-0 ${item.bg} blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500`} />
-                                <div className="bg-black border border-white/10 p-8 rounded-3xl h-full hover:border-white/30 transition-all duration-300 hover:-translate-y-2">
-                                    <div className={`w-16 h-16 rounded-2xl ${item.bg} border ${item.border} flex items-center justify-center mb-6 mx-auto`}>
+                                <div className="bg-black border border-white/10 p-8 rounded-3xl h-full hover:border-white/30 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
+                                    <PixelCanvas
+                                        gap={8}
+                                        speed={20}
+                                        colors={
+                                            index === 0 ? ["#fef3c7", "#fde68a", "#fbbf24"] :
+                                                index === 1 ? ["#dbeafe", "#93c5fd", "#3b82f6"] :
+                                                    ["#f3e8ff", "#d8b4fe", "#a855f7"]
+                                        }
+                                        variant="icon"
+                                    />
+                                    <div className={`w-16 h-16 rounded-2xl ${item.bg} border ${item.border} flex items-center justify-center mb-6 mx-auto relative z-10`}>
                                         <item.icon className={`w-8 h-8 ${item.color}`} />
                                     </div>
-                                    <div className="text-center">
+                                    <div className="text-center relative z-10">
                                         <h3 className="text-3xl font-black font-orbitron mb-2 uppercase">{item.title}</h3>
                                         <div className={`text-xs font-bold uppercase tracking-widest mb-4 ${item.color}`}>{item.subtitle}</div>
                                         <p className="text-gray-400 leading-relaxed font-medium">
@@ -256,10 +267,16 @@ export default function Program() {
 
                     <div className="loot-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {loot.map((item, i) => (
-                            <div key={i} className="loot-card p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:border-purple-500/30">
-                                <item.icon className="w-12 h-12 text-white/50 mb-6 group-hover:text-purple-400 transition-colors" />
-                                <h3 className="text-2xl font-bold mb-3 font-orbitron">{item.title}</h3>
-                                <p className="text-muted-foreground text-sm font-medium leading-relaxed">{item.desc}</p>
+                            <div key={i} className="loot-card p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:border-purple-500/30 relative overflow-hidden">
+                                <PixelCanvas
+                                    gap={10}
+                                    speed={25}
+                                    colors={["#f3e8ff", "#d8b4fe", "#a855f7"]}
+                                    variant="default"
+                                />
+                                <item.icon className="w-12 h-12 text-white/50 mb-6 group-hover:text-purple-400 transition-colors relative z-10" />
+                                <h3 className="text-2xl font-bold mb-3 font-orbitron relative z-10">{item.title}</h3>
+                                <p className="text-muted-foreground text-sm font-medium leading-relaxed relative z-10">{item.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -267,7 +284,7 @@ export default function Program() {
                     <div className="mt-20 text-center">
                         <p className="text-2xl font-bold mb-8 text-white/80">Ready to build the future?</p>
                         <Button asChild className="h-14 px-12 text-lg font-bold bg-primary text-black hover:bg-primary/90 rounded-full animate-pulse shadow-[0_0_20px_rgba(var(--primary),0.5)]">
-                            <a href="/apply">Join the Guild</a>
+                            <a href="https://discord.gg/AZPDRhpG" target="_blank" rel="noopener noreferrer">Join the Guild</a>
                         </Button>
                     </div>
                 </div>

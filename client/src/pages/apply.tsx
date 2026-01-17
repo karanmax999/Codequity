@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ChevronRight, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
+import { supabase } from "@/lib/supabase";
 
 // Validation Schemas
 const step1Schema = z.object({
@@ -53,15 +54,39 @@ export default function Apply() {
     };
 
     const onSubmit = async (data: z.infer<typeof step3Schema>) => {
+        if (!supabase) {
+            alert("Database connection not configured. Please set your VITE_SUPABASE environment variables.");
+            return;
+        }
+
         setIsSubmitting(true);
         const finalData = { ...formData, ...data };
 
-        // Simulate API call
-        console.log("Submitting Application:", finalData);
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        try {
+            const { error } = await supabase
+                .from('applications')
+                .insert([{
+                    team_name: finalData.teamName,
+                    lead_name: finalData.leadName,
+                    email: finalData.email,
+                    github: finalData.github,
+                    project_name: finalData.projectName,
+                    description: finalData.description,
+                    category: finalData.category,
+                    stage: finalData.stage,
+                    video_url: finalData.videoUrl,
+                    motivation: finalData.motivation
+                }]);
 
-        setIsSubmitting(false);
-        setIsSuccess(true);
+            if (error) throw error;
+
+            setIsSuccess(true);
+        } catch (error: any) {
+            console.error("Submission error:", error);
+            alert("Failed to submit application. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const steps = [
