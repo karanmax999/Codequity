@@ -19,7 +19,7 @@ export default function ContactSection() {
       handle: "Join Server",
       icon: "fab fa-discord",
       color: "text-indigo-500",
-      url: "https://discord.gg/B8hgSk62"
+      url: "https://discord.gg/XnhwAAGe"
     },
     {
       name: "Telegram",
@@ -30,10 +30,10 @@ export default function ContactSection() {
     },
     {
       name: "Twitter/X",
-      handle: "@CodeQuity",
+      handle: "@CodeQuityOrg",
       icon: "fab fa-twitter",
       color: "text-blue-400",
-      url: "https://x.com/CodeQuity"
+      url: "https://x.com/CodequityOrg"
     },
     {
       name: "LinkedIn",
@@ -47,7 +47,7 @@ export default function ContactSection() {
       handle: "Join Group",
       icon: "fab fa-whatsapp",
       color: "text-green-500",
-      url: "https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich"
+      url: "https://chat.whatsapp.com/CT8hlabuNkSJ9X5HyYvdd7"
     },
     {
       name: "Instagram",
@@ -166,7 +166,7 @@ export default function ContactSection() {
                 className="w-full border-primary text-primary py-4 px-6 font-orbitron font-semibold hover:bg-primary/10 neon-border"
                 data-testid="button-join-whatsapp"
               >
-                <a href="https://chat.whatsapp.com/HgPHH53f1v9HV75YOscich" target="_blank" rel="noopener noreferrer">
+                <a href="https://chat.whatsapp.com/CT8hlabuNkSJ9X5HyYvdd7" target="_blank" rel="noopener noreferrer">
                   Join Builder Guild
                 </a>
               </Button>

@@ -195,7 +195,7 @@ export default function Community() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Priority WhatsApp Card */}
             <a
-              href="https://chat.whatsapp.com/G5g223232323"
+              href="https://chat.whatsapp.com/CT8hlabuNkSJ9X5HyYvdd7"
               target="_blank"
               rel="noopener noreferrer"
               className="md:col-span-2 group relative overflow-hidden rounded-2xl border border-green-500/30 bg-green-950/10 hover:bg-green-950/20 transition-all duration-300 hover:shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]"
@@ -231,8 +231,8 @@ export default function Community() {
             <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { name: "Telegram", icon: Zap, color: "text-blue-400", bg: "bg-blue-950/20", border: "border-blue-500/20", link: "https://t.me/codequiity" },
-                { name: "Twitter", icon: Globe, color: "text-sky-400", bg: "bg-sky-950/20", border: "border-sky-500/20", link: "https://x.com/CodeQuity" },
-                { name: "Discord", icon: Code, color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "https://discord.gg/B8hgSk62" },
+                { name: "Twitter", icon: Globe, color: "text-sky-400", bg: "bg-sky-950/20", border: "border-sky-500/20", link: "https://x.com/CodequityOrg" },
+                { name: "Discord", icon: Code, color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "https://discord.gg/XnhwAAGe" },
                 { name: "LinkedIn", icon: Users, color: "text-blue-500", bg: "bg-blue-900/20", border: "border-blue-600/20", link: "https://linkedin.com/company/codequity" },
               ].map((social) => (
                 <a

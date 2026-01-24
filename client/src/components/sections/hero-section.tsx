@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Code, Rocket, Users, Zap, Globe } from "lucide-react";
-import codeQuityLogo from "@assets/codequity-logo.jpg";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -13,7 +12,7 @@ const AnimatedText = ({ text, className, delay = 0 }: { text: string, className?
   return (
     <span className={cn("inline-block overflow-hidden", className)}>
       {text.split(" ").map((word, i) => (
-        <span key={i} className="inline-block mr-1.5 hero-word opacity-0 translate-y-8">
+        <span key={i} className="inline-block mr-1.5 hero-word">
           {word}
         </span>
       ))}
@@ -23,7 +22,6 @@ const AnimatedText = ({ text, className, delay = 0 }: { text: string, className?
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   // Refs for parallax layers
   const stars1Ref = useRef<HTMLDivElement>(null);
@@ -41,31 +39,15 @@ export default function HeroSection() {
     const ctx = gsap.context(() => {
       // Wait for elements to mount then animate
       gsap.delayedCall(0.1, () => {
-        // Advanced logo entrance animation
         const tl = gsap.timeline();
 
-        // Hero text stagger (words)
-        tl.to(".logo-brackets", {
-          rotationY: 0,
-          scale: 1,
-          opacity: 1,
-          duration: 1.5,
-          ease: "elastic.out(1, 0.5)"
+        tl.from(".hero-word", {
+          y: 30,
+          opacity: 0,
+          stagger: 0.05,
+          duration: 0.8,
+          ease: "back.out(1.7)"
         })
-          .to(".logo-text", {
-            y: 0,
-            opacity: 1,
-            letterSpacing: "0px",
-            duration: 1.2,
-            ease: "power4.out"
-          }, "-=0.8")
-          .to(".hero-word", {
-            y: 0,
-            opacity: 1,
-            stagger: 0.05,
-            duration: 0.8,
-            ease: "back.out(1.7)"
-          }, "-=0.5")
           .to(".hero-description", {
             y: 0,
             opacity: 1,
@@ -115,17 +97,6 @@ export default function HeroSection() {
           ease: "sine.inOut",
         });
 
-        // Logo breathing effect
-        gsap.delayedCall(2, () => {
-          gsap.to(".logo-brackets", {
-            scale: 1.05,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-          });
-        });
-
         // Multi-Layer Parallax on Scroll
         // Layer 1: Slowest
         gsap.to(stars1Ref.current, {
@@ -160,18 +131,6 @@ export default function HeroSection() {
             start: "top top",
             end: "bottom top",
             scrub: true
-          }
-        });
-
-        // Logo rotation on scroll
-        gsap.to(".hero-logo-img", {
-          rotate: 360,
-          scale: 0.8,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1
           }
         });
 
@@ -238,67 +197,47 @@ export default function HeroSection() {
         ))}
       </div>
 
-      <div className="container mx-auto px-6 text-center relative z-10 flex-grow flex flex-col justify-center">
-        {/* Enhanced Animated Logo */}
-        <div
-          ref={logoRef}
-          className="mb-8"
-          data-testid="animated-logo"
-        >
-          <div className="logo-brackets text-8xl md:text-9xl font-orbitron font-black gradient-text mb-4 glow-text drop-shadow-2xl inline-block perspective-1000">
-            <img
-              src={codeQuityLogo}
-              alt="CodeQuity Logo"
-              className="hero-logo-img w-32 h-32 md:w-40 md:h-40 object-contain mx-auto"
-            />
+      <div className="container mx-auto px-6 relative z-10 flex-grow flex flex-col justify-center">
+        <div ref={contentRef} data-testid="hero-content" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="col-span-1 lg:col-span-8 text-left">
+            <h1 className="hero-statement text-6xl md:text-8xl font-orbitron font-black leading-[0.9] tracking-tighter uppercase text-white mb-8">
+              <AnimatedText
+                text="we  back  bold  entrepreneurs  building  the  next  internet"
+                className="text-white bg-transparent"
+              />
+            </h1>
+
+            <h2 className="hero-description text-xl md:text-3xl text-gray-400 font-medium mb-12 max-w-2xl leading-relaxed opacity-0">
+              From Hackathon Repo to{" "}
+              <span className="text-white font-semibold">On-Chain Revenue</span>
+            </h2>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-start items-stretch sm:items-center hero-buttons opacity-0">
+              <Button
+                asChild
+                className="h-auto py-6 px-8 bg-white text-black hover:bg-white/90 font-orbitron uppercase tracking-wider text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
+              >
+                <a href="/apply" className="flex items-center gap-2 skew-x-[10deg]">
+                  Start Building
+                </a>
+              </Button>
+
+              <Button
+                asChild
+                variant="outline"
+                className="h-auto py-6 px-8 border-white/20 text-white hover:bg-white/10 font-orbitron uppercase tracking-wider text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
+                data-testid="button-community"
+              >
+                <a href="/community" className="flex items-center gap-2 skew-x-[10deg]">
+                  Community
+                  <Users className="w-4 h-4" />
+                </a>
+              </Button>
+            </div>
           </div>
-          <h1 className="logo-text text-4xl md:text-6xl font-orbitron font-bold mb-4">
-            CODE<span className="gradient-text">QUITY</span>
-          </h1>
-        </div>
 
-        {/* Enhanced Hero Content */}
-        <div ref={contentRef} data-testid="hero-content">
-          <div className="hero-subtitle text-xl md:text-2xl text-muted-foreground mb-4 max-w-4xl mx-auto font-medium">
-            <AnimatedText text="India's Web3 Startup Foundry" />
-          </div>
-
-          <h2 className="hero-description text-2xl md:text-3xl font-medium mb-10 max-w-4xl mx-auto leading-relaxed translate-y-8 opacity-0">
-            From Hackathon Repo to{" "}
-            <span className="gradient-text font-semibold">On-Chain Revenue</span>
-          </h2>
-
-          <div className="flex flex-col md:flex-row gap-6 justify-center items-stretch md:items-center max-w-2xl mx-auto mb-16">
-            <Button
-              asChild
-              className="hero-buttons flex-1 h-auto py-4 bg-primary text-primary-foreground hover:bg-primary/90 neon-border animate-glow group relative overflow-hidden opacity-0 scale-90"
-              data-testid="button-apply-cohort"
-            >
-              <a href="/apply" className="flex flex-col items-center gap-1">
-                <div className="flex items-center gap-2 font-bold text-lg">
-                  <Rocket className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-                  Apply for Cohort 3
-                </div>
-                <span className="text-xs opacity-90 font-light tracking-wide">Limited Spots Available</span>
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              </a>
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              className="hero-buttons flex-1 h-auto py-4 border-primary/50 text-primary hover:bg-primary/5 hover:border-primary neon-border group relative overflow-hidden opacity-0 scale-90"
-              data-testid="button-watch-demo"
-            >
-              <a href="https://www.youtube.com/@CodeQuity" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1">
-                <div className="flex items-center gap-2 font-bold text-lg">
-                  <Globe className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  Watch Demo Day
-                </div>
-                <span className="text-xs text-muted-foreground group-hover:text-primary/90 font-light tracking-wide">See what we ship</span>
-              </a>
-            </Button>
-          </div>
+          {/* Right column for spacing/visuals (empty for now to show background) */}
+          <div className="col-span-1 lg:col-span-4 h-full min-h-[40vh]"></div>
         </div>
       </div>
 

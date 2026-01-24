@@ -19,10 +19,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Twitter, href: "https://x.com/CodeQuity", label: "Twitter" },
+    { icon: Twitter, href: "https://x.com/CodequityOrg", label: "Twitter" },
     { icon: Linkedin, href: "https://linkedin.com/company/codequity", label: "LinkedIn" },
     { icon: Send, href: "https://t.me/codequiity", label: "Telegram" },
-    { icon: DiscordIcon, href: "https://discord.gg/B8hgSk62", label: "Discord" },
+    { icon: DiscordIcon, href: "https://discord.gg/XnhwAAGe", label: "Discord" },
     { icon: Mail, href: "mailto:codequitycommunity@gmail.com", label: "Email" }
   ];
 
@@ -30,11 +30,11 @@ export default function Footer() {
     {
       title: "Services",
       links: [
-        { label: "Smart Contract Audit", href: "#" },
-        { label: "Blockchain Protocol Audit", href: "#" },
-        { label: "dApp Security", href: "#" },
-        { label: "Penetration Testing", href: "#" },
-        { label: "Tokenomics Advisory", href: "#" },
+        { label: "Smart Contract Audit", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Blockchain Protocol Audit", href: "https://discord.gg/XnhwAAGe" },
+        { label: "dApp Security", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Penetration Testing", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Tokenomics Advisory", href: "https://discord.gg/XnhwAAGe" },
       ]
     },
     {
@@ -50,11 +50,11 @@ export default function Footer() {
     {
       title: "Resources",
       links: [
-        { label: "Blog", href: "#" },
-        { label: "Whitepaper", href: "#" },
-        { label: "Bug Bounty", href: "#" },
-        { label: "Documentation", href: "#" },
-        { label: "Media Kit", href: "#" },
+        { label: "Blog", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Whitepaper", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Bug Bounty", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Documentation", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Media Kit", href: "https://discord.gg/XnhwAAGe" },
       ]
     }
   ];

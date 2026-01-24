@@ -6,7 +6,6 @@ import EventsSection from "@/components/sections/events-section";
 import BuilderGuildSection from "@/components/sections/builder-guild-section";
 import AboutSection from "@/components/sections/about-section";
 import HowItWorksSection from "@/components/sections/how-it-works-section";
-import FAQSection from "@/components/sections/faq-section";
 import ContactSection from "@/components/sections/contact-section";
 import Footer from "@/components/ui/footer";
 import transitionCity from "@/assets/transition-city.jpg";
@@ -59,7 +58,6 @@ export default function Home() {
       <BuilderGuildSection />
       <AboutSection />
       <HowItWorksSection />
-      <FAQSection />
       <ContactSection />
       <Footer />
     </div>

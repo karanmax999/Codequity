@@ -12,9 +12,10 @@ interface NavItem {
 }
 
 const navLinks: NavItem[] = [
-  { label: "Home", href: "/" },
+  { label: "about", href: "/about" },
+  { label: "portfolio", href: "/portfolio" },
   {
-    label: "Program",
+    label: "program",
     children: [
       { label: "Program Details", href: "/program" },
       { label: "Initiative", href: "/program/initiative" },
@@ -22,16 +23,14 @@ const navLinks: NavItem[] = [
     ],
   },
   {
-    label: "Ecosystem",
+    label: "ecosystem",
     children: [
-      { label: "Portfolio", href: "/portfolio" },
       { label: "Partners", href: "/partners" },
       { label: "Community", href: "/community" },
       { label: "Events", href: "/events" },
     ],
   },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "contact", href: "/contact" },
 ];
 
 export default function Navigation() {
@@ -105,80 +104,83 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <div
-                key={link.label}
-                onMouseEnter={() => setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
-                className="relative h-full flex items-center"
-              >
-                {link.children ? (
-                  <button className="flex items-center gap-1 text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-white transition-colors py-8">
-                    <span className={activeDropdown === link.label ? "text-primary" : ""}>{link.label}</span>
-                    <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === link.label ? "rotate-180 text-primary" : ""}`} />
-                  </button>
-                ) : (
-                  <Link href={link.href!}>
-                    <div className={`cursor-pointer text-sm font-medium uppercase tracking-wider transition-colors hover:text-white ${location === link.href ? 'text-primary' : 'text-gray-300'}`}>
-                      {link.label}
-                    </div>
-                  </Link>
-                )}
-
-                {/* Desktop Dropdown */}
-                <AnimatePresence>
-                  {link.children && activeDropdown === link.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-[80%] -left-4 w-56 bg-[#0a0a1a] border border-white/10 rounded-sm shadow-xl overflow-hidden py-2"
-                    >
-                      <div className="flex flex-col">
-                        {link.children.map((child) => (
-                          <Link key={child.label} href={child.href!}>
-                            <div className="px-5 py-3 hover:bg-white/5 transition-colors cursor-pointer group/item flex items-center justify-between border-l-2 border-transparent hover:border-primary">
-                              <span className={`text-sm font-medium ${location === child.href ? 'text-primary' : 'text-gray-400 group-hover/item:text-white'}`}>
-                                {child.label}
-                              </span>
-                            </div>
-                          </Link>
-                        ))}
+          {/* Right Group (Links + Actions) */}
+          <div className="flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <div
+                  key={link.label}
+                  onMouseEnter={() => setActiveDropdown(link.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                  className="relative h-full flex items-center"
+                >
+                  {link.children ? (
+                    <button className="flex items-center gap-1 text-sm font-medium tracking-wider text-white hover:text-primary transition-colors py-8 drop-shadow-sm">
+                      <span className={activeDropdown === link.label ? "text-primary" : ""}>{link.label}</span>
+                      <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === link.label ? "rotate-180 text-primary" : ""}`} />
+                    </button>
+                  ) : (
+                    <Link href={link.href!}>
+                      <div className={`cursor-pointer text-sm font-medium tracking-wider transition-colors hover:text-primary drop-shadow-sm ${location === link.href ? 'text-primary' : 'text-white'}`}>
+                        {link.label}
                       </div>
-                    </motion.div>
+                    </Link>
                   )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            {/* Portal Text Link */}
-            <Link href="/program/initiative">
-              <span className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors">
-                Portal
-              </span>
-            </Link>
+                  {/* Desktop Dropdown */}
+                  <AnimatePresence>
+                    {link.children && activeDropdown === link.label && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-[80%] -left-4 w-56 bg-[#0a0a1a] border border-white/10 rounded-sm shadow-xl overflow-hidden py-2"
+                      >
+                        <div className="flex flex-col">
+                          {link.children.map((child) => (
+                            <Link key={child.label} href={child.href!}>
+                              <div className="px-5 py-3 hover:bg-white/5 transition-colors cursor-pointer group/item flex items-center justify-between border-l-2 border-transparent hover:border-primary">
+                                <span className={`text-sm font-medium ${location === child.href ? 'text-primary' : 'text-gray-400 group-hover/item:text-white'}`}>
+                                  {child.label}
+                                </span>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
 
-            {/* Button triggers Popup instead of link */}
-            <button
-              onClick={() => setShowTelegramPopup(true)}
-              className="hidden lg:flex items-center px-8 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold font-orbitron uppercase tracking-wider text-sm skew-x-[-10deg] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-            >
-              <div className="skew-x-[10deg]">Join</div>
-            </button>
+            {/* Actions */}
+            <div className="flex items-center gap-4">
+              {/* Portal Text Link */}
+              <Link href="/program/initiative">
+                <span className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors">
+                  Portal
+                </span>
+              </Link>
 
-            {/* Mobile Toggle */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden relative w-10 h-10 flex items-center justify-center text-white"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              {/* Button triggers Popup instead of link */}
+              <button
+                onClick={() => setShowTelegramPopup(true)}
+                className="hidden lg:flex items-center px-8 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold font-orbitron uppercase tracking-wider text-sm skew-x-[-10deg] transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+              >
+                <div className="skew-x-[10deg]">Join</div>
+              </button>
+
+              {/* Mobile Toggle */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden relative w-10 h-10 flex items-center justify-center text-white"
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
