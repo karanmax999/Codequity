@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ChevronRight, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
-import { supabase } from "@/lib/supabase";
+import { supabase, isMockClient } from "@/lib/supabase";
 
 // Validation Schemas
 const step1Schema = z.object({
@@ -43,20 +44,52 @@ export default function Apply() {
     const form2 = useForm<z.infer<typeof step2Schema>>({ resolver: zodResolver(step2Schema), defaultValues: formData });
     const form3 = useForm<z.infer<typeof step3Schema>>({ resolver: zodResolver(step3Schema), defaultValues: formData });
 
+    // Load saved data on mount
+    useEffect(() => {
+        const savedData = localStorage.getItem("applyFormData");
+        if (savedData) {
+            try {
+                const parsed = JSON.parse(savedData);
+                setFormData(parsed);
+                // Also update form instances
+                form1.reset(parsed);
+                form2.reset(parsed);
+                form3.reset(parsed);
+            } catch (e) {
+                console.error("Failed to parse saved form data", e);
+            }
+        }
+    }, []);
+
+    // Save data whenever it changes
+    useEffect(() => {
+        localStorage.setItem("applyFormData", JSON.stringify(formData));
+    }, [formData]);
+
     const onNextStep1 = (data: z.infer<typeof step1Schema>) => {
-        setFormData({ ...formData, ...data });
+        const updated = { ...formData, ...data };
+        setFormData(updated);
+        localStorage.setItem("applyFormData", JSON.stringify(updated));
         setStep(2);
+        window.scrollTo(0, 0);
     };
 
     const onNextStep2 = (data: z.infer<typeof step2Schema>) => {
-        setFormData({ ...formData, ...data });
+        const updated = { ...formData, ...data };
+        setFormData(updated);
+        localStorage.setItem("applyFormData", JSON.stringify(updated));
         setStep(3);
+        window.scrollTo(0, 0);
     };
 
     const onSubmit = async (data: z.infer<typeof step3Schema>) => {
-        if (!supabase) {
-            alert("Database connection not configured. Please set your VITE_SUPABASE environment variables.");
-            return;
+        console.log("Submit triggered. isMockClient:", isMockClient);
+        console.log("Env Check - URL:", import.meta.env.VITE_SUPABASE_URL ? "Defined" : "Undefined");
+        console.log("All VITE_ Keys:", Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')));
+
+        if (isMockClient) {
+            console.warn("⚠️ USING MOCK BACKEND. Data will NOT be saved to Supabase.");
+            console.warn("Check your .env file and ensure you have restarted the server.");
         }
 
         setIsSubmitting(true);
@@ -80,6 +113,7 @@ export default function Apply() {
 
             if (error) throw error;
 
+            localStorage.removeItem("applyFormData");
             setIsSuccess(true);
         } catch (error: any) {
             console.error("Submission error:", error);
@@ -117,7 +151,7 @@ export default function Apply() {
                                 <Link href="/">Back Home</Link>
                             </Button>
                             <Button asChild className="bg-primary hover:bg-primary/90 text-black">
-                                <a href="https://discord.gg/codequity" target="_blank" rel="noopener noreferrer">Join Discord</a>
+                                <a href="https://discord.com/invite/XnhwAAGe" target="_blank" rel="noopener noreferrer">Join Discord</a>
                             </Button>
                         </div>
                     </motion.div>
@@ -129,6 +163,11 @@ export default function Apply() {
 
     return (
         <div className="min-h-screen bg-black text-white flex flex-col">
+            <Helmet>
+                <title>Apply for Cohort 3 - CodeQuity</title>
+                <meta name="description" content="Submit your application for CodeQuity's next cohort. Get funding, mentorship, and technical support for your Web3 startup." />
+                <link rel="canonical" href="https://codequity.org/apply" />
+            </Helmet>
             <Navigation />
 
             <div className="flex-1 container mx-auto px-4 pt-32 pb-20 max-w-3xl">
@@ -183,9 +222,11 @@ export default function Apply() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-gray-300">Team Name</label>
+                                        <label htmlFor="teamName" className="text-sm font-medium text-gray-300">Team Name</label>
                                         <input
+                                            id="teamName"
                                             {...form1.register("teamName")}
+                                            autoComplete="organization"
                                             className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                             placeholder="e.g. AlgoRhythm"
                                         />
@@ -193,9 +234,11 @@ export default function Apply() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-gray-300">Team Lead</label>
+                                        <label htmlFor="leadName" className="text-sm font-medium text-gray-300">Team Lead</label>
                                         <input
+                                            id="leadName"
                                             {...form1.register("leadName")}
+                                            autoComplete="name"
                                             className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                             placeholder="Your full name"
                                         />
@@ -204,9 +247,12 @@ export default function Apply() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">Email Address</label>
+                                    <label htmlFor="email" className="text-sm font-medium text-gray-300">Email Address</label>
                                     <input
+                                        id="email"
                                         {...form1.register("email")}
+                                        autoComplete="email"
+                                        type="email"
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                         placeholder="you@example.com"
                                     />
@@ -214,9 +260,11 @@ export default function Apply() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">GitHub Profile / Org</label>
+                                    <label htmlFor="github" className="text-sm font-medium text-gray-300">GitHub Profile / Org</label>
                                     <input
+                                        id="github"
                                         {...form1.register("github")}
+                                        autoComplete="url"
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                         placeholder="github.com/username"
                                     />
@@ -243,8 +291,9 @@ export default function Apply() {
                                 <h2 className="text-2xl font-bold font-orbitron">What are you building?</h2>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">Project Name</label>
+                                    <label htmlFor="projectName" className="text-sm font-medium text-gray-300">Project Name</label>
                                     <input
+                                        id="projectName"
                                         {...form2.register("projectName")}
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                         placeholder="Name of your dApp"
@@ -254,8 +303,9 @@ export default function Apply() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-gray-300">Category</label>
+                                        <label htmlFor="category" className="text-sm font-medium text-gray-300">Category</label>
                                         <select
+                                            id="category"
                                             {...form2.register("category")}
                                             className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white appearance-none"
                                         >
@@ -270,8 +320,9 @@ export default function Apply() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-gray-300">Current Stage</label>
+                                        <label htmlFor="stage" className="text-sm font-medium text-gray-300">Current Stage</label>
                                         <select
+                                            id="stage"
                                             {...form2.register("stage")}
                                             className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white appearance-none"
                                         >
@@ -286,8 +337,9 @@ export default function Apply() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">Description</label>
+                                    <label htmlFor="description" className="text-sm font-medium text-gray-300">Description</label>
                                     <textarea
+                                        id="description"
                                         {...form2.register("description")}
                                         rows={4}
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
@@ -319,9 +371,11 @@ export default function Apply() {
                                 <h2 className="text-2xl font-bold font-orbitron">Final Pitch</h2>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">Demo / Pitch Video URL</label>
+                                    <label htmlFor="videoUrl" className="text-sm font-medium text-gray-300">Demo / Pitch Video URL</label>
                                     <input
+                                        id="videoUrl"
                                         {...form3.register("videoUrl")}
+                                        autoComplete="url"
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
                                         placeholder="Loom, Youtube, or Drive link"
                                     />
@@ -330,8 +384,9 @@ export default function Apply() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-300">Why CodeQuity?</label>
+                                    <label htmlFor="motivation" className="text-sm font-medium text-gray-300">Why CodeQuity?</label>
                                     <textarea
+                                        id="motivation"
                                         {...form3.register("motivation")}
                                         rows={3}
                                         className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"

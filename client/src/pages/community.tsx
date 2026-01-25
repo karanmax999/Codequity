@@ -232,7 +232,7 @@ export default function Community() {
               {[
                 { name: "Telegram", icon: Zap, color: "text-blue-400", bg: "bg-blue-950/20", border: "border-blue-500/20", link: "https://t.me/codequiity" },
                 { name: "Twitter", icon: Globe, color: "text-sky-400", bg: "bg-sky-950/20", border: "border-sky-500/20", link: "https://x.com/CodequityOrg" },
-                { name: "Discord", icon: Code, color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "https://discord.gg/XnhwAAGe" },
+                { name: "Discord", icon: Code, color: "text-indigo-400", bg: "bg-indigo-950/20", border: "border-indigo-500/20", link: "https://discord.com/invite/XnhwAAGe" },
                 { name: "LinkedIn", icon: Users, color: "text-blue-500", bg: "bg-blue-900/20", border: "border-blue-600/20", link: "https://linkedin.com/company/codequity" },
               ].map((social) => (
                 <a

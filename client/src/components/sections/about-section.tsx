@@ -52,7 +52,7 @@ export default function AboutSection() {
             </div>
 
             {/* Impact Highlights */}
-            <div className="mt-12 grid grid-cols-2 gap-6">
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {highlights.map((highlight, index) => (
                 <motion.div
                   key={highlight.title}
@@ -82,6 +82,9 @@ export default function AboutSection() {
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
               alt="Tech team collaboration"
+              loading="lazy"
+              width="800"
+              height="600"
               className="rounded-xl shadow-2xl neon-border"
               data-testid="about-hero-image"
             />
@@ -89,26 +92,26 @@ export default function AboutSection() {
 
             {/* Floating Stats */}
             <motion.div
-              className="absolute top-6 right-6 bg-card/90 backdrop-blur rounded-lg p-4 neon-border"
+              className="absolute top-4 right-4 md:top-6 md:right-6 bg-card/90 backdrop-blur rounded-lg p-3 md:p-4 neon-border"
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
               viewport={{ once: true }}
               data-testid="floating-stat-states"
             >
-              <div className="text-2xl font-orbitron font-bold text-primary">15+</div>
-              <div className="text-sm text-muted-foreground">On-Chain Products</div>
+              <div className="text-xl md:text-2xl font-orbitron font-bold text-primary">15+</div>
+              <div className="text-[10px] md:text-sm text-muted-foreground">On-Chain Products</div>
             </motion.div>
             <motion.div
-              className="absolute bottom-6 left-6 bg-card/90 backdrop-blur rounded-lg p-4 neon-border"
+              className="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-card/90 backdrop-blur rounded-lg p-3 md:p-4 neon-border"
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.7 }}
               viewport={{ once: true }}
               data-testid="floating-stat-ambassadors"
             >
-              <div className="text-2xl font-orbitron font-bold text-accent">8+</div>
-              <div className="text-sm text-muted-foreground">Teams Funded</div>
+              <div className="text-xl md:text-2xl font-orbitron font-bold text-accent">8+</div>
+              <div className="text-[10px] md:text-sm text-muted-foreground">Teams Funded</div>
             </motion.div>
           </motion.div>
         </div>

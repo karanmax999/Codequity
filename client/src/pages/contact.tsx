@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Cal, { getCalApi } from "@calcom/embed-react";
@@ -142,6 +143,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30" ref={heroRef} onMouseMove={handleMouseMove}>
+      <Helmet>
+        <title>Contact Us - CodeQuity</title>
+        <meta name="description" content="Get in touch with CodeQuity. Whether you're a builder, sponsor, or investor, we'd love to hear from you." />
+        <link rel="canonical" href="https://codequity.org/contact" />
+      </Helmet>
       <Navigation />
 
       {/* Aurora Background (Consistent with About Page) */}

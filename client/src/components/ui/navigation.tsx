@@ -92,7 +92,7 @@ export default function Navigation() {
 
                 <motion.img
                   src={codeQuityLogo}
-                  alt="CodeQuity"
+                  alt="CodeQuity Logo"
                   className="w-full h-full object-cover relative z-10"
                   whileHover={{ scale: 1.5 }}
                   transition={{ type: "spring", stiffness: 200, damping: 10 }}
@@ -177,6 +177,8 @@ export default function Navigation() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="lg:hidden relative w-10 h-10 flex items-center justify-center text-white"
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isOpen}
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>

@@ -55,7 +55,7 @@ const WEEK_DATA: WeekData[] = Array.from({ length: WEEKS }, (_, i) => {
         description: `Master the ${ecosystem} ecosystem. Build and deploy a production-ready dApp using native tooling. Focus on high-throughput architecture and state management.`,
         socials: {
             twitter: "#",
-            discord: "#",
+            discord: "https://discord.com/invite/XnhwAAGe",
             website: "#"
         },
         resources: [

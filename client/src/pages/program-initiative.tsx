@@ -58,6 +58,7 @@ export default function ProgramInitiative() {
           <img
             src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
             alt="Web3 Digital Ecosystem"
+            loading="lazy"
             className="mx-auto rounded-2xl object-cover h-full w-full object-center"
             draggable={false}
           />

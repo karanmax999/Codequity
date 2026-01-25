@@ -130,33 +130,33 @@ export default function CommunityStats() {
       <div className="container mx-auto px-6 relative z-10">
 
         {/* Problem -> Solution Block */}
-        <div className="problem-solution-container grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-5xl mx-auto">
-          <div className="problem-card p-8 rounded-3xl bg-gradient-to-br from-red-950/40 via-black to-black border border-red-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-red-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.3)]">
+        <div className="problem-solution-container grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-12 md:mb-20 max-w-5xl mx-auto">
+          <div className="problem-card p-6 md:p-8 rounded-3xl bg-gradient-to-br from-red-950/40 via-black to-black border border-red-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-red-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.3)]">
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-red-500/20 blur-[80px] group-hover:bg-red-500/30 transition-all duration-700" />
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 to-transparent" />
-            <div className="flex items-center gap-4 mb-6 relative z-10">
-              <div className="p-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 group-hover:text-red-300 group-hover:scale-110 transition-all">
-                <XCircle className="w-6 h-6" />
+            <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
+              <div className="p-2 md:p-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 group-hover:text-red-300 group-hover:scale-110 transition-all">
+                <XCircle className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="text-2xl font-orbitron font-bold text-white tracking-wide">The Problem</h3>
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-white tracking-wide">The Problem</h3>
             </div>
-            <h4 className="text-3xl font-bold text-gray-200 mb-4 leading-tight">78% of hackathon projects <span className="text-red-400">die in GitHub.</span></h4>
-            <p className="text-gray-400 text-lg leading-relaxed relative z-10">
+            <h4 className="text-2xl md:text-3xl font-bold text-gray-200 mb-4 leading-tight">78% of hackathon projects <span className="text-red-400">die in GitHub.</span></h4>
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed relative z-10">
               Great code often fails to become a business. Lack of mentorship, users, and funding kills momentum after the weekend ends.
             </p>
           </div>
 
-          <div className="solution-card p-8 rounded-3xl bg-gradient-to-br from-emerald-950/40 via-black to-black border border-emerald-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
+          <div className="solution-card p-6 md:p-8 rounded-3xl bg-gradient-to-br from-emerald-950/40 via-black to-black border border-emerald-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/20 blur-[80px] group-hover:bg-emerald-500/30 transition-all duration-700" />
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500/50 to-transparent" />
-            <div className="flex items-center gap-4 mb-6 relative z-10">
-              <div className="p-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 transition-all">
-                <CheckCircle2 className="w-6 h-6" />
+            <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
+              <div className="p-2 md:p-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 transition-all">
+                <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="text-2xl font-orbitron font-bold text-white tracking-wide">The Solution</h3>
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-white tracking-wide">The Solution</h3>
             </div>
-            <h4 className="text-3xl font-bold text-gray-200 mb-4 leading-tight">We build <span className="text-emerald-400">businesses</span>, not just repos.</h4>
-            <p className="text-gray-400 text-lg leading-relaxed relative z-10">
+            <h4 className="text-2xl md:text-3xl font-bold text-gray-200 mb-4 leading-tight">We build <span className="text-emerald-400">businesses</span>, not just repos.</h4>
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed relative z-10">
               CodeQuity provides the structure, mentorship, and capital ensuring your project survives the "post-hackathon depth" and ships to mainnet.
             </p>
           </div>

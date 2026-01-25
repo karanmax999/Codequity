@@ -200,14 +200,14 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 relative z-10 flex-grow flex flex-col justify-center">
         <div ref={contentRef} data-testid="hero-content" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="col-span-1 lg:col-span-8 text-left">
-            <h1 className="hero-statement text-6xl md:text-8xl font-orbitron font-black leading-[0.9] tracking-tighter uppercase text-white mb-8">
+            <h1 className="hero-statement text-4xl sm:text-6xl md:text-8xl font-orbitron font-black leading-none md:leading-[0.9] tracking-tighter uppercase text-white mb-6 md:mb-8">
               <AnimatedText
                 text="we  back  bold  entrepreneurs  building  the  next  internet"
                 className="text-white bg-transparent"
               />
             </h1>
 
-            <h2 className="hero-description text-xl md:text-3xl text-gray-400 font-medium mb-12 max-w-2xl leading-relaxed opacity-0">
+            <h2 className="hero-description text-lg md:text-3xl text-gray-400 font-medium mb-8 md:mb-12 max-w-2xl leading-relaxed opacity-0">
               From Hackathon Repo to{" "}
               <span className="text-white font-semibold">On-Chain Revenue</span>
             </h2>
@@ -215,7 +215,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-6 justify-start items-stretch sm:items-center hero-buttons opacity-0">
               <Button
                 asChild
-                className="h-auto py-6 px-8 bg-white text-black hover:bg-white/90 font-orbitron uppercase tracking-wider text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
+                className="h-auto py-4 sm:py-6 px-6 sm:px-8 bg-white text-black hover:bg-white/90 font-orbitron uppercase tracking-wider text-xs sm:text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
               >
                 <a href="/apply" className="flex items-center gap-2 skew-x-[10deg]">
                   Start Building
@@ -225,7 +225,7 @@ export default function HeroSection() {
               <Button
                 asChild
                 variant="outline"
-                className="h-auto py-6 px-8 border-white/20 text-white hover:bg-white/10 font-orbitron uppercase tracking-wider text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
+                className="h-auto py-4 sm:py-6 px-6 sm:px-8 border-white/20 text-white hover:bg-white/10 font-orbitron uppercase tracking-wider text-xs sm:text-sm font-bold skew-x-[-10deg] hover:skew-x-[-10deg] transition-all"
                 data-testid="button-community"
               >
                 <a href="/community" className="flex items-center gap-2 skew-x-[10deg]">
@@ -248,14 +248,14 @@ export default function HeroSection() {
             {trustMetrics.map((metric, i) => (
               <div key={i} className="trust-item relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-gradient-to-br from-white/10 to-white/0 border border-white/20 rounded-2xl p-6 flex flex-col items-center justify-center hover:border-primary/50 transition-all duration-500 backdrop-blur-md group-hover:bg-white/10 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]">
+                <div className="relative bg-gradient-to-br from-white/10 to-white/0 border border-white/20 rounded-2xl p-4 md:p-6 flex flex-col items-center justify-center hover:border-primary/50 transition-all duration-500 backdrop-blur-md group-hover:bg-white/10 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                  <div className="relative z-10 text-3xl md:text-5xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 group-hover:from-white group-hover:to-primary transition-all duration-300">
+                  <div className="relative z-10 text-2xl md:text-5xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 group-hover:from-white group-hover:to-primary transition-all duration-300">
                     {metric.prefix && <span>{metric.prefix}</span>}
                     <span id={`counter-${i}`}>0</span>
                     {metric.suffix && <span>{metric.suffix}</span>}
                   </div>
-                  <div className="relative z-10 text-sm text-gray-400 uppercase tracking-widest font-bold mt-2 group-hover:text-white transition-colors">
+                  <div className="relative z-10 text-[10px] md:text-sm text-gray-400 uppercase tracking-widest font-bold mt-2 group-hover:text-white transition-colors">
                     {metric.label}
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export default function HeroSection() {
 
       {/* Enhanced Floating Elements */}
       <motion.div
-        className="absolute top-1/4 left-10 text-4xl text-primary/40"
+        className="hidden md:block absolute top-1/4 left-10 text-4xl text-primary/40"
         animate={{
           y: [-15, 15, -15],
           x: [-5, 5, -5],
@@ -279,7 +279,7 @@ export default function HeroSection() {
         <Code className="drop-shadow-lg" />
       </motion.div>
       <motion.div
-        className="absolute top-1/3 right-10 text-3xl text-accent/40"
+        className="hidden md:block absolute top-1/3 right-10 text-3xl text-accent/40"
         animate={{
           y: [-12, 12, -12],
           x: [-3, 3, -3],
@@ -291,7 +291,7 @@ export default function HeroSection() {
         <Rocket className="drop-shadow-lg" />
       </motion.div>
       <motion.div
-        className="absolute bottom-1/4 left-1/4 text-5xl text-primary/30"
+        className="hidden md:block absolute bottom-1/4 left-1/4 text-5xl text-primary/30"
         animate={{
           y: [-20, 20, -20],
           scale: [1, 1.1, 1],
@@ -303,7 +303,7 @@ export default function HeroSection() {
         <Users className="drop-shadow-lg" />
       </motion.div>
       <motion.div
-        className="absolute top-3/4 right-1/4 text-3xl text-accent/30"
+        className="hidden md:block absolute top-3/4 right-1/4 text-3xl text-accent/30"
         animate={{
           y: [-10, 10, -10],
           x: [-8, 8, -8],

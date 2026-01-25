@@ -284,7 +284,7 @@ export default function Program() {
                     <div className="mt-20 text-center">
                         <p className="text-2xl font-bold mb-8 text-white/80">Ready to build the future?</p>
                         <Button asChild className="h-14 px-12 text-lg font-bold bg-primary text-black hover:bg-primary/90 rounded-full animate-pulse shadow-[0_0_20px_rgba(var(--primary),0.5)]">
-                            <a href="https://discord.gg/AZPDRhpG" target="_blank" rel="noopener noreferrer">Join the Guild</a>
+                            <a href="https://discord.com/invite/XnhwAAGe" target="_blank" rel="noopener noreferrer">Join the Guild</a>
                         </Button>
                     </div>
                 </div>

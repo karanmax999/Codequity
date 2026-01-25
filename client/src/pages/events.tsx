@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/ui/navigation";
@@ -181,6 +182,11 @@ export default function Events() {
 
   return (
     <div className="min-h-screen" ref={heroRef}>
+      <Helmet>
+        <title>Events & Hackathons - CodeQuity</title>
+        <meta name="description" content="Discover upcoming Web3 hackathons, workshops, and community calls hosted by CodeQuity. Register now to build and win prizes." />
+        <link rel="canonical" href="https://codequity.org/events" />
+      </Helmet>
       <Navigation />
 
       {/* Animated Zig-Zag Lines (PRESERVED) */}

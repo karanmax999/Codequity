@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "wouter";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -143,6 +144,11 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30" ref={containerRef}>
+      <Helmet>
+        <title>About - CodeQuity</title>
+        <meta name="description" content="CodeQuity is India's structured path for student builders to launch Web3 startups. Meet the team and understand our mission." />
+        <link rel="canonical" href="https://codequity.org/about" />
+      </Helmet>
       <Navigation />
 
       <ScrollExpandMedia
@@ -312,6 +318,7 @@ export default function About() {
                         <img
                           src={member.image}
                           alt={member.name}
+                          loading="lazy"
                           className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
                         />
                       </div>

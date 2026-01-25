@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import VideoPreloader from "@/components/ui/video-preloader";
 import { useScrollTop } from "@/hooks/use-scroll-top";
+import CustomCursor from "@/components/ui/custom-cursor";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Events from "@/pages/events";
@@ -57,6 +58,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
+          <CustomCursor />
 
           {!loadingComplete && (
             <VideoPreloader onLoadingComplete={handleLoadingComplete} />

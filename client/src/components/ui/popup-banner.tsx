@@ -192,7 +192,7 @@ export default function PopupBanner({ isOpen, onClose }: PopupBannerProps) {
                                 asChild
                                 className="popup-btn w-full py-5 text-base font-bold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-all transform mb-2"
                             >
-                                <a href="https://t.me/codequiity" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                                <a href="https://discord.com/invite/XnhwAAGe" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                                     JOIN NOW <ArrowRight className="w-4 h-4" />
                                 </a>
                             </Button>

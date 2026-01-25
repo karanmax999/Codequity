@@ -135,11 +135,11 @@ export default function BuilderGuildSection() {
           </p>
         </div>
 
-        <div className="guild-grid grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto perspective-1000">
+        <div className="guild-grid grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 max-w-6xl mx-auto perspective-1000">
           {tracks.map((track) => (
             <div
               key={track.title}
-              className="guild-card-container h-[400px] relative perspective-1000 cursor-pointer group"
+              className="guild-card-container h-[350px] md:h-[400px] relative perspective-1000 cursor-pointer group"
               style={{ perspective: '1000px' }}
             >
               <div

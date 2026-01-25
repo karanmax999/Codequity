@@ -80,7 +80,7 @@ export default function Footer() {
               <div className="flex items-center gap-4 mb-6">
                 <img
                   src={codeQuityLogo}
-                  alt="CodeQuity"
+                  alt="CodeQuity Logo"
                   className="w-12 h-12 rounded-lg border border-white/10"
                 />
                 <span className="text-2xl font-orbitron font-bold text-white tracking-wide">
@@ -140,24 +140,24 @@ export default function Footer() {
 
         {/* Bottom Trust & Copy Strip */}
         <motion.div
-          className="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6"
+          className="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="text-xs text-gray-600 font-mono">
+          <div className="text-xs text-gray-600 font-mono text-center md:text-left">
             © {currentYear} CodeQuity. All rights reserved.
             <span className="block md:inline md:ml-4 mt-2 md:mt-0">Privacy Policy • Terms of Service</span>
           </div>
 
           {/* Ecosystem / Trust Icons (Abstract Representation) */}
-          <div className="flex items-center gap-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
             {/* Using Lucide icons as placeholders for Chain logos for now to maintain pure lucide dependency where possible, 
                  or text labels if icons aren't available. Ideally SVGs would be used here. 
                  For now, text labels in Orbitron font look "techy". */}
             {partners.map((p, i) => (
-              <span key={i} className="text-xs font-bold font-orbitron text-white/50 hover:text-primary cursor-default">
+              <span key={i} className="text-[10px] md:text-xs font-bold font-orbitron text-white/50 hover:text-primary cursor-default whitespace-nowrap">
                 {p.toUpperCase()}
               </span>
             ))}
