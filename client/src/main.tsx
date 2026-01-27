@@ -5,11 +5,15 @@ import "./index.css";
 
 import { HelmetProvider } from "react-helmet-async";
 
+import { ThirdwebProvider } from "thirdweb/react";
+
 const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
+    <ThirdwebProvider>
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
+    </ThirdwebProvider>
   </React.StrictMode>
 );

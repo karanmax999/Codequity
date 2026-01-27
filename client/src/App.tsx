@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import VideoPreloader from "@/components/ui/video-preloader";
 import { useScrollTop } from "@/hooks/use-scroll-top";
-import CustomCursor from "@/components/ui/custom-cursor";
+
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Events from "@/pages/events";
@@ -20,6 +20,9 @@ import Portfolio from "@/pages/portfolio";
 import Partners from "@/pages/partners";
 import Portal from "@/pages/portal";
 import Founder from "@/pages/founder";
+import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
+import AdminLogs from "@/pages/admin-logs";
 
 import { ThemeProvider } from "next-themes";
 
@@ -40,6 +43,9 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/portal" component={Portal} />
       <Route path="/founder" component={Founder} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/admin/logs" component={AdminLogs} />
 
       <Route component={NotFound} />
     </Switch>
@@ -58,7 +64,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
-          <CustomCursor />
+
 
           {!loadingComplete && (
             <VideoPreloader onLoadingComplete={handleLoadingComplete} />

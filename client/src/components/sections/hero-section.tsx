@@ -28,12 +28,7 @@ export default function HeroSection() {
   const stars2Ref = useRef<HTMLDivElement>(null);
   const stars3Ref = useRef<HTMLDivElement>(null);
 
-  const trustMetrics = [
-    { value: 500, target: 500, suffix: "+", label: "Builders" },
-    { value: 15, target: 15, suffix: "+", label: "Products" },
-    { value: 0, target: 2, prefix: "₹", suffix: "Cr+", label: "Raised" },
-    { value: 8, target: 8, suffix: "+", label: "Funded" },
-  ];
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -60,31 +55,7 @@ export default function HeroSection() {
             duration: 0.8,
             stagger: 0.1,
             ease: "back.out(1.7)"
-          }, "-=0.2")
-          .from(".trust-item", {
-            y: 20,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power2.out",
-            onComplete: () => {
-              // Trigger counter animation after cards appear
-              trustMetrics.forEach((metric, index) => {
-                const el = document.getElementById(`counter-${index}`);
-                if (el) {
-                  gsap.to(el, {
-                    innerText: metric.target,
-                    duration: 2,
-                    snap: { innerText: 1 }, // Snap to integer
-                    ease: "power2.out",
-                    onUpdate: function () {
-                      this.targets()[0].innerText = Math.ceil(this.targets()[0].innerText);
-                    }
-                  });
-                }
-              });
-            }
-          }, "-=0.5");
+          }, "-=0.2");
 
         // Continuous floating animation for particles
         gsap.to(".floating-particle", {
@@ -241,29 +212,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Trust Band */}
-      <div className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-8 relative z-10 mt-auto">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {trustMetrics.map((metric, i) => (
-              <div key={i} className="trust-item relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-gradient-to-br from-white/10 to-white/0 border border-white/20 rounded-2xl p-4 md:p-6 flex flex-col items-center justify-center hover:border-primary/50 transition-all duration-500 backdrop-blur-md group-hover:bg-white/10 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                  <div className="relative z-10 text-2xl md:text-5xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 group-hover:from-white group-hover:to-primary transition-all duration-300">
-                    {metric.prefix && <span>{metric.prefix}</span>}
-                    <span id={`counter-${i}`}>0</span>
-                    {metric.suffix && <span>{metric.suffix}</span>}
-                  </div>
-                  <div className="relative z-10 text-[10px] md:text-sm text-gray-400 uppercase tracking-widest font-bold mt-2 group-hover:text-white transition-colors">
-                    {metric.label}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* Enhanced Floating Elements */}
       <motion.div

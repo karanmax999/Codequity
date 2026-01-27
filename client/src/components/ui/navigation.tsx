@@ -4,6 +4,8 @@ import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 import PopupBanner from "@/components/ui/popup-banner";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/lib/thirdweb";
 
 interface NavItem {
   label: string;
@@ -30,6 +32,7 @@ const navLinks: NavItem[] = [
       { label: "Events", href: "/events" },
     ],
   },
+  { label: "blog", href: "/blog" },
   { label: "contact", href: "/contact" },
 ];
 
@@ -165,6 +168,18 @@ export default function Navigation() {
                 </span>
               </Link>
 
+              {/* Connect Wallet / Dashboard Access */}
+              <div className="hidden lg:flex items-center gap-4">
+                <ConnectButton
+                  client={client}
+                  theme="dark"
+                  connectButton={{
+                    className: "!bg-white/5 !border !border-white/10 !rounded-none !skew-x-[-10deg] !px-6 !py-2 !text-xs !font-orbitron !font-bold !uppercase !tracking-widest !hover:!bg-white/10 !transition-all !duration-300",
+                    label: "Connect"
+                  }}
+                />
+              </div>
+
               {/* Button triggers Popup instead of link */}
               <button
                 onClick={() => setShowTelegramPopup(true)}
@@ -262,7 +277,10 @@ export default function Navigation() {
                   </div>
                 </Link>
 
-                <div className="pt-8">
+                <div className="pt-8 space-y-4">
+                  <div className="flex justify-center">
+                    <ConnectButton client={client} theme="dark" />
+                  </div>
                   <button
                     onClick={() => {
                       setIsOpen(false);

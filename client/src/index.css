@@ -73,8 +73,7 @@
     @apply bg-background text-foreground font-sans antialiased;
     background: linear-gradient(135deg, #000000 0%, #0A0A0F 50%, #001122 100%);
     overflow-x: hidden;
-    cursor: none;
-    /* Custom cursor takes over */
+
   }
 }
 

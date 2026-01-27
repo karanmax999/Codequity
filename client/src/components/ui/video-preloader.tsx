@@ -13,36 +13,44 @@ export default function VideoPreloader({ onLoadingComplete }: VideoPreloaderProp
 
   useEffect(() => {
     const video = videoRef.current;
+
+    // Safety fallback: if video hasn't loaded/ended in 5 seconds, force complete
+    const fallbackTimer = setTimeout(() => {
+      console.log("Preloader: Fallback triggered (5s timeout)");
+      onLoadingComplete();
+    }, 5000);
+
     if (video) {
       // Ensure video plays automatically
-      video.play().catch(console.error);
-      
-      // Handle video end
+      video.play().catch(err => {
+        console.warn("Preloader: Video play failed, skipping...", err);
+        onLoadingComplete();
+      });
+
       const handleVideoEnd = () => {
         setVideoEnded(true);
         setTimeout(() => {
           setFadeOut(true);
           setTimeout(() => {
             onLoadingComplete();
-          }, 800); // Wait for fade out animation
-        }, 500); // Brief pause after video ends
+          }, 800);
+        }, 500);
       };
 
       video.addEventListener('ended', handleVideoEnd);
-      
-      // Fallback timeout in case video doesn't load
-      const fallbackTimer = setTimeout(() => {
-        if (!videoEnded) {
-          handleVideoEnd();
-        }
-      }, 8000); // 8 second fallback
+      video.addEventListener('error', () => {
+        console.error("Preloader: Video error, skipping...");
+        onLoadingComplete();
+      });
 
       return () => {
         video.removeEventListener('ended', handleVideoEnd);
         clearTimeout(fallbackTimer);
       };
+    } else {
+      onLoadingComplete();
     }
-  }, [onLoadingComplete, videoEnded]);
+  }, [onLoadingComplete]);
 
   return (
     <AnimatePresence>
@@ -56,7 +64,7 @@ export default function VideoPreloader({ onLoadingComplete }: VideoPreloaderProp
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 circuit-pattern opacity-20"></div>
-          
+
           {/* Video Container */}
           <motion.div
             className="relative z-10 w-full h-full flex items-center justify-center"
