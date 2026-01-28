@@ -18,7 +18,7 @@ export default function RealityTransition() {
     return (
         <div
             ref={containerRef}
-            className="relative w-full h-[300px] md:h-[500px] overflow-hidden -mt-10 md:-mt-20 z-0 bg-black"
+            className="relative w-full h-[300px] md:h-[500px] overflow-hidden z-0 bg-black"
         >
             {/* Background Parallax Image */}
             <motion.div

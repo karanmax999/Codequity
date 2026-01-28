@@ -33,7 +33,7 @@ export default function FeaturedSection() {
     };
 
     return (
-        <section className="relative py-20 bg-white border-t border-gray-100 overflow-hidden">
+        <section className="relative py-32 bg-white border-t border-gray-100 overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
                 {/* Section Header */}
                 <motion.div
