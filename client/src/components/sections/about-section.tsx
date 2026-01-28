@@ -36,7 +36,7 @@ export default function AboutSection() {
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold mb-8">
               Our <span className="gradient-text">Vision</span>
             </h2>
             <div className="space-y-6 text-lg text-muted-foreground">

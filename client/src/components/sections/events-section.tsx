@@ -31,7 +31,7 @@ export default function EventsSection() {
     <section id="events" className="py-32 circuit-pattern" data-testid="events-section">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold mb-6">
             <span className="gradient-text">The Pipeline</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
