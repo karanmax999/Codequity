@@ -69,18 +69,18 @@ export default function Navigation() {
           opacity: visible ? 1 : 0
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-6 left-0 right-0 mx-auto w-[95vw] md:w-[90vw] max-w-7xl z-50 transition-all duration-300 ${scrolled || isOpen
+        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${scrolled || isOpen
           ? ""
           : ""
           }`}
       >
-        {/* Background Capsule (Clipped) */}
-        <div className="absolute inset-0 nav-hyper-bg nav-scanner rounded-2xl overflow-hidden border border-white/10">
+        {/* Background Glass (Full Width) */}
+        <div className="absolute inset-0 nav-hyper-bg nav-scanner overflow-hidden">
           <div className="nav-border-glow"></div>
         </div>
 
-        {/* Content Container (Unclipped for Dropdowns) */}
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between relative z-20">
+        {/* Content Container */}
+        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between relative z-20">
 
           {/* Logo Section */}
           <Link href="/">

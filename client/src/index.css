@@ -396,41 +396,35 @@
 }
 
 .nav-hyper-bg {
-  background-color: rgba(5, 5, 15, 0.4);
-  /* 40% Opacity for Glassy Effect */
-  /* Dual layered grid system */
-  background-image:
-    linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px, 80px 80px, 80px 80px;
-  background-position: 0 0, 0 0, 0 0, 0 0;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  /* Safari Support */
-  animation: grid-move 60s linear infinite;
+  background-color: rgba(5, 5, 10, 0.45);
+  /* Ultra-clear a16z style glass */
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  /* Removed border-radius and capsule shadows for top-pinned look */
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  animation: grid-move 60s linear infinite;
+  /* Maintain grid overlay but more subtle */
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* Holographic Scanline Overlay */
+/* Holographic Scanline Overlay (More subtle for full-width) */
 .nav-scanner::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 40%;
+  width: 100%;
   height: 100%;
   background: linear-gradient(90deg,
       transparent 0%,
-      rgba(0, 212, 255, 0.05) 40%,
-      rgba(0, 212, 255, 0.1) 50%,
-      rgba(0, 212, 255, 0.05) 60%,
+      rgba(0, 212, 255, 0.02) 50%,
       transparent 100%);
-  filter: blur(5px);
-  animation: scan-line 6s ease-in-out infinite;
+  animation: scan-line 8s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
