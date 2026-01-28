@@ -10,6 +10,25 @@ export interface FeaturedArticle {
     type: string;
 }
 
+const DEFAULT_ARTICLES: FeaturedArticle[] = [
+    {
+        id: '1',
+        title: "The Architecture of Privacy: Moats, Messaging, and Moats",
+        description: "A deep dive into why privacy is moving from a feature to a fundamental requirement in the next generation of decentralized protocol architecture.",
+        tags: ["tech trends", "privacy", "architecture"],
+        link: "/blog/privacy-trends-2026",
+        type: 'article'
+    },
+    {
+        id: '2',
+        title: "Peak Performance: Building Startups under Pressure",
+        description: "Lessons from elite athletes on high-stakes decision making, resilience, and maintaining clarity when the stakes are highest.",
+        tags: ["company building", "Founders", "resilience"],
+        link: "/blog/performing-under-pressure",
+        type: 'article'
+    }
+];
+
 export function useFeaturedSection() {
     const [articles, setArticles] = useState<FeaturedArticle[]>([]);
     const [loading, setLoading] = useState(true);
@@ -54,32 +73,17 @@ export function useFeaturedSection() {
                 }))
             ];
 
-            // If no data (real DB empty), fall back to defaults for demo
-            if (merged.length === 0) {
-                setArticles([
-                    {
-                        id: '1',
-                        title: "Privacy trends for 2026",
-                        description: "Why privacy, where, and how -- on moats and messaging to data and security testing",
-                        tags: ["tech trends", "privacy"],
-                        link: "#",
-                        type: 'article'
-                    },
-                    {
-                        id: '2',
-                        title: "Performing under pressure: Lessons from elite athletes",
-                        description: "Big-wave surfer Laird Hamilton and former pro volleyball star Gabby Reece talk about how to achieve peak performance while...",
-                        tags: ["company building", "Founders Summits"],
-                        link: "#",
-                        type: 'article'
-                    }
-                ]);
+            // Ensure we have at least 2 articles by using fallbacks
+            if (merged.length < 2) {
+                const combined = [...merged, ...DEFAULT_ARTICLES].slice(0, 2);
+                setArticles(combined);
             } else {
                 setArticles(merged.slice(0, 2)); // Keep the top 2 for the grid
             }
         } catch (err: any) {
-            console.error('Error fetching featured articles:', err);
+            console.error('Error fetching featured articles, using fallbacks:', err);
             setError(err.message);
+            setArticles(DEFAULT_ARTICLES);
         } finally {
             setLoading(false);
         }

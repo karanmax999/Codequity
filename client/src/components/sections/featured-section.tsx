@@ -60,8 +60,8 @@ export default function FeaturedSection() {
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className={`group relative p-8 h-full flex flex-col ${index < articles.length ? 'lg:border-r border-dotted border-gray-300' : ''}`}
+                                transition={{ duration: 0.3, delay: index * 0.05 }}
+                                className={`group relative p-8 h-80 flex flex-col border-gray-200 lg:border-r border-dotted`}
                             >
                                 <Link href={article.link || '#'}>
                                     <div className="cursor-pointer h-full flex flex-col">
@@ -92,11 +92,11 @@ export default function FeaturedSection() {
 
                     {/* Newsletter Card (The 3rd Column) */}
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="h-full"
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className="h-80"
                     >
                         <div className="bg-[#A0E2EF] p-10 h-full flex flex-col justify-between">
                             <div>
@@ -104,11 +104,11 @@ export default function FeaturedSection() {
                                     newsletter
                                 </span>
 
-                                <h3 className="text-[1.8rem] leading-snug font-medium text-black mb-6">
+                                <h3 className="text-[1.8rem] leading-none font-medium text-black mb-4">
                                     web3 with Codequity: Your guide to the next internet
                                 </h3>
 
-                                <p className="text-black/80 text-sm mb-10 leading-relaxed">
+                                <p className="text-black/70 text-xs mb-8 leading-relaxed">
                                     A weekly briefing on the protocols, builders, and technologies shaping the decentralized future.
                                 </p>
                             </div>
