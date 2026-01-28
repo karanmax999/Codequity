@@ -186,7 +186,7 @@ export default function CommunityStats() {
           <h3 className="text-xl sm:text-2xl font-orbitron font-bold text-center mb-10 text-white">Ships from the <span className="gradient-text">Foundry</span></h3>
 
           {/* Container for the scroll track */}
-          <div className="flex w-[200%] foundry-track">
+          <div className="flex w-max foundry-track pb-4">
             {[...founderStories, ...founderStories].map((story, i) => (
               <div key={i} className="min-w-[350px] story-card bg-white/5 border border-white/5 rounded-xl p-6 mr-6 flex items-center gap-4 hover:bg-white/10 transition-colors cursor-default backdrop-blur-sm">
                 <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-2xl font-bold font-orbitron text-gray-500 border border-white/10">

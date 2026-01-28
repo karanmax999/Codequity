@@ -55,7 +55,7 @@ export default function RealityTransition() {
                     {/* Decorative Elements */}
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-t from-primary to-transparent opacity-50" />
 
-                    <h2 className="text-4xl sm:text-7xl md:text-9xl font-orbitron font-black tracking-tighter text-white">
+                    <h2 className="text-3xl xs:text-4xl sm:text-7xl md:text-9xl font-orbitron font-black tracking-tighter text-white">
                         <span className="relative inline-block">
                             {/* Stroke Text Reveal */}
                             <span className="absolute inset-0 text-transparent border-white/10 [-webkit-text-stroke:1px_rgba(255,255,255,0.1)] select-none">

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Shield, Coins, Server, ArrowRight } from "lucide-react";
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function BuilderGuildSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [flippedCard, setFlippedCard] = useState<string | null>(null);
 
   const tracks = [
     {
@@ -139,12 +140,20 @@ export default function BuilderGuildSection() {
           {tracks.map((track) => (
             <div
               key={track.title}
+              onClick={() => {
+                if (window.innerWidth < 1024) {
+                  setFlippedCard(flippedCard === track.title ? null : track.title);
+                }
+              }}
               className="guild-card-container h-[350px] md:h-[400px] relative perspective-1000 cursor-pointer group"
               style={{ perspective: '1000px' }}
             >
               <div
                 className="guild-card-inner relative w-full h-full duration-500 preserve-3d"
-                style={{ transformStyle: 'preserve-3d' }}
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transform: flippedCard === track.title ? 'rotateY(180deg)' : 'none'
+                }}
               >
                 {/* Front Face */}
                 <div className={cn(

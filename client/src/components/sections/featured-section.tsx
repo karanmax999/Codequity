@@ -65,7 +65,7 @@ export default function FeaturedSection() {
                             >
                                 <Link href={article.link || '#'}>
                                     <div className="cursor-pointer h-full flex flex-col">
-                                        <h3 className="text-2xl sm:text-[2.2rem] leading-tight font-medium text-black mb-4 group-hover:text-primary transition-colors tracking-tight">
+                                        <h3 className="text-xl xs:text-2xl sm:text-[2.2rem] leading-tight font-medium text-black mb-4 group-hover:text-primary transition-colors tracking-tight">
                                             {article.title}
                                         </h3>
 
@@ -104,7 +104,7 @@ export default function FeaturedSection() {
                                     newsletter
                                 </span>
 
-                                <h3 className="text-2xl sm:text-[1.8rem] leading-none font-medium text-black mb-4">
+                                <h3 className="text-xl xs:text-2xl sm:text-[1.8rem] leading-none font-medium text-black mb-4">
                                     web3 with Codequity: Your guide to the next internet
                                 </h3>
 

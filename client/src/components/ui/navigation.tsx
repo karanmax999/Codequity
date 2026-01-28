@@ -174,7 +174,7 @@ export default function Navigation() {
                   client={client}
                   theme="dark"
                   connectButton={{
-                    className: "!bg-white/5 !border !border-white/10 !rounded-none !skew-x-[-10deg] !px-6 !py-2 !text-xs !font-orbitron !font-bold !uppercase !tracking-widest !hover:!bg-white/10 !transition-all !duration-300",
+                    className: "!bg-white/5 !border !border-white/10 !rounded-none !skew-x-[-10deg] !px-4 xl:!px-6 !py-2 !text-[10px] xl:!text-xs !font-orbitron !font-bold !uppercase !tracking-widest !hover:!bg-white/10 !transition-all !duration-300",
                     label: "Connect"
                   }}
                 />
@@ -210,7 +210,7 @@ export default function Navigation() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-[60] lg:hidden bg-[#4338ca] text-white flex flex-col"
+            className="fixed inset-0 z-[60] lg:hidden bg-background text-white flex flex-col"
           >
             {/* Mobile Header with Logo and Close Button */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -286,7 +286,7 @@ export default function Navigation() {
                       setIsOpen(false);
                       setShowTelegramPopup(true);
                     }}
-                    className="w-full py-4 bg-white text-[#4338ca] font-black font-orbitron uppercase tracking-widest hover:bg-gray-100 transition-all rounded-sm text-lg"
+                    className="w-full py-4 bg-primary text-black font-black font-orbitron uppercase tracking-widest hover:bg-primary/90 transition-all rounded-sm text-lg"
                   >
                     Join Now
                   </button>
