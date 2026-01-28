@@ -3,6 +3,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useFeaturedSection } from "@/hooks/use-featured-section";
+import { Link } from "wouter";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -32,128 +33,107 @@ export default function FeaturedSection() {
     };
 
     return (
-        <section className="relative py-20 bg-gradient-to-b from-black via-[#0A0A0F] to-black overflow-hidden">
-            {/* Background Grid Pattern */}
-            <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px)`,
-                    backgroundSize: '50px 50px'
-                }} />
-            </div>
-
+        <section className="relative py-20 bg-white border-t border-gray-100 overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-12"
+                    className="mb-12 border-b border-gray-200"
                 >
-                    <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-8">
+                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-black pb-8">
                         FEATURED
                     </h2>
                 </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3">
                     {/* Featured Articles */}
                     {loading ? (
                         [1, 2].map((i) => (
-                            <div key={i} className="h-64 rounded-2xl bg-white/5 animate-pulse border border-white/10" />
+                            <div key={i} className={`h-80 border-gray-200 ${i === 1 ? 'lg:border-r border-dotted' : ''} p-8 animate-pulse bg-gray-50`} />
                         ))
                     ) : (
                         articles.map((article, index) => (
                             <motion.div
                                 key={article.id}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="group relative"
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className={`group relative p-8 h-full flex flex-col ${index < articles.length ? 'lg:border-r border-dotted border-gray-300' : ''}`}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <Link href={article.link || '#'}>
+                                    <div className="cursor-pointer h-full flex flex-col">
+                                        <h3 className="text-[2.2rem] leading-tight font-medium text-black mb-4 group-hover:text-primary transition-colors tracking-tight">
+                                            {article.title}
+                                        </h3>
 
-                                <div className="relative bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-2xl p-8 hover:border-primary/30 transition-all duration-500 backdrop-blur-sm h-full flex flex-col">
-                                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors line-clamp-2">
-                                        {article.title}
-                                    </h3>
+                                        <p className="text-[#606060] text-sm mb-10 flex-grow leading-relaxed line-clamp-3">
+                                            {article.description}
+                                        </p>
 
-                                    <p className="text-gray-400 mb-6 flex-grow leading-relaxed line-clamp-3">
-                                        {article.description}
-                                    </p>
-
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        {article.tags?.map((tag, tagIndex) => (
-                                            <span
-                                                key={tagIndex}
-                                                className="px-3 py-1 text-xs font-medium text-gray-300 bg-white/5 border border-white/10 rounded-full hover:border-primary/30 transition-colors"
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
+                                        {/* Tags */}
+                                        <div className="flex flex-wrap gap-2 mt-auto">
+                                            {article.tags?.map((tag, tagIndex) => (
+                                                <span
+                                                    key={tagIndex}
+                                                    className="px-4 py-1.5 text-[0.7rem] font-bold text-gray-400 bg-white border border-gray-200 rounded-full hover:border-black hover:text-black transition-all uppercase tracking-wider"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
-
-                                    {/* Read More Link */}
-                                    <a
-                                        href={article.link}
-                                        className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all group/link"
-                                    >
-                                        Read More
-                                        <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                                    </a>
-                                </div>
+                                </Link>
                             </motion.div>
                         ))
                     )}
 
-                    {/* Newsletter Card */}
+                    {/* Newsletter Card (The 3rd Column) */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="group relative"
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="h-full"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-2xl blur-xl opacity-50" />
-
-                        <div className="relative bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl p-8 h-full flex flex-col">
-                            <div className="mb-4">
-                                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider bg-black/20 text-white rounded-full mb-4">
+                        <div className="bg-[#A0E2EF] p-10 h-full flex flex-col justify-between">
+                            <div>
+                                <span className="inline-block text-[0.65rem] font-black uppercase tracking-[0.2em] text-black mb-6">
                                     newsletter
                                 </span>
+
+                                <h3 className="text-[1.8rem] leading-snug font-medium text-black mb-6">
+                                    web3 with a16z: Your guide to the next internet
+                                </h3>
+
+                                <p className="text-black/80 text-sm mb-10 leading-relaxed">
+                                    A weekly newsletter on crypto, blockchains, and the technologies underpinning the next generation of the internet
+                                </p>
                             </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-4">
-                                web3 with a16z: Your guide to the next internet
-                            </h3>
-
-                            <p className="text-white/90 mb-6 flex-grow leading-relaxed">
-                                A weekly newsletter on crypto, blockchains, and the technologies underpinning the next generation of the internet
-                            </p>
-
                             {/* Newsletter Form */}
-                            <form onSubmit={handleSubscribe} className="space-y-3">
-                                <Input
+                            <form onSubmit={handleSubscribe} className="relative flex items-center bg-white rounded-full p-1 pl-6 shadow-sm">
+                                <input
                                     type="email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="your email"
-                                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:border-white focus:ring-white/50 h-12"
+                                    className="flex-grow bg-transparent border-none text-black placeholder:text-gray-400 focus:ring-0 text-sm outline-none"
                                 />
-                                <Button
+                                <button
                                     type="submit"
                                     disabled={submittingNewsletter}
-                                    className="w-full bg-black hover:bg-black/90 text-white font-bold h-12 rounded-lg"
+                                    className="bg-black hover:bg-black/90 text-white font-bold text-[0.7rem] uppercase tracking-widest px-8 py-3 rounded-full transition-all disabled:opacity-50"
                                 >
                                     {submittingNewsletter ? (
-                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <Loader2 className="w-3 h-3 animate-spin" />
                                     ) : (
                                         "subscribe"
                                     )}
-                                </Button>
+                                </button>
                             </form>
                         </div>
                     </motion.div>

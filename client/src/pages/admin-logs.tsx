@@ -31,6 +31,7 @@ export default function AdminLogs() {
 
     const [editingBlog, setEditingBlog] = useState<Partial<BlogPost> | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
     // Fetch all blogs (including drafts) on mount
     useEffect(() => {
@@ -298,7 +299,10 @@ export default function AdminLogs() {
                                             <input
                                                 type="text"
                                                 value={editingBlog.title}
-                                                onChange={(e) => setEditingBlog({ ...editingBlog, title: e.target.value })}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setEditingBlog(prev => prev ? { ...prev, title: val } : null);
+                                                }}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                                 placeholder="The Future of Foundries"
                                             />
@@ -308,7 +312,10 @@ export default function AdminLogs() {
                                             <input
                                                 type="text"
                                                 value={editingBlog.slug}
-                                                onChange={(e) => setEditingBlog({ ...editingBlog, slug: e.target.value })}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setEditingBlog(prev => prev ? { ...prev, slug: val } : null);
+                                                }}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-primary outline-none transition-all"
                                                 placeholder="future-of-foundries"
                                             />
@@ -318,7 +325,11 @@ export default function AdminLogs() {
                                             <input
                                                 type="text"
                                                 value={editingBlog.image_url || ''}
-                                                onChange={(e) => setEditingBlog({ ...editingBlog, image_url: e.target.value })}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setEditingBlog(prev => prev ? { ...prev, image_url: val } : null);
+                                                    setImageError(false);
+                                                }}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all"
                                                 placeholder="https://images.unsplash.com/..."
                                             />
@@ -328,7 +339,10 @@ export default function AdminLogs() {
                                             <input
                                                 type="text"
                                                 value={Array.isArray(editingBlog.tags) ? editingBlog.tags.join(', ') : (editingBlog.tags || '')}
-                                                onChange={(e) => setEditingBlog({ ...editingBlog, tags: e.target.value as any })}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setEditingBlog(prev => prev ? { ...prev, tags: val as any } : null);
+                                                }}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all"
                                                 placeholder="tech, startups, web3"
                                             />
@@ -342,18 +356,41 @@ export default function AdminLogs() {
                                             <textarea
                                                 rows={3}
                                                 value={editingBlog.excerpt}
-                                                onChange={(e) => setEditingBlog({ ...editingBlog, excerpt: e.target.value })}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setEditingBlog(prev => prev ? { ...prev, excerpt: val } : null);
+                                                }}
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all resize-none"
                                                 placeholder="A brief summary for cards and search results..."
                                             />
                                         </div>
                                         <div className="h-full">
-                                            <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Image Preview</label>
-                                            <div className="aspect-video rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center">
-                                                {editingBlog.image_url ? (
-                                                    <img src={editingBlog.image_url} className="w-full h-full object-cover" alt="Preview" />
+                                            <div className="flex items-center justify-between mb-2">
+                                                <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest">Image Preview</label>
+                                                {editingBlog.image_url && imageError && (
+                                                    <span className="text-[10px] text-red-500 font-bold uppercase tracking-wider animate-pulse">Invalid Link</span>
+                                                )}
+                                            </div>
+                                            <div className="aspect-video rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center relative">
+                                                {editingBlog.image_url && !imageError ? (
+                                                    <img
+                                                        key={editingBlog.image_url}
+                                                        src={editingBlog.image_url}
+                                                        className="w-full h-full object-cover transition-opacity duration-300"
+                                                        alt="Preview"
+                                                        onError={() => setImageError(true)}
+                                                    />
                                                 ) : (
-                                                    <div className="text-gray-600 font-mono text-xs">NO IMAGE</div>
+                                                    <div className="flex flex-col items-center gap-2">
+                                                        <div className="text-gray-600 font-mono text-xs">
+                                                            {editingBlog.image_url ? 'IMAGE FAILED TO LOAD' : 'NO IMAGE'}
+                                                        </div>
+                                                        {editingBlog.image_url && (
+                                                            <p className="text-[9px] text-gray-500 max-w-[150px] text-center">
+                                                                Tip: Use a direct link (e.g. ends in .jpg, .png)
+                                                            </p>
+                                                        )}
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>
@@ -366,7 +403,10 @@ export default function AdminLogs() {
                                     <textarea
                                         rows={12}
                                         value={editingBlog.content}
-                                        onChange={(e) => setEditingBlog({ ...editingBlog, content: e.target.value })}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            setEditingBlog(prev => prev ? { ...prev, content: val } : null);
+                                        }}
                                         className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-6 text-white text-lg leading-relaxed focus:border-primary outline-none transition-all font-serif"
                                         placeholder="## Start your transmission here..."
                                     />
