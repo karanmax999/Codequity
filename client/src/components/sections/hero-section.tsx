@@ -171,10 +171,10 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 relative z-10 flex-grow flex flex-col justify-center">
         <div ref={contentRef} data-testid="hero-content" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="col-span-1 lg:col-span-8 text-left">
-            <h1 className="hero-statement text-4xl sm:text-6xl md:text-8xl font-orbitron font-black leading-none md:leading-[0.9] tracking-tighter uppercase text-white mb-6 md:mb-8">
+            <h1 className="hero-statement text-4xl sm:text-6xl md:text-8xl font-orbitron font-black leading-none md:leading-[0.9] tracking-tighter uppercase text-white mb-6 md:mb-8 max-w-full">
               <AnimatedText
                 text="we  back  bold  entrepreneurs  building  the  next  internet"
-                className="text-white bg-transparent"
+                className="text-white bg-transparent whitespace-normal"
               />
             </h1>
 

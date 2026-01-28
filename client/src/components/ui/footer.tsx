@@ -1,6 +1,9 @@
+import { useState } from "react";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
-import { motion } from "framer-motion";
-import { Twitter, Linkedin, Mail, Send, Github } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Twitter, Linkedin, Mail, Send, Github, Loader2, CheckCircle } from "lucide-react";
+import { useNewsletter } from "@/hooks/use-newsletter";
+import { useToast } from "@/hooks/use-toast";
 
 // Lucide doesn't have a Discord icon, so we create a simple one
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -17,6 +20,29 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const { subscribe, submitting } = useNewsletter();
+  const { toast } = useToast();
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    const result = await subscribe(email, 'footer');
+    if (result.success) {
+      toast({
+        title: "Mission Successful",
+        description: result.message,
+      });
+      setEmail("");
+    } else {
+      toast({
+        title: "Transmission Failed",
+        description: result.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   const socialLinks = [
     { icon: Twitter, href: "https://x.com/CodequityOrg", label: "Twitter" },
@@ -50,8 +76,8 @@ export default function Footer() {
     {
       title: "Resources",
       links: [
-        { label: "Blog", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Whitepaper", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Blog", href: "/blog" },
+        { label: "Whitepaper", href: "/whitepaper" },
         { label: "Bug Bounty", href: "https://discord.gg/XnhwAAGe" },
         { label: "Documentation", href: "https://discord.gg/XnhwAAGe" },
         { label: "Media Kit", href: "https://discord.gg/XnhwAAGe" },
@@ -93,7 +119,7 @@ export default function Footer() {
                 From hackathon repo to on-chain revenue.
               </p>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 mb-8">
                 {socialLinks.map((social, i) => (
                   <a
                     key={i}
@@ -106,6 +132,37 @@ export default function Footer() {
                     <social.icon className="w-4 h-4" />
                   </a>
                 ))}
+              </div>
+
+              {/* Newsletter Form */}
+              <div className="max-w-xs">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">join the network</h4>
+                <form onSubmit={handleSubscribe} className="relative group">
+                  <div className="relative">
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Transmission Email"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-sm text-white placeholder:text-gray-600 outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all"
+                    />
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="absolute right-2 top-1.5 p-1.5 bg-primary text-black rounded-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+                    >
+                      {submitting ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </form>
+                <p className="text-[9px] text-gray-600 mt-3 font-mono">
+                  Secure transmission protocols active. No spam.
+                </p>
               </div>
             </motion.div>
           </div>

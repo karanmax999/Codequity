@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBlogs, BlogPost } from "@/hooks/use-blogs";
+import { usePartners, Partner } from "@/hooks/use-partners";
+import { useProjects, Project } from "@/hooks/use-projects";
 import { supabase } from "@/lib/supabase";
 import {
     Plus, Edit2, Trash2, Eye, EyeOff, Star,
     Link as LinkIcon, Calendar, User, Tag, ArrowLeft,
-    Save, X, CheckCircle, AlertCircle
+    Save, X, CheckCircle, AlertCircle, Handshake, Rocket,
+    ExternalLink, Twitter
 } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -20,25 +23,33 @@ const ADMIN_WALLETS = [
 ];
 
 export default function AdminLogs() {
-    const { blogs, loading, refresh } = useBlogs();
+    const { blogs, loading: blogsLoading, refresh: refreshBlogs } = useBlogs();
+    const { partners, loading: partnersLoading, refresh: refreshPartners, savePartner, deletePartner } = usePartners();
+    const { projects, loading: projectsLoading, refresh: refreshProjects, saveProject, deleteProject } = useProjects();
+
     const { toast } = useToast();
     const activeAccount = useActiveAccount();
 
-    // Check if the current user is an admin
     const isAdmin = activeAccount && ADMIN_WALLETS.some(
         addr => addr.toLowerCase() === activeAccount.address.toLowerCase()
     );
 
+    const [activeTab, setActiveTab] = useState<'blogs' | 'partners' | 'projects'>('blogs');
     const [editingBlog, setEditingBlog] = useState<Partial<BlogPost> | null>(null);
+    const [editingPartner, setEditingPartner] = useState<Partial<Partner> | null>(null);
+    const [editingProject, setEditingProject] = useState<Partial<Project> | null>(null);
+
     const [isSaving, setIsSaving] = useState(false);
     const [imageError, setImageError] = useState(false);
 
+    const loading = blogsLoading || partnersLoading || projectsLoading;
+
     // Fetch all blogs (including drafts) on mount
     useEffect(() => {
-        refresh(true);
+        refreshBlogs(true);
     }, []);
 
-    const handleSave = async () => {
+    const handleSaveBlog = async () => {
         if (!editingBlog?.title || !editingBlog?.slug) {
             toast({ title: "Validation Error", description: "Title and Slug are required.", variant: "destructive" });
             return;
@@ -59,25 +70,48 @@ export default function AdminLogs() {
 
             if (error) throw error;
 
-            toast({
-                title: "Success",
-                description: id ? "Transmission updated successfully." : "New transmission sent.",
-                action: (
-                    <button
-                        onClick={() => window.open(`/blog/${editingBlog.slug}`, '_blank')}
-                        className="bg-primary text-black px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all"
-                    >
-                        View Live
-                    </button>
-                )
-            });
+            toast({ title: "Success", description: id ? "Transmission updated." : "New transmission sent." });
             setEditingBlog(null);
-            refresh(true);
+            refreshBlogs(true);
         } catch (err: any) {
             toast({ title: "Error Saving", description: err.message, variant: "destructive" });
         } finally {
             setIsSaving(false);
         }
+    };
+
+    const handleSavePartner = async () => {
+        if (!editingPartner?.name) {
+            toast({ title: "Validation Error", description: "Name is required.", variant: "destructive" });
+            return;
+        }
+
+        setIsSaving(true);
+        const res = await savePartner(editingPartner);
+        if (res.success) {
+            toast({ title: "Success", description: "Partner info synchronized." });
+            setEditingPartner(null);
+        } else {
+            toast({ title: "Error Saving", description: res.message, variant: "destructive" });
+        }
+        setIsSaving(false);
+    };
+
+    const handleSaveProject = async () => {
+        if (!editingProject?.name) {
+            toast({ title: "Validation Error", description: "Name is required.", variant: "destructive" });
+            return;
+        }
+
+        setIsSaving(true);
+        const res = await saveProject(editingProject);
+        if (res.success) {
+            toast({ title: "Success", description: "Project updated." });
+            setEditingProject(null);
+        } else {
+            toast({ title: "Error Saving", description: res.message, variant: "destructive" });
+        }
+        setIsSaving(false);
     };
 
     if (!activeAccount) {
@@ -141,7 +175,7 @@ export default function AdminLogs() {
 
         if (!error) {
             toast({ title: "Status Updated", description: `${blog.title} is now a ${newStatus}.` });
-            refresh(true);
+            refreshBlogs(true);
         }
     };
 
@@ -153,7 +187,7 @@ export default function AdminLogs() {
 
         if (!error) {
             toast({ title: "Featured Updated", description: `Featured status toggled for ${blog.title}.` });
-            refresh(true);
+            refreshBlogs(true);
         }
     };
 
@@ -162,7 +196,7 @@ export default function AdminLogs() {
         const { error } = await supabase.from('blogs').delete().eq('id', id);
         if (!error) {
             toast({ title: "Log Deleted", description: "The transmission has been purged." });
-            refresh(true);
+            refreshBlogs(true);
         }
     };
 
@@ -184,103 +218,202 @@ export default function AdminLogs() {
                             <p className="text-gray-500 mt-2">Manage your transmissions and site content.</p>
                         </div>
 
+                        <div className="flex bg-white/5 p-1 rounded-full border border-white/10 w-fit">
+                            <button
+                                onClick={() => setActiveTab('blogs')}
+                                className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${activeTab === 'blogs' ? 'bg-primary text-black' : 'text-gray-400 hover:text-white'}`}
+                            >
+                                <Tag className="w-3 h-3 inline-block mr-2" /> Blogs
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('partners')}
+                                className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${activeTab === 'partners' ? 'bg-primary text-black' : 'text-gray-400 hover:text-white'}`}
+                            >
+                                <Handshake className="w-3 h-3 inline-block mr-2" /> Partners
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('projects')}
+                                className={`px-6 py-2 rounded-full text-xs font-bold transition-all ${activeTab === 'projects' ? 'bg-primary text-black' : 'text-gray-400 hover:text-white'}`}
+                            >
+                                <Rocket className="w-3 h-3 inline-block mr-2" /> Projects
+                            </button>
+                        </div>
+
                         <button
-                            onClick={() => setEditingBlog({ title: '', slug: '', excerpt: '', content: '', status: 'draft', tags: [], image_url: '' })}
+                            onClick={() => {
+                                if (activeTab === 'blogs') setEditingBlog({ title: '', slug: '', excerpt: '', content: '', status: 'draft', tags: [], image_url: '' });
+                                if (activeTab === 'partners') setEditingPartner({ name: '', category: 'Ecosystems', logo_url: '', website_url: '', is_active: true });
+                                if (activeTab === 'projects') setEditingProject({ name: '', tagline: '', description: '', tags: [], status: 'building', cohort_id: 'C3' });
+                            }}
                             className="flex items-center gap-2 px-6 py-3 bg-primary text-black font-bold uppercase tracking-widest text-sm rounded-full hover:scale-105 transition-transform"
                         >
-                            <Plus className="w-4 h-4" /> Create New Log
+                            <Plus className="w-4 h-4" /> Create {activeTab === 'blogs' ? 'Log' : activeTab === 'partners' ? 'Partner' : 'Project'}
                         </button>
                     </div>
 
                     {/* Dashboard Stats */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <StatCard label="Total Logs" value={blogs.length} />
-                        <StatCard label="Published" value={blogs.filter(b => b.status === 'published').length} color="text-green-500" />
-                        <StatCard label="Featured" value={blogs.filter(b => b.is_featured).length} color="text-yellow-500" />
+                        {activeTab === 'blogs' ? (
+                            <>
+                                <StatCard label="Total Logs" value={blogs.length} />
+                                <StatCard label="Published" value={blogs.filter(b => b.status === 'published').length} color="text-green-500" />
+                                <StatCard label="Featured" value={blogs.filter(b => b.is_featured).length} color="text-yellow-500" />
+                            </>
+                        ) : activeTab === 'partners' ? (
+                            <>
+                                <StatCard label="Total partners" value={partners.length} />
+                                <StatCard label="Active Allies" value={partners.filter(p => p.is_active).length} color="text-green-500" />
+                                <StatCard label="Categories" value={new Set(partners.map(p => p.category)).size} color="text-primary" />
+                            </>
+                        ) : (
+                            <>
+                                <StatCard label="Total Projects" value={projects.length} />
+                                <StatCard label="Mainnet/Live" value={projects.filter(p => p.status === 'mainnet' || p.status === 'live').length} color="text-green-500" />
+                                <StatCard label="Building" value={projects.filter(p => p.status === 'building').length} color="text-orange-500" />
+                            </>
+                        )}
                     </div>
 
-                    {/* Logs Table */}
                     <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="border-b border-white/10 bg-white/5">
-                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">Transmission</th>
-                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">Status</th>
-                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">Featured</th>
+                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">{activeTab === 'blogs' ? 'Transmission' : activeTab === 'partners' ? 'Partner' : 'Project'}</th>
+                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">{activeTab === 'blogs' ? 'Status' : activeTab === 'partners' ? 'Category' : 'Cohort'}</th>
+                                        <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500">{activeTab === 'blogs' ? 'Featured' : activeTab === 'partners' ? 'Active' : 'Status'}</th>
                                         <th className="p-4 text-xs uppercase tracking-widest font-bold text-gray-500 text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={4} className="p-12 text-center text-gray-500 animate-pulse">Scanning database...</td>
+                                            <td colSpan={4} className="p-12 text-center text-gray-500 animate-pulse">Synchronizing control center...</td>
                                         </tr>
-                                    ) : blogs.map((blog) => (
-                                        <tr key={blog.id} className="hover:bg-white/5 transition-colors group">
-                                            <td className="p-4 font-normal">
-                                                <div className="flex items-center gap-4">
-                                                    {blog.image_url && (
-                                                        <img src={blog.image_url} className="w-12 h-12 rounded-lg object-cover border border-white/10" alt="" />
-                                                    )}
-                                                    <div>
-                                                        <div className="font-bold group-hover:text-primary transition-colors">{blog.title}</div>
-                                                        <div className="text-xs text-gray-500 font-mono">/{blog.slug}</div>
+                                    ) : activeTab === 'blogs' ? (
+                                        blogs.map((blog) => (
+                                            <tr key={blog.id} className="hover:bg-white/5 transition-colors group">
+                                                <td className="p-4 font-normal">
+                                                    <div className="flex items-center gap-4">
+                                                        {blog.image_url && (
+                                                            <img src={blog.image_url} className="w-12 h-12 rounded-lg object-cover border border-white/10" alt="" />
+                                                        )}
+                                                        <div>
+                                                            <div className="font-bold group-hover:text-primary transition-colors">{blog.title}</div>
+                                                            <div className="text-xs text-gray-500 font-mono">/{blog.slug}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td className="p-4">
-                                                <button
-                                                    onClick={() => toggleStatus(blog)}
-                                                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${blog.status === 'published'
-                                                        ? 'bg-green-500/10 text-green-500 border border-green-500/20'
-                                                        : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
-                                                        }`}
-                                                >
-                                                    {blog.status === 'published' ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                                                    {blog.status}
-                                                </button>
-                                            </td>
-                                            <td className="p-4">
-                                                <button
-                                                    onClick={() => toggleFeatured(blog)}
-                                                    className={`p-2 rounded-lg transition-all ${blog.is_featured
-                                                        ? 'text-yellow-500 bg-yellow-500/10'
-                                                        : 'text-gray-500 hover:text-white'
-                                                        }`}
-                                                >
-                                                    <Star className={`w-5 h-5 ${blog.is_featured ? 'fill-current' : ''}`} />
-                                                </button>
-                                            </td>
-                                            <td className="p-4 text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <a
-                                                        href={`/blog/${blog.slug}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="p-2 text-gray-400 hover:text-green-400 transition-colors"
-                                                        title="View Live"
-                                                    >
-                                                        <Eye className="w-4 h-4" />
-                                                    </a>
+                                                </td>
+                                                <td className="p-4">
                                                     <button
-                                                        onClick={() => setEditingBlog(blog)}
-                                                        className="p-2 text-gray-400 hover:text-primary transition-colors"
-                                                        title="Edit"
+                                                        onClick={() => toggleStatus(blog)}
+                                                        className={`flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${blog.status === 'published'
+                                                            ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                                            : 'bg-gray-500/10 text-gray-400 border border-gray-500/20'
+                                                            }`}
                                                     >
-                                                        <Edit2 className="w-4 h-4" />
+                                                        {blog.status === 'published' ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                                                        {blog.status}
                                                     </button>
+                                                </td>
+                                                <td className="p-4">
                                                     <button
-                                                        onClick={() => deleteBlog(blog.id)}
-                                                        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                                                        title="Delete"
+                                                        onClick={() => toggleFeatured(blog)}
+                                                        className={`p-2 rounded-lg transition-all ${blog.is_featured
+                                                            ? 'text-yellow-500 bg-yellow-500/10'
+                                                            : 'text-gray-500 hover:text-white'
+                                                            }`}
                                                     >
-                                                        <Trash2 className="w-4 h-4" />
+                                                        <Star className={`w-5 h-5 ${blog.is_featured ? 'fill-current' : ''}`} />
                                                     </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+                                                <td className="p-4 text-right">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        <a href={`/blog/${blog.slug}`} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-green-400 transition-colors">
+                                                            <Eye className="w-4 h-4" />
+                                                        </a>
+                                                        <button onClick={() => setEditingBlog(blog)} className="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button onClick={() => deleteBlog(blog.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : activeTab === 'partners' ? (
+                                        partners.map((partner) => (
+                                            <tr key={partner.id} className="hover:bg-white/5 transition-colors group">
+                                                <td className="p-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-2">
+                                                            {partner.logo_url ? <img src={partner.logo_url} className="max-w-full max-h-full" alt="" /> : <Handshake className="w-4 h-4 text-gray-600" />}
+                                                        </div>
+                                                        <div className="font-bold group-hover:text-primary transition-colors">{partner.name}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <span className="text-xs text-gray-400 uppercase tracking-widest">{partner.category}</span>
+                                                </td>
+                                                <td className="p-4">
+                                                    <button
+                                                        onClick={() => savePartner({ ...partner, is_active: !partner.is_active })}
+                                                        className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${partner.is_active ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}
+                                                    >
+                                                        {partner.is_active ? 'Active' : 'Inactive'}
+                                                    </button>
+                                                </td>
+                                                <td className="p-4 text-right">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        <button onClick={() => setEditingPartner(partner)} className="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button onClick={() => deletePartner(partner.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        projects.map((project) => (
+                                            <tr key={project.id} className="hover:bg-white/5 transition-colors group">
+                                                <td className="p-4 font-normal">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                                                            {project.image_url ? <img src={project.image_url} className="w-full h-full object-cover" alt="" /> : <Rocket className="w-4 h-4 text-gray-600" />}
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-bold group-hover:text-primary transition-colors">{project.name}</div>
+                                                            <div className="text-[10px] text-gray-500 uppercase tracking-widest">{project.tagline}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4 text-xs font-bold font-orbitron">{project.cohort_id}</td>
+                                                <td className="p-4">
+                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${project.status === 'live' || project.status === 'mainnet' ? 'bg-green-500/10 text-green-400' : 'bg-orange-500/10 text-orange-400'}`}>
+                                                        {project.status}
+                                                    </span>
+                                                </td>
+                                                <td className="p-4 text-right">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        {project.website_url && (
+                                                            <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                                <ExternalLink className="w-4 h-4" />
+                                                            </a>
+                                                        )}
+                                                        <button onClick={() => setEditingProject(project)} className="p-2 text-gray-400 hover:text-primary transition-colors">
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button onClick={() => deleteProject(project.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -443,7 +576,7 @@ export default function AdminLogs() {
                                         Cancel
                                     </button>
                                     <button
-                                        onClick={handleSave}
+                                        onClick={handleSaveBlog}
                                         disabled={isSaving}
                                         className="px-10 py-4 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-full hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,212,255,0.2)]"
                                     >
@@ -454,6 +587,120 @@ export default function AdminLogs() {
                                         )}
                                         {editingBlog.id ? 'Update Transmission' : 'Send Transmission'}
                                     </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* Partner Editor Modal */}
+                <AnimatePresence>
+                    {editingPartner && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setEditingPartner(null)} className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative bg-[#0a0a0a] border border-white/10 w-full max-w-2xl overflow-y-auto rounded-3xl shadow-2xl p-8">
+                                <h2 className="text-xl font-orbitron font-black uppercase tracking-widest text-primary mb-8">{editingPartner.id ? 'Edit Partner' : 'New Alliance'}</h2>
+                                <div className="space-y-6 mb-10">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Partner Name</label>
+                                            <input type="text" value={editingPartner.name} onChange={e => setEditingPartner({ ...editingPartner, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Category</label>
+                                            <select value={editingPartner.category} onChange={e => setEditingPartner({ ...editingPartner, category: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
+                                                <option value="Ecosystems">Ecosystems</option>
+                                                <option value="Infrastructure">Infrastructure</option>
+                                                <option value="Venture Capital">Venture Capital</option>
+                                                <option value="Community">Community</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Website URL</label>
+                                        <input type="text" value={editingPartner.website_url} onChange={e => setEditingPartner({ ...editingPartner, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Logo URL</label>
+                                        <input type="text" value={editingPartner.logo_url} onChange={e => setEditingPartner({ ...editingPartner, logo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Perk Title</label>
+                                            <input type="text" value={editingPartner.perk_title} onChange={e => setEditingPartner({ ...editingPartner, perk_title: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" placeholder="e.g. 50k Credits" />
+                                        </div>
+                                        <div className="flex items-end">
+                                            <button onClick={() => setEditingPartner({ ...editingPartner, is_active: !editingPartner.is_active })} className={`w-full py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] border transition-all ${editingPartner.is_active ? 'bg-green-500/10 border-green-500/50 text-green-500' : 'bg-red-500/10 border-red-500/50 text-red-500'}`}>
+                                                {editingPartner.is_active ? 'Status: Active' : 'Status: Inactive'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end gap-4 font-orbitron">
+                                    <button onClick={() => setEditingPartner(null)} className="px-6 py-2 text-gray-500 hover:text-white uppercase text-xs tracking-widest font-black">Cancel</button>
+                                    <button onClick={handleSavePartner} disabled={isSaving} className="px-8 py-3 bg-primary text-black rounded-full font-black uppercase text-xs tracking-widest hover:scale-105 active:scale-95 transition-all">Synchronize Alliance</button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* Project Editor Modal */}
+                <AnimatePresence>
+                    {editingProject && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setEditingProject(null)} className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative bg-[#0a0a0a] border border-white/10 w-full max-w-2xl overflow-y-auto rounded-3xl shadow-2xl p-8">
+                                <h2 className="text-xl font-orbitron font-black uppercase tracking-widest text-primary mb-8">{editingProject.id ? 'Edit Project' : 'New Deployment'}</h2>
+                                <div className="space-y-6 mb-10">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Project Name</label>
+                                            <input type="text" value={editingProject.name} onChange={e => setEditingProject({ ...editingProject, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Status</label>
+                                            <select value={editingProject.status} onChange={e => setEditingProject({ ...editingProject, status: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
+                                                <option value="building">Building</option>
+                                                <option value="testnet">Testnet</option>
+                                                <option value="mainnet">Mainnet</option>
+                                                <option value="live">Live</option>
+                                                <option value="beta">Beta</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Tagline</label>
+                                        <input type="text" value={editingProject.tagline} onChange={e => setEditingProject({ ...editingProject, tagline: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Description</label>
+                                        <textarea rows={3} value={editingProject.description} onChange={e => setEditingProject({ ...editingProject, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary resize-none text-sm" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Cohort ID</label>
+                                            <input type="text" value={editingProject.cohort_id} onChange={e => setEditingProject({ ...editingProject, cohort_id: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" placeholder="C1, C2, C3" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Tags (Comma separated)</label>
+                                            <input type="text" value={Array.isArray(editingProject.tags) ? editingProject.tags.join(', ') : (editingProject.tags || '')} onChange={e => setEditingProject({ ...editingProject, tags: e.target.value.split(',').map(t => t.trim()) })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Website URL</label>
+                                            <input type="text" value={editingProject.website_url} onChange={e => setEditingProject({ ...editingProject, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Image URL (Logo)</label>
+                                            <input type="text" value={editingProject.image_url} onChange={e => setEditingProject({ ...editingProject, image_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end gap-4 font-orbitron">
+                                    <button onClick={() => setEditingProject(null)} className="px-6 py-2 text-gray-500 hover:text-white uppercase text-xs tracking-widest font-black">Cancel</button>
+                                    <button onClick={handleSaveProject} disabled={isSaving} className="px-8 py-3 bg-primary text-black rounded-full font-black uppercase text-xs tracking-widest hover:scale-105 active:scale-95 transition-all">Finalize Deployment</button>
                                 </div>
                             </motion.div>
                         </div>

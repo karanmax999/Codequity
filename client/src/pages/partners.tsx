@@ -1,47 +1,43 @@
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
-import { Handshake, Zap, Globe, Cpu } from "lucide-react";
+import { Handshake, Zap, Globe, Cpu, Loader2 } from "lucide-react";
+import { usePartners } from "@/hooks/use-partners";
 
-const partners = [
-    {
-        category: "Ecosystems",
-        icon: Globe,
-        desc: "Foundations supporting our cohort with grants & guidance.",
-        items: [
-            { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.png?v=025" },
-            { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.png?v=025" },
-            { name: "Aptos", logo: "https://cryptologos.cc/logos/aptos-apt-logo.png?v=025" },
-            { name: "Celo", logo: "https://cryptologos.cc/logos/celo-celo-logo.png?v=025" },
-            { name: "Arbitrum", logo: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=025" }
-        ]
-    },
-    {
-        category: "Infrastructure",
-        icon: Cpu,
-        desc: "Powering the stack with free credits and premium support.",
-        items: [
-            { name: "QuickNode", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_Rk1lOjkP8QYy5H6_5Qn4_8_8_8_8_8_8&s" }, // Placeholder logic for now, using text in UI mainly
-            { name: "Spheron", logo: "" },
-            { name: "Push Protocol", logo: "" },
-            { name: "Huddle01", logo: "" },
-            { name: "Graph", logo: "" }
-        ]
-    },
-    {
-        category: "Venture Capital",
-        icon: Zap,
-        desc: "Our network of investors ready to back the next unicorn.",
-        items: [
-            { name: "Hashed", logo: "" },
-            { name: "Coinbase Ventures", logo: "" },
-            { name: "Binance Labs", logo: "" },
-            { name: "a16z Crypto", logo: "" }
-        ]
-    }
-];
+const categoryIcons: Record<string, any> = {
+    "Ecosystems": Globe,
+    "Infrastructure": Cpu,
+    "Venture Capital": Zap,
+    "Community": Handshake
+};
 
 export default function Partners() {
+    const { partners, loading } = usePartners();
+
+    // Group partners by category for the UI
+    const groupedPartners = partners.reduce((acc: any[], partner) => {
+        const categoryName = partner.category || "Other";
+        let category = acc.find(c => c.category === categoryName);
+        if (!category) {
+            category = {
+                category: categoryName,
+                icon: categoryIcons[categoryName] || Globe,
+                desc: getCategoryDesc(categoryName),
+                items: []
+            };
+            acc.push(category);
+        }
+        category.items.push(partner);
+        return acc;
+    }, []);
+
+    function getCategoryDesc(cat: string) {
+        if (cat === "Ecosystems") return "Foundations supporting our cohort with grants & guidance.";
+        if (cat === "Infrastructure") return "Powering the stack with free credits and premium support.";
+        if (cat === "Venture Capital") return "Our network of investors ready to back the next unicorn.";
+        return "Supporting the CodeQuity community.";
+    }
+
     return (
         <div className="min-h-screen bg-black text-white selection:bg-primary/30 font-sans">
             <Navigation />
@@ -57,28 +53,46 @@ export default function Partners() {
                 </div>
 
                 <div className="container mx-auto px-6 max-w-6xl space-y-24">
-                    {partners.map((section, idx) => (
-                        <div key={idx} className="relative">
-                            <div className="flex flex-col items-center mb-12">
-                                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                                    <section.icon className="w-8 h-8 text-primary" />
-                                </div>
-                                <h2 className="text-3xl font-orbitron font-bold mb-2">{section.category}</h2>
-                                <p className="text-muted-foreground">{section.desc}</p>
-                            </div>
-
-                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                                {section.items.map((partner, pIdx) => (
-                                    <div key={pIdx} className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center aspect-square hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
-                                        <div className="w-full h-full flex items-center justify-center grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100">
-                                            {/* Using text fallback for now to avoid broken images, but styled like logos */}
-                                            <span className="font-bold text-lg md:text-xl font-orbitron text-center">{partner.name}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                    {loading ? (
+                        <div className="flex flex-col items-center py-20">
+                            <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+                            <p className="text-gray-500 font-orbitron uppercase tracking-widest text-sm">Synchronizing Alliance Data...</p>
                         </div>
-                    ))}
+                    ) : groupedPartners.length === 0 ? (
+                        <div className="text-center py-20 border border-white/5 rounded-3xl bg-white/5">
+                            <Handshake className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                            <h2 className="text-2xl font-orbitron font-bold mb-2">No Allies Found</h2>
+                            <p className="text-gray-500">The alliance network is currently being established.</p>
+                        </div>
+                    ) : (
+                        groupedPartners.map((section, idx) => (
+                            <div key={idx} className="relative">
+                                <div className="flex flex-col items-center mb-12">
+                                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                                        <section.icon className="w-8 h-8 text-primary" />
+                                    </div>
+                                    <h2 className="text-3xl font-orbitron font-bold mb-2">{section.category}</h2>
+                                    <p className="text-muted-foreground">{section.desc}</p>
+                                </div>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                                    {section.items.map((partner: any, pIdx: number) => (
+                                        <div key={pIdx} className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center aspect-square hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+                                            <div className="w-full h-full flex flex-col items-center justify-center transition-all">
+                                                {partner.logo_url ? (
+                                                    <img src={partner.logo_url} alt={partner.name} className="max-h-12 w-auto mb-4 grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100" />
+                                                ) : null}
+                                                <span className="font-bold text-lg md:text-xl font-orbitron text-center group-hover:text-primary transition-colors">{partner.name}</span>
+                                                {partner.perk_title && (
+                                                    <span className="text-[10px] uppercase font-black text-primary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">{partner.perk_title}</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
 
                 <div className="container mx-auto px-6 py-24 text-center">

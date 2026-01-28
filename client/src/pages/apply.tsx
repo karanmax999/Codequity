@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ChevronRight, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Loader2, CheckCircle2, Cpu, Globe, Gamepad2, Share2, Lightbulb, Puzzle, Layers, Milestone, Rocket } from "lucide-react";
 import { Link } from "wouter";
 import { supabase, isMockClient } from "@/lib/supabase";
 
@@ -137,21 +137,21 @@ export default function Apply() {
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="max-w-md w-full bg-white/5 border border-primary/30 rounded-3xl p-8 flex flex-col items-center"
+                        className="max-w-md w-full bg-[#0A0A0A] border border-primary/20 rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 flex flex-col items-center shadow-[0_0_50px_rgba(0,0,0,0.5)]"
                     >
-                        <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-6 text-primary">
-                            <CheckCircle2 className="w-10 h-10" />
+                        <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-10 text-primary border border-primary/20 shadow-[0_0_30px_rgba(0,212,255,0.2)]">
+                            <CheckCircle2 className="w-12 h-12" />
                         </div>
-                        <h2 className="text-3xl font-orbitron font-bold mb-4">Application Received!</h2>
-                        <p className="text-muted-foreground mb-8">
-                            Your application for Cohort 3 looks solid. Our team will review it and get back to you within 48 hours via email.
+                        <h2 className="text-4xl font-orbitron font-black mb-6 uppercase tracking-tight">Transmission <br /><span className="text-primary italic">Received</span></h2>
+                        <p className="text-gray-500 mb-10 font-medium leading-relaxed">
+                            Your application for Cohort 3 is officially on-chain. Our review team will verify your credentials and respond via secure channels within 48 hours.
                         </p>
-                        <div className="flex gap-4">
-                            <Button asChild className="bg-white/10 hover:bg-white/20">
-                                <Link href="/">Back Home</Link>
+                        <div className="flex flex-col w-full gap-4">
+                            <Button asChild className="bg-primary text-black font-black uppercase tracking-widest h-14 rounded-full hover:scale-105 transition-all">
+                                <a href="https://discord.com/invite/XnhwAAGe" target="_blank" rel="noopener noreferrer">Join the Hive</a>
                             </Button>
-                            <Button asChild className="bg-primary hover:bg-primary/90 text-black">
-                                <a href="https://discord.com/invite/XnhwAAGe" target="_blank" rel="noopener noreferrer">Join Discord</a>
+                            <Button asChild variant="ghost" className="text-gray-500 hover:text-white font-bold uppercase tracking-widest">
+                                <Link href="/">Back to Mission</Link>
                             </Button>
                         </div>
                     </motion.div>
@@ -204,7 +204,7 @@ export default function Apply() {
                 </div>
 
                 {/* Form Container */}
-                <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-10 backdrop-blur-sm relative overflow-hidden">
+                <div className="bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 backdrop-blur-sm relative overflow-hidden">
                     {/* Background Glow */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] -z-10" />
 
@@ -222,24 +222,24 @@ export default function Apply() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label htmlFor="teamName" className="text-sm font-medium text-gray-300">Team Name</label>
+                                        <label htmlFor="teamName" className="text-sm font-bold uppercase tracking-widest text-gray-400">Team Name</label>
                                         <input
                                             id="teamName"
                                             {...form1.register("teamName")}
                                             autoComplete="organization"
-                                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                             placeholder="e.g. AlgoRhythm"
                                         />
                                         {form1.formState.errors.teamName && <p className="text-red-400 text-xs">{form1.formState.errors.teamName.message}</p>}
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label htmlFor="leadName" className="text-sm font-medium text-gray-300">Team Lead</label>
+                                        <label htmlFor="leadName" className="text-sm font-bold uppercase tracking-widest text-gray-400">Team Lead</label>
                                         <input
                                             id="leadName"
                                             {...form1.register("leadName")}
                                             autoComplete="name"
-                                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                             placeholder="Your full name"
                                         />
                                         {form1.formState.errors.leadName && <p className="text-red-400 text-xs">{form1.formState.errors.leadName.message}</p>}
@@ -247,25 +247,25 @@ export default function Apply() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="email" className="text-sm font-medium text-gray-300">Email Address</label>
+                                    <label htmlFor="email" className="text-sm font-bold uppercase tracking-widest text-gray-400">Email Address</label>
                                     <input
                                         id="email"
                                         {...form1.register("email")}
                                         autoComplete="email"
                                         type="email"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                         placeholder="you@example.com"
                                     />
                                     {form1.formState.errors.email && <p className="text-red-400 text-xs">{form1.formState.errors.email.message}</p>}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="github" className="text-sm font-medium text-gray-300">GitHub Profile / Org</label>
+                                    <label htmlFor="github" className="text-sm font-bold uppercase tracking-widest text-gray-400">GitHub Profile / Org</label>
                                     <input
                                         id="github"
                                         {...form1.register("github")}
                                         autoComplete="url"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                         placeholder="github.com/username"
                                     />
                                     {form1.formState.errors.github && <p className="text-red-400 text-xs">{form1.formState.errors.github.message}</p>}
@@ -290,60 +290,79 @@ export default function Apply() {
                             >
                                 <h2 className="text-2xl font-bold font-orbitron">What are you building?</h2>
 
-                                <div className="space-y-2">
-                                    <label htmlFor="projectName" className="text-sm font-medium text-gray-300">Project Name</label>
+                                <div className="space-y-4">
+                                    <label htmlFor="projectName" className="text-sm font-bold uppercase tracking-widest text-gray-400">Project Name</label>
                                     <input
                                         id="projectName"
                                         {...form2.register("projectName")}
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                         placeholder="Name of your dApp"
                                     />
                                     {form2.formState.errors.projectName && <p className="text-red-400 text-xs">{form2.formState.errors.projectName.message}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label htmlFor="category" className="text-sm font-medium text-gray-300">Category</label>
-                                        <select
-                                            id="category"
-                                            {...form2.register("category")}
-                                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white appearance-none"
-                                        >
-                                            <option value="">Select Category</option>
-                                            <option value="defi">DeFi</option>
-                                            <option value="infra">Infrastructure</option>
-                                            <option value="gaming">Gaming/NFT</option>
-                                            <option value="social">Social</option>
-                                            <option value="other">Other</option>
-                                        </select>
+                                    <div className="space-y-4">
+                                        <label className="text-sm font-bold uppercase tracking-widest text-gray-400">Project Category</label>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {[
+                                                { id: 'defi', label: 'DeFi', icon: Layers },
+                                                { id: 'infra', label: 'Infra', icon: Cpu },
+                                                { id: 'gaming', label: 'Gaming/NFT', icon: Gamepad2 },
+                                                { id: 'social', label: 'Social', icon: Globe },
+                                            ].map((cat) => (
+                                                <button
+                                                    key={cat.id}
+                                                    type="button"
+                                                    onClick={() => form2.setValue('category', cat.id)}
+                                                    className={`p-4 rounded-2xl border transition-all flex flex-col items-center gap-2 group ${form2.watch('category') === cat.id
+                                                        ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(0,212,255,0.2)]'
+                                                        : 'bg-white/5 border-white/10 text-gray-500 hover:border-white/30 hover:bg-white/[0.08]'
+                                                        }`}
+                                                >
+                                                    <cat.icon className={`w-6 h-6 ${form2.watch('category') === cat.id ? 'text-primary' : 'text-gray-600 group-hover:text-gray-400'} transition-colors`} />
+                                                    <span className="text-[10px] font-black uppercase tracking-tight">{cat.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                         {form2.formState.errors.category && <p className="text-red-400 text-xs">{form2.formState.errors.category.message}</p>}
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <label htmlFor="stage" className="text-sm font-medium text-gray-300">Current Stage</label>
-                                        <select
-                                            id="stage"
-                                            {...form2.register("stage")}
-                                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white appearance-none"
-                                        >
-                                            <option value="">Select Stage</option>
-                                            <option value="idea">Idea Phase</option>
-                                            <option value="prototype">Prototype / MVP</option>
-                                            <option value="testnet">Live on Testnet</option>
-                                            <option value="mainnet">Live on Mainnet</option>
-                                        </select>
+                                    <div className="space-y-4">
+                                        <label className="text-sm font-bold uppercase tracking-widest text-gray-400">Current Stage</label>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {[
+                                                { id: 'idea', label: 'Idea', icon: Lightbulb },
+                                                { id: 'prototype', label: 'MVP', icon: Puzzle },
+                                                { id: 'testnet', label: 'Testnet', icon: Milestone },
+                                                { id: 'mainnet', label: 'Mainnet', icon: Rocket },
+                                            ].map((stg) => (
+                                                <button
+                                                    key={stg.id}
+                                                    type="button"
+                                                    onClick={() => form2.setValue('stage', stg.id)}
+                                                    className={`p-4 rounded-2xl border transition-all flex flex-col items-center gap-2 group ${form2.watch('stage') === stg.id
+                                                        ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(0,212,255,0.2)]'
+                                                        : 'bg-white/5 border-white/10 text-gray-500 hover:border-white/30 hover:bg-white/[0.08]'
+                                                        }`}
+                                                >
+                                                    <stg.icon className={`w-6 h-6 ${form2.watch('stage') === stg.id ? 'text-primary' : 'text-gray-600 group-hover:text-gray-400'} transition-colors`} />
+                                                    <span className="text-[10px] font-black uppercase tracking-tight">{stg.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                         {form2.formState.errors.stage && <p className="text-red-400 text-xs">{form2.formState.errors.stage.message}</p>}
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label htmlFor="description" className="text-sm font-medium text-gray-300">Description</label>
+                                <div className="space-y-4">
+                                    <label htmlFor="description" className="text-sm font-bold uppercase tracking-widest text-gray-400">Project Description</label>
                                     <textarea
                                         id="description"
                                         {...form2.register("description")}
                                         rows={4}
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
-                                        placeholder="Describe your solution in 2-3 sentences..."
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
+                                        placeholder="What mission-critical problem are you solving?"
                                     />
                                     {form2.formState.errors.description && <p className="text-red-400 text-xs">{form2.formState.errors.description.message}</p>}
                                 </div>
@@ -370,26 +389,26 @@ export default function Apply() {
                             >
                                 <h2 className="text-2xl font-bold font-orbitron">Final Pitch</h2>
 
-                                <div className="space-y-2">
-                                    <label htmlFor="videoUrl" className="text-sm font-medium text-gray-300">Demo / Pitch Video URL</label>
+                                <div className="space-y-4">
+                                    <label htmlFor="videoUrl" className="text-sm font-bold uppercase tracking-widest text-gray-400">Demo / Pitch Video URL</label>
                                     <input
                                         id="videoUrl"
                                         {...form3.register("videoUrl")}
                                         autoComplete="url"
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                         placeholder="Loom, Youtube, or Drive link"
                                     />
-                                    <p className="text-xs text-muted-foreground">Please record a 2-min walkthrough of your team/project.</p>
+                                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Please record a 2-min walkthrough of your team/project.</p>
                                     {form3.formState.errors.videoUrl && <p className="text-red-400 text-xs">{form3.formState.errors.videoUrl.message}</p>}
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label htmlFor="motivation" className="text-sm font-medium text-gray-300">Why CodeQuity?</label>
+                                <div className="space-y-4">
+                                    <label htmlFor="motivation" className="text-sm font-bold uppercase tracking-widest text-gray-400">Why CodeQuity?</label>
                                     <textarea
                                         id="motivation"
                                         {...form3.register("motivation")}
                                         rows={3}
-                                        className="w-full bg-black/50 border border-white/10 rounded-xl p-3 focus:outline-none focus:border-primary/50 transition-colors text-white"
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-gray-700"
                                         placeholder="What help do you need most? (Funding, Tech, GTM)"
                                     />
                                     {form3.formState.errors.motivation && <p className="text-red-400 text-xs">{form3.formState.errors.motivation.message}</p>}

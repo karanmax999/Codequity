@@ -3,72 +3,17 @@ import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Twitter, Github, Rocket, Layers } from "lucide-react";
+import { ExternalLink, Twitter, Github, Rocket, Layers, Loader2, Sparkles } from "lucide-react";
+import { useProjects } from "@/hooks/use-projects";
 
-const projects = [
-    {
-        id: 1,
-        name: "VaultBTC",
-        tagline: "Decentralized Bitcoin Custody",
-        description: "Non-custodial BTC bridging and yield generation on EVM chains.",
-        tags: ["DeFi", "Infrastructure"],
-        cohort: "Cohort 1",
-        status: "mainnet"
-    },
-    {
-        id: 2,
-        name: "PixelRealms",
-        tagline: "On-Chain MMORPG",
-        description: "A fully on-chain strategy game where assets are dynamic NFTs.",
-        tags: ["Gaming", "NFT"],
-        cohort: "Cohort 1",
-        status: "live"
-    },
-    {
-        id: 3,
-        name: "TrustPact",
-        tagline: "ZK-Escrow Protocol",
-        description: "Privacy-preserving escrow for freelance payments and grants.",
-        tags: ["DeFi", "Privacy"],
-        cohort: "Cohort 2",
-        status: "testnet"
-    },
-    {
-        id: 4,
-        name: "AgriFi",
-        tagline: "RWA Tokenization",
-        description: "Tokenizing agricultural supply chains for transparent financing.",
-        tags: ["RWA", "Social"],
-        cohort: "Cohort 2",
-        status: "building"
-    },
-    {
-        id: 5,
-        name: "DeFiLens",
-        tagline: "Portfolio Analytics",
-        description: "AI-powered portfolio tracking and risk analysis dashboard.",
-        tags: ["DeFi", "AI"],
-        cohort: "Cohort 1",
-        status: "live"
-    },
-    {
-        id: 6,
-        name: "ChainGuard",
-        tagline: "Smart Contract Security AI",
-        description: "Automated vulnerability detection for Solidity contracts.",
-        tags: ["Infra", "AI"],
-        cohort: "Cohort 2",
-        status: "beta"
-    }
-];
-
-const categories = ["All", "DeFi", "Infra", "Gaming", "RWA", "AI"];
+const categories = ["All", "DeFi", "Infra", "Gaming", "RWA", "AI", "Social"];
 
 export default function Portfolio() {
+    const { projects, loading } = useProjects();
     const [filter, setFilter] = useState("All");
 
     const filteredProjects = projects.filter(p =>
-        filter === "All" || p.tags.includes(filter) || (filter === "Infra" && p.tags.includes("Infrastructure"))
+        filter === "All" || p.tags?.some(t => t.toLowerCase() === filter.toLowerCase()) || (filter === "Infra" && p.tags?.some(t => t.toLowerCase() === "infrastructure"))
     );
 
     return (
@@ -113,58 +58,81 @@ export default function Portfolio() {
                     </div>
 
                     {/* Grid */}
-                    <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <AnimatePresence>
-                            {filteredProjects.map((project) => (
-                                <motion.div
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.2 }}
-                                    key={project.id}
-                                    className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {loading ? (
+                        <div className="flex flex-col items-center py-24">
+                            <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+                            <p className="text-gray-500 font-orbitron uppercase tracking-widest text-sm">Recruiting Projects...</p>
+                        </div>
+                    ) : filteredProjects.length === 0 ? (
+                        <div className="text-center py-24 border border-white/5 rounded-3xl bg-white/5">
+                            <Sparkles className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                            <h2 className="text-2xl font-orbitron font-bold mb-2">No Projects Found</h2>
+                            <p className="text-gray-500 text-sm">Be the first to build the future of {filter === "All" ? "Web3" : filter}.</p>
+                            <Button className="mt-8 bg-primary text-black font-bold uppercase tracking-widest px-8 rounded-full">
+                                Start Building
+                            </Button>
+                        </div>
+                    ) : (
+                        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <AnimatePresence>
+                                {filteredProjects.map((project) => (
+                                    <motion.div
+                                        layout
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                        transition={{ duration: 0.2 }}
+                                        key={project.id}
+                                        className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                    <div className="p-8 relative z-10">
-                                        <div className="flex justify-between items-start mb-6">
-                                            <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center font-bold text-2xl font-orbitron">
-                                                {project.name[0]}
+                                        <div className="p-8 relative z-10">
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center font-bold text-2xl font-orbitron overflow-hidden border border-white/10">
+                                                    {project.image_url ? (
+                                                        <img src={project.image_url} alt={project.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        project.name[0]
+                                                    )}
+                                                </div>
+                                                <div className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-primary border border-primary/20">
+                                                    {project.status}
+                                                </div>
                                             </div>
-                                            <div className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                                {project.status}
+
+                                            <h3 className="text-2xl font-bold font-orbitron mb-2 group-hover:text-primary transition-colors">{project.name}</h3>
+                                            <p className="text-xs font-bold text-gray-500 mb-4 tracking-wider uppercase">{project.tagline}</p>
+                                            <p className="text-gray-400 text-sm mb-6 leading-relaxed line-clamp-3 h-15">
+                                                {project.description}
+                                            </p>
+
+                                            <div className="flex flex-wrap gap-2 mb-8">
+                                                {project.tags?.map(tag => (
+                                                    <span key={tag} className="text-[10px] uppercase font-bold px-3 py-1 bg-white/5 border border-white/10 rounded-md text-gray-300">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex gap-4 pt-4 border-t border-white/5">
+                                                {project.website_url && (
+                                                    <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+                                                        <ExternalLink className="w-3 h-3 mr-2" /> Live Site
+                                                    </a>
+                                                )}
+                                                {project.twitter_url && (
+                                                    <a href={project.twitter_url} target="_blank" rel="noopener noreferrer" className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+                                                        <Twitter className="w-3 h-3 mr-2" /> Twitter
+                                                    </a>
+                                                )}
                                             </div>
                                         </div>
-
-                                        <h3 className="text-2xl font-bold font-orbitron mb-2">{project.name}</h3>
-                                        <p className="text-sm font-bold text-primary mb-4">{project.tagline}</p>
-                                        <p className="text-muted-foreground text-sm mb-6 leading-relaxed h-12">
-                                            {project.description}
-                                        </p>
-
-                                        <div className="flex flex-wrap gap-2 mb-8">
-                                            {project.tags.map(tag => (
-                                                <span key={tag} className="text-[10px] uppercase font-bold px-2 py-1 bg-white/5 border border-white/5 rounded-md text-gray-400">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex gap-4 pt-4 border-t border-white/5">
-                                            <Button size="sm" variant="ghost" className="hover:text-primary px-0">
-                                                <ExternalLink className="w-4 h-4 mr-2" /> Live Site
-                                            </Button>
-                                            <Button size="sm" variant="ghost" className="hover:text-primary px-0">
-                                                <Twitter className="w-4 h-4 mr-2" /> Follow
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
-
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+                        </motion.div>
+                    )}
                 </div>
             </div>
 

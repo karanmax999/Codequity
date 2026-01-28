@@ -23,6 +23,7 @@ import Founder from "@/pages/founder";
 import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
 import AdminLogs from "@/pages/admin-logs";
+import Whitepaper from "@/pages/whitepaper";
 
 import { ThemeProvider } from "next-themes";
 
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/admin/logs" component={AdminLogs} />
+      <Route path="/whitepaper" component={Whitepaper} />
 
       <Route component={NotFound} />
     </Switch>

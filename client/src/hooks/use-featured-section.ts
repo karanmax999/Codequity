@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useNewsletter } from './use-newsletter';
 
 export interface FeaturedArticle {
     id: string;
@@ -33,7 +34,7 @@ export function useFeaturedSection() {
     const [articles, setArticles] = useState<FeaturedArticle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [submittingNewsletter, setSubmittingNewsletter] = useState(false);
+    const { subscribe: subscribeToNewsletter, submitting: submittingNewsletter } = useNewsletter();
 
     const fetchArticles = async () => {
         try {
@@ -89,21 +90,8 @@ export function useFeaturedSection() {
         }
     };
 
-    const subscribeToNewsletter = async (email: string) => {
-        setSubmittingNewsletter(true);
-        try {
-            const { error: subError } = await supabase
-                .from('newsletter_subscribers')
-                .insert([{ email, source: 'featured_section' }]);
-
-            if (subError) throw subError;
-            return { success: true, message: 'Subscribed successfully!' };
-        } catch (err: any) {
-            console.error('Error subscribing to newsletter:', err);
-            return { success: false, message: err.message || 'Subscription failed.' };
-        } finally {
-            setSubmittingNewsletter(false);
-        }
+    const internalSubscribe = async (email: string) => {
+        return await subscribeToNewsletter(email, 'featured_section');
     };
 
     useEffect(() => {
@@ -115,7 +103,7 @@ export function useFeaturedSection() {
         loading,
         error,
         submittingNewsletter,
-        subscribeToNewsletter,
+        subscribeToNewsletter: internalSubscribe,
         refresh: fetchArticles
     };
 }
