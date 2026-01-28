@@ -1,5 +1,7 @@
 import Navigation from "@/components/ui/navigation";
 import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import Footer from "@/components/ui/footer";
 
 export default function Founder() {
     return (
