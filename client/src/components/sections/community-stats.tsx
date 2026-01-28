@@ -132,7 +132,7 @@ export default function CommunityStats() {
         {/* Problem -> Solution Block */}
         <div className="problem-solution-container grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-24 md:mb-32 max-w-6xl mx-auto">
           {/* Problem Card */}
-          <div className="problem-card group relative p-10 md:p-12 bg-[#F9FAFB] border border-gray-200 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
+          <div className="problem-card group relative p-6 sm:p-10 md:p-12 bg-[#F9FAFB] border border-gray-200 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <XCircle className="w-24 h-24 text-black" />
             </div>
@@ -142,7 +142,7 @@ export default function CommunityStats() {
                 Phase 01: The Friction
               </span>
 
-              <h3 className="text-[2.5rem] md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
+              <h3 className="text-3xl sm:text-4xl md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
                 78% of hackathon projects <span className="italic text-gray-400 font-normal">die in GitHub.</span>
               </h3>
 
@@ -155,7 +155,7 @@ export default function CommunityStats() {
           </div>
 
           {/* Solution Card */}
-          <div className="solution-card group relative p-10 md:p-12 bg-white border border-emerald-100 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.1)]">
+          <div className="solution-card group relative p-6 sm:p-10 md:p-12 bg-white border border-emerald-100 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.1)]">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <CheckCircle2 className="w-24 h-24 text-emerald-500" />
             </div>
@@ -165,7 +165,7 @@ export default function CommunityStats() {
                 Phase 02: The Forge
               </span>
 
-              <h3 className="text-[2.5rem] md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
+              <h3 className="text-3xl sm:text-4xl md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
                 We build <span className="text-emerald-500 italic">businesses</span>, not just repos.
               </h3>
 
@@ -183,7 +183,7 @@ export default function CommunityStats() {
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-          <h3 className="text-2xl font-orbitron font-bold text-center mb-10">Ships from the <span className="gradient-text">Foundry</span></h3>
+          <h3 className="text-xl sm:text-2xl font-orbitron font-bold text-center mb-10 text-white">Ships from the <span className="gradient-text">Foundry</span></h3>
 
           {/* Container for the scroll track */}
           <div className="flex w-[200%] foundry-track">

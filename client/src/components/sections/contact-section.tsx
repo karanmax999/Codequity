@@ -62,7 +62,7 @@ export default function ContactSection() {
     <section id="contact" className="py-32 circuit-pattern" data-testid="contact-section">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold mb-6">
             Get <span className="gradient-text">Connected</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -70,7 +70,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
           {/* Contact Info */}
           <motion.div
             className="space-y-8"
@@ -117,7 +117,7 @@ export default function ContactSection() {
           >
             <h3 className="text-2xl font-orbitron font-semibold mb-6">Join Our Community</h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
               {socialPlatforms.map((platform, index) => (
                 <motion.a
                   key={platform.name}

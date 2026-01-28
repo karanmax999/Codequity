@@ -127,7 +127,7 @@ export default function BuilderGuildSection() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold mb-6">
             Web3 <span className="gradient-text">Builder Guild</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -200,7 +200,7 @@ export default function BuilderGuildSection() {
         </div>
 
         <div
-          className="benefits-container max-w-5xl mx-auto bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-12 scale-100 opacity-100"
+          className="benefits-container max-w-5xl mx-auto bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 md:p-12 scale-100 opacity-100"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>

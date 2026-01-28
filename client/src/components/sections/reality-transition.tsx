@@ -55,7 +55,7 @@ export default function RealityTransition() {
                     {/* Decorative Elements */}
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-t from-primary to-transparent opacity-50" />
 
-                    <h2 className="text-5xl sm:text-7xl md:text-9xl font-orbitron font-black tracking-tighter text-white">
+                    <h2 className="text-4xl sm:text-7xl md:text-9xl font-orbitron font-black tracking-tighter text-white">
                         <span className="relative inline-block">
                             {/* Stroke Text Reveal */}
                             <span className="absolute inset-0 text-transparent border-white/10 [-webkit-text-stroke:1px_rgba(255,255,255,0.1)] select-none">
@@ -72,7 +72,7 @@ export default function RealityTransition() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mt-4 text-xs md:text-sm font-orbitron tracking-[0.5em] text-primary/60 uppercase font-bold"
+                        className="mt-4 text-[10px] md:text-sm font-orbitron tracking-[0.2em] sm:tracking-[0.5em] text-primary/60 uppercase font-bold text-center"
                     >
                         Phase 01 /// Foundries & Forges
                     </motion.p>
