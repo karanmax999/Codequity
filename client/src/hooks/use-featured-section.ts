@@ -11,25 +11,6 @@ export interface FeaturedArticle {
     type: string;
 }
 
-const DEFAULT_ARTICLES: FeaturedArticle[] = [
-    {
-        id: '1',
-        title: "The Architecture of Privacy: Moats, Messaging, and Moats",
-        description: "A deep dive into why privacy is moving from a feature to a fundamental requirement in the next generation of decentralized protocol architecture.",
-        tags: ["tech trends", "privacy", "architecture"],
-        link: "/blog/privacy-trends-2026",
-        type: 'article'
-    },
-    {
-        id: '2',
-        title: "Peak Performance: Building Startups under Pressure",
-        description: "Lessons from elite athletes on high-stakes decision making, resilience, and maintaining clarity when the stakes are highest.",
-        tags: ["company building", "Founders", "resilience"],
-        link: "/blog/performing-under-pressure",
-        type: 'article'
-    }
-];
-
 export function useFeaturedSection() {
     const [articles, setArticles] = useState<FeaturedArticle[]>([]);
     const [loading, setLoading] = useState(true);
@@ -74,17 +55,12 @@ export function useFeaturedSection() {
                 }))
             ];
 
-            // Ensure we have at least 2 articles by using fallbacks
-            if (merged.length < 2) {
-                const combined = [...merged, ...DEFAULT_ARTICLES].slice(0, 2);
-                setArticles(combined);
-            } else {
-                setArticles(merged.slice(0, 2)); // Keep the top 2 for the grid
-            }
+            // Keep the top 2 for the grid
+            setArticles(merged.slice(0, 2));
         } catch (err: any) {
-            console.error('Error fetching featured articles, using fallbacks:', err);
+            console.error('Error fetching featured articles:', err);
             setError(err.message);
-            setArticles(DEFAULT_ARTICLES);
+            setArticles([]);
         } finally {
             setLoading(false);
         }
