@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Helmet } from "react-helmet-async";
 import Hero48x48 from "@/components/sections/hero-48x48";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
@@ -12,7 +13,6 @@ import { useScreenSize } from "@/components/hooks/use-screen-size";
 import { LiquidButton, MetalButton } from "@/components/ui/liquid-glass-button";
 
 export default function ProgramInitiative() {
-  useEffect(() => { document.title = "CodeQuity — 48 Weeks × 48 Blockchains Initiative"; }, []);
   const screenSize = useScreenSize();
 
   const containerVariants = {
@@ -36,6 +36,10 @@ export default function ProgramInitiative() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-purple-500/30">
+      <Helmet>
+        <title>48w × 48 Chains | CodeQuity Initiative</title>
+        <meta name="description" content="48 Weeks. 48 Blockchains. The ultimate builder marathon at CodeQuity." />
+      </Helmet>
       <Navigation />
 
       <div className="pt-20">

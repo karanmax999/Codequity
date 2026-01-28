@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navigation from "@/components/ui/navigation";
+import { Helmet } from "react-helmet-async";
 import Footer from "@/components/ui/footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,10 @@ export default function Portfolio() {
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-primary/30 font-sans">
+            <Helmet>
+                <title>Portfolio | Built at CodeQuity</title>
+                <meta name="description" content="A showcase of the best teams shipping code, raising capital, and defining the future of Web3 at CodeQuity." />
+            </Helmet>
             <Navigation />
 
             <div className="pt-32 pb-20 relative">

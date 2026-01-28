@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Navigation from "@/components/ui/navigation";
+import { Helmet } from "react-helmet-async";
 import Footer from "@/components/ui/footer";
 import { motion } from "framer-motion";
 import { Rocket, Shield, Zap, Users, Code, Trophy, Target, Gem } from "lucide-react";
@@ -146,6 +147,10 @@ export default function Program() {
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-primary/30 font-sans" ref={containerRef}>
+            <Helmet>
+                <title>Program | The CodeQuity Foundry</title>
+                <meta name="description" content="Not a school. A launchpad for the next generation of Web3 unicorns. Build, ship, and raise." />
+            </Helmet>
             <Navigation />
 
             {/* Hero: High Energy */}

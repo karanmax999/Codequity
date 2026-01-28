@@ -1,10 +1,15 @@
 import Navigation from "@/components/ui/navigation";
+import { Helmet } from "react-helmet-async";
 import Footer from "@/components/ui/footer";
 import PopupBanner from "@/components/ui/popup-banner";
 
 export default function Portal() {
     return (
         <div className="min-h-screen bg-black text-white flex flex-col">
+            <Helmet>
+                <title>Portal Access | CodeQuity</title>
+                <meta name="description" content="Login to access the CodeQuity builder portal." />
+            </Helmet>
             <PopupBanner />
             <Navigation />
             <div className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 pt-20">

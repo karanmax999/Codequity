@@ -1,10 +1,13 @@
 import Navigation from "@/components/ui/navigation";
-import Footer from "@/components/ui/footer";
-import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 export default function Founder() {
     return (
         <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-primary/30">
+            <Helmet>
+                <title>Founder | Karan Bansal</title>
+                <meta name="description" content="Connect with Karan Bansal, founder of CodeQuity." />
+            </Helmet>
             <Navigation />
 
             <div className="pt-24 pb-20 container mx-auto px-4 min-h-[calc(100vh-80px)] flex flex-col">
