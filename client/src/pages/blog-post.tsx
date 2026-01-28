@@ -78,9 +78,9 @@ export default function BlogPost() {
                         <motion.button
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
+                            className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 mb-12 group font-orbitron text-[10px] uppercase tracking-widest"
                         >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
                             Back to logs
                         </motion.button>
                     </Link>
@@ -90,19 +90,19 @@ export default function BlogPost() {
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="flex flex-wrap items-center gap-6 text-xs text-gray-500 mb-8 font-mono uppercase tracking-[0.2em]"
+                            className="flex flex-wrap items-center gap-8 text-[10px] text-gray-400 mb-10 font-orbitron uppercase tracking-[0.3em] font-bold"
                         >
                             <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4 text-primary" />
+                                <span className="text-primary opacity-50">DATE:</span>
                                 {new Date(blog.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
                             </div>
                             <div className="flex items-center gap-2">
-                                <User className="w-4 h-4 text-primary" />
+                                <span className="text-primary opacity-50">AUTHOR:</span>
                                 {blog.author_name}
                             </div>
                             <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-primary" />
-                                {readingTime} min read
+                                <span className="text-primary opacity-50">SYNC:</span>
+                                {readingTime} MIN READ
                             </div>
                         </motion.div>
 
@@ -110,7 +110,7 @@ export default function BlogPost() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-7xl font-orbitron font-black mb-12 leading-[1.1] tracking-tighter"
+                            className="text-5xl md:text-[5.5rem] font-serif font-medium mb-16 leading-[1.05] tracking-tight text-white"
                         >
                             {blog.title}
                         </motion.h1>
@@ -121,10 +121,10 @@ export default function BlogPost() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 mb-16 relative group"
+                                className="aspect-[16/9] rounded-[2rem] overflow-hidden border border-white/10 mb-20 relative group bg-white/5"
                             >
-                                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-700" />
                                 <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[2rem]" />
                             </motion.div>
                         )}
 
@@ -133,9 +133,14 @@ export default function BlogPost() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 }}
-                            className="prose prose-invert prose-primary max-w-none prose-lg md:prose-xl prose-headings:font-orbitron prose-headings:font-black prose-headings:tracking-tighter prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-white prose-blockquote:border-primary prose-blockquote:bg-white/5 prose-blockquote:py-2 prose-blockquote:rounded-r-xl"
+                            className="prose prose-invert prose-primary max-w-none prose-lg md:prose-xl 
+                                     prose-p:text-gray-300 prose-p:leading-[1.8] prose-p:mb-8
+                                     prose-headings:text-white prose-headings:font-orbitron prose-headings:font-black prose-headings:tracking-tighter prose-headings:uppercase prose-headings:mt-16
+                                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline 
+                                     prose-strong:text-white prose-strong:font-bold
+                                     prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:rounded-2xl prose-blockquote:not-italic prose-blockquote:text-white/90 prose-blockquote:border-l-4"
                         >
-                            <div className="whitespace-pre-wrap">
+                            <div className="whitespace-pre-wrap font-sans selection:bg-primary/30">
                                 {blog.content}
                             </div>
                         </motion.div>
@@ -145,11 +150,11 @@ export default function BlogPost() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="mt-20 pt-10 border-t border-white/10 flex flex-wrap gap-3"
+                            className="mt-32 pt-12 border-t border-white/5 flex flex-wrap gap-3"
                         >
                             {blog.tags?.map((tag: string, i: number) => (
-                                <span key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-widest text-gray-500 hover:text-primary hover:border-primary/50 transition-all cursor-default">
-                                    #{tag}
+                                <span key={i} className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-primary hover:border-primary/50 transition-all cursor-default font-orbitron">
+                                    {tag}
                                 </span>
                             ))}
                         </motion.div>

@@ -59,7 +59,18 @@ export default function AdminLogs() {
 
             if (error) throw error;
 
-            toast({ title: "Success", description: id ? "Transmission updated successfully." : "New transmission sent." });
+            toast({
+                title: "Success",
+                description: id ? "Transmission updated successfully." : "New transmission sent.",
+                action: (
+                    <button
+                        onClick={() => window.open(`/blog/${editingBlog.slug}`, '_blank')}
+                        className="bg-primary text-black px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all"
+                    >
+                        View Live
+                    </button>
+                )
+            });
             setEditingBlog(null);
             refresh(true);
         } catch (err: any) {
@@ -243,15 +254,26 @@ export default function AdminLogs() {
                                             </td>
                                             <td className="p-4 text-right">
                                                 <div className="flex items-center justify-end gap-2">
+                                                    <a
+                                                        href={`/blog/${blog.slug}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="p-2 text-gray-400 hover:text-green-400 transition-colors"
+                                                        title="View Live"
+                                                    >
+                                                        <Eye className="w-4 h-4" />
+                                                    </a>
                                                     <button
                                                         onClick={() => setEditingBlog(blog)}
                                                         className="p-2 text-gray-400 hover:text-primary transition-colors"
+                                                        title="Edit"
                                                     >
                                                         <Edit2 className="w-4 h-4" />
                                                     </button>
                                                     <button
                                                         onClick={() => deleteBlog(blog.id)}
                                                         className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                                                        title="Delete"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>

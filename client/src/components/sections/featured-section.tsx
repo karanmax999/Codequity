@@ -105,11 +105,11 @@ export default function FeaturedSection() {
                                 </span>
 
                                 <h3 className="text-[1.8rem] leading-snug font-medium text-black mb-6">
-                                    web3 with a16z: Your guide to the next internet
+                                    web3 with Codequity: Your guide to the next internet
                                 </h3>
 
                                 <p className="text-black/80 text-sm mb-10 leading-relaxed">
-                                    A weekly newsletter on crypto, blockchains, and the technologies underpinning the next generation of the internet
+                                    A weekly briefing on the protocols, builders, and technologies shaping the decentralized future.
                                 </p>
                             </div>
 
