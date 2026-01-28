@@ -51,7 +51,7 @@ export default function FeaturedSection() {
                     {/* Featured Articles */}
                     {loading ? (
                         [1, 2].map((i) => (
-                            <div key={i} className={`h-80 border-gray-200 ${i === 1 ? 'lg:border-r border-dotted' : ''} p-8 animate-pulse bg-gray-50`} />
+                            <div key={i} className={`h-auto min-h-[20rem] lg:h-80 border-gray-200 border-b lg:border-b-0 ${i === 1 ? 'lg:border-r border-dotted' : ''} p-8 animate-pulse bg-gray-50`} />
                         ))
                     ) : (
                         articles.map((article, index) => (
@@ -61,11 +61,11 @@ export default function FeaturedSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                                className={`group relative p-8 h-80 flex flex-col border-gray-200 lg:border-r border-dotted`}
+                                className={`group relative p-8 h-auto min-h-[20rem] lg:h-80 flex flex-col border-gray-200 border-b lg:border-b-0 lg:border-r border-dotted`}
                             >
                                 <Link href={article.link || '#'}>
                                     <div className="cursor-pointer h-full flex flex-col">
-                                        <h3 className="text-[2.2rem] leading-tight font-medium text-black mb-4 group-hover:text-primary transition-colors tracking-tight">
+                                        <h3 className="text-2xl sm:text-[2.2rem] leading-tight font-medium text-black mb-4 group-hover:text-primary transition-colors tracking-tight">
                                             {article.title}
                                         </h3>
 
@@ -96,7 +96,7 @@ export default function FeaturedSection() {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: 0.1 }}
-                        className="h-80"
+                        className="h-auto min-h-[20rem] lg:h-80"
                     >
                         <div className="bg-[#A0E2EF] p-10 h-full flex flex-col justify-between">
                             <div>
@@ -104,7 +104,7 @@ export default function FeaturedSection() {
                                     newsletter
                                 </span>
 
-                                <h3 className="text-[1.8rem] leading-none font-medium text-black mb-4">
+                                <h3 className="text-2xl sm:text-[1.8rem] leading-none font-medium text-black mb-4">
                                     web3 with Codequity: Your guide to the next internet
                                 </h3>
 
