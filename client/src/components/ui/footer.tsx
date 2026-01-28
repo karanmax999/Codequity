@@ -48,7 +48,7 @@ export default function Footer() {
     { icon: Twitter, href: "https://x.com/CodequityOrg", label: "Twitter" },
     { icon: Linkedin, href: "https://linkedin.com/company/codequity", label: "LinkedIn" },
     { icon: Send, href: "https://t.me/codequiity", label: "Telegram" },
-    { icon: DiscordIcon, href: "https://discord.gg/XnhwAAGe", label: "Discord" },
+    { icon: DiscordIcon, href: "https://discord.gg/Jt8WTKvV", label: "Discord" },
     { icon: Mail, href: "mailto:codequitycommunity@gmail.com", label: "Email" }
   ];
 
@@ -56,11 +56,11 @@ export default function Footer() {
     {
       title: "Services",
       links: [
-        { label: "Smart Contract Audit", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Blockchain Protocol Audit", href: "https://discord.gg/XnhwAAGe" },
-        { label: "dApp Security", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Penetration Testing", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Tokenomics Advisory", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Smart Contract Audit", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "Blockchain Protocol Audit", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "dApp Security", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "Penetration Testing", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "Tokenomics Advisory", href: "https://discord.gg/Jt8WTKvV" },
       ]
     },
     {
@@ -78,9 +78,9 @@ export default function Footer() {
       links: [
         { label: "Blog", href: "/blog" },
         { label: "Whitepaper", href: "/whitepaper" },
-        { label: "Bug Bounty", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Documentation", href: "https://discord.gg/XnhwAAGe" },
-        { label: "Media Kit", href: "https://discord.gg/XnhwAAGe" },
+        { label: "Bug Bounty", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "Documentation", href: "https://discord.gg/Jt8WTKvV" },
+        { label: "Media Kit", href: "https://discord.gg/Jt8WTKvV" },
       ]
     }
   ];

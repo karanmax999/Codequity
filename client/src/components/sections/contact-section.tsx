@@ -19,7 +19,7 @@ export default function ContactSection() {
       handle: "Join Server",
       icon: "fab fa-discord",
       color: "text-indigo-500",
-      url: "https://discord.gg/XnhwAAGe"
+      url: "https://discord.gg/Jt8WTKvV"
     },
     {
       name: "Telegram",
