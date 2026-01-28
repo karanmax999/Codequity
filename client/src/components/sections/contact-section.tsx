@@ -59,7 +59,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-20 circuit-pattern" data-testid="contact-section">
+    <section id="contact" className="py-32 circuit-pattern" data-testid="contact-section">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6">

@@ -108,7 +108,7 @@ export default function BuilderGuildSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 relative overflow-hidden builder-section">
+    <section ref={sectionRef} className="py-32 relative overflow-hidden builder-section">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video

@@ -26,7 +26,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="relative py-20 bg-gradient-to-b from-card to-background overflow-hidden" data-testid="about-section">
+    <section id="about" className="relative py-32 bg-gradient-to-b from-card to-background overflow-hidden" data-testid="about-section">
       <DottedSurface className="absolute inset-0" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

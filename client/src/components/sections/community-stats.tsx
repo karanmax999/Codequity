@@ -124,41 +124,57 @@ export default function CommunityStats() {
   ];
 
   return (
-    <section id="launchpad" ref={sectionRef} className="pt-24 pb-24 bg-black relative z-10 overflow-hidden" data-testid="community-stats-section">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    <section id="launchpad" ref={sectionRef} className="pt-32 pb-32 bg-black relative z-10 overflow-hidden" data-testid="community-stats-section">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px]"></div>
 
       <div className="container mx-auto px-6 relative z-10">
 
         {/* Problem -> Solution Block */}
-        <div className="problem-solution-container grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-12 md:mb-20 max-w-5xl mx-auto">
-          <div className="problem-card p-6 md:p-8 rounded-3xl bg-gradient-to-br from-red-950/40 via-black to-black border border-red-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-red-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.3)]">
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-red-500/20 blur-[80px] group-hover:bg-red-500/30 transition-all duration-700" />
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 to-transparent" />
-            <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
-              <div className="p-2 md:p-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 group-hover:text-red-300 group-hover:scale-110 transition-all">
-                <XCircle className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-white tracking-wide">The Problem</h3>
+        <div className="problem-solution-container grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-24 md:mb-32 max-w-6xl mx-auto">
+          {/* Problem Card */}
+          <div className="problem-card group relative p-10 md:p-12 bg-[#F9FAFB] border border-gray-200 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <XCircle className="w-24 h-24 text-black" />
             </div>
-            <h4 className="text-2xl md:text-3xl font-bold text-gray-200 mb-4 leading-tight">78% of hackathon projects <span className="text-red-400">die in GitHub.</span></h4>
-            <p className="text-gray-400 text-base md:text-lg leading-relaxed relative z-10">
-              Great code often fails to become a business. Lack of mentorship, users, and funding kills momentum after the weekend ends.
-            </p>
+
+            <div className="relative z-10">
+              <span className="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-8 border-b border-gray-200 pb-2">
+                Phase 01: The Friction
+              </span>
+
+              <h3 className="text-[2.5rem] md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
+                78% of hackathon projects <span className="italic text-gray-400 font-normal">die in GitHub.</span>
+              </h3>
+
+              <p className="text-gray-600 text-lg leading-[1.8] max-w-md">
+                Great code often fails to become a business. Lack of mentorship, users, and funding kills momentum after the weekend ends.
+              </p>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-black transition-colors duration-500" />
           </div>
 
-          <div className="solution-card p-6 md:p-8 rounded-3xl bg-gradient-to-br from-emerald-950/40 via-black to-black border border-emerald-500/20 backdrop-blur-xl relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/20 blur-[80px] group-hover:bg-emerald-500/30 transition-all duration-700" />
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500/50 to-transparent" />
-            <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
-              <div className="p-2 md:p-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 transition-all">
-                <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-white tracking-wide">The Solution</h3>
+          {/* Solution Card */}
+          <div className="solution-card group relative p-10 md:p-12 bg-white border border-emerald-100 overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.1)]">
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <CheckCircle2 className="w-24 h-24 text-emerald-500" />
             </div>
-            <h4 className="text-2xl md:text-3xl font-bold text-gray-200 mb-4 leading-tight">We build <span className="text-emerald-400">businesses</span>, not just repos.</h4>
-            <p className="text-gray-400 text-base md:text-lg leading-relaxed relative z-10">
-              CodeQuity provides the structure, mentorship, and capital ensuring your project survives the "post-hackathon depth" and ships to mainnet.
-            </p>
+
+            <div className="relative z-10">
+              <span className="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-emerald-600 mb-8 border-b border-emerald-100 pb-2">
+                Phase 02: The Forge
+              </span>
+
+              <h3 className="text-[2.5rem] md:text-[3.5rem] font-serif font-medium leading-[1.1] text-black mb-8 tracking-tight">
+                We build <span className="text-emerald-500 italic">businesses</span>, not just repos.
+              </h3>
+
+              <p className="text-gray-600 text-lg leading-[1.8] max-w-md">
+                CodeQuity provides the structure, mentorship, and capital ensuring your project survives the "post-hackathon depth" and ships to mainnet.
+              </p>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-emerald-100 group-hover:bg-emerald-500 transition-colors duration-500" />
           </div>
         </div>
 
