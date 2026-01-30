@@ -103,7 +103,7 @@ function BlogCard({ blog, index, isUpcoming = false }: { blog: BlogPost, index: 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 mb-6 font-mono uppercase tracking-widest">
                         <div className="flex items-center gap-1.5">
                             <Calendar className="w-3.5 h-3.5" />
-                            {new Date(blog.published_at).toLocaleDateString()}
+                            {blog.published_at ? new Date(blog.published_at as string).toLocaleDateString() : 'N/A'}
                         </div>
                         <div className="flex items-center gap-1.5">
                             <User className="w-3.5 h-3.5" />

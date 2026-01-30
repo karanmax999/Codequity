@@ -1,69 +1,87 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
 export interface Partner {
-    id: string;
+    _id: Id<"partners">;
+    _creationTime: number;
     name: string;
     category: string;
-    logo_url: string;
-    website_url: string;
+    logo_url?: string;
+    website_url?: string;
     perk_title?: string;
     perk_description?: string;
     is_active: boolean;
 }
 
 export function usePartners() {
-    const [partners, setPartners] = useState<Partner[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const partners = useQuery(api.partners.list);
+    const createPartner = useMutation(api.partners.create);
+    const updatePartner = useMutation(api.partners.update);
+    const deletePartnerMutation = useMutation(api.partners.remove);
 
-    const fetchPartners = async () => {
+    const loading = partners === undefined;
+
+    const savePartner = async (partner: Partial<Partner> & { id?: string }, sessionId: string) => {
         try {
-            setLoading(true);
-            const { data, error: fetchError } = await supabase
-                .from('partners')
-                .select('*')
-                .order('name');
+            if (partner.id || partner._id) {
+                // Update
+                const id = (partner.id || partner._id) as Id<"partners">;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { _id, _creationTime, id: legacyId, ...data } = partner;
 
-            if (fetchError) throw fetchError;
-            setPartners(data || []);
-        } catch (err: any) {
-            console.error('Error fetching partners:', err);
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchPartners();
-    }, []);
-
-    const savePartner = async (partner: Partial<Partner>) => {
-        try {
-            const { id, ...data } = partner;
-            const { error: saveError } = id
-                ? await supabase.from('partners').update(data).eq('id', id)
-                : await supabase.from('partners').insert([data]);
-
-            if (saveError) throw saveError;
-            await fetchPartners();
+                await updatePartner({
+                    sessionId,
+                    id,
+                    name: data.name,
+                    category: data.category,
+                    logo_url: data.logo_url,
+                    website_url: data.website_url,
+                    perk_title: data.perk_title,
+                    perk_description: data.perk_description,
+                });
+            } else {
+                // Create
+                await createPartner({
+                    sessionId,
+                    name: partner.name || "Untitled",
+                    category: partner.category,
+                    logo_url: partner.logo_url,
+                    website_url: partner.website_url,
+                    perk_title: partner.perk_title,
+                    perk_description: partner.perk_description,
+                    is_active: true,
+                });
+            }
             return { success: true };
         } catch (err: any) {
+            console.error("Error saving partner:", err);
             return { success: false, message: err.message };
         }
     };
 
-    const deletePartner = async (id: string) => {
+    const deletePartner = async (id: string, sessionId: string) => {
         try {
-            const { error: deleteError } = await supabase.from('partners').delete().eq('id', id);
-            if (deleteError) throw deleteError;
-            await fetchPartners();
+            await deletePartnerMutation({ sessionId, id: id as Id<"partners"> });
             return { success: true };
         } catch (err: any) {
+            console.error("Error deleting partner:", err);
             return { success: false, message: err.message };
         }
     };
 
-    return { partners, loading, error, refresh: fetchPartners, savePartner, deletePartner };
+    // Adapter
+    const adaptedPartners = (partners || []).map((p: any) => ({
+        ...p,
+        id: p._id,
+    })) as Partner[];
+
+    return {
+        partners: adaptedPartners,
+        loading,
+        error: null,
+        refresh: () => { },
+        savePartner,
+        deletePartner
+    };
 }

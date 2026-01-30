@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 export function useNewsletter() {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+
+    const subscribeMutation = useMutation(api.newsletter.subscribe);
 
     const subscribe = async (email: string, source: string = 'unknown') => {
         setSubmitting(true);
@@ -12,20 +15,11 @@ export function useNewsletter() {
         setSuccess(false);
 
         try {
-            const { error: subError } = await supabase
-                .from('newsletter_subscribers')
-                .insert([{ email, source }]);
+            const result = await subscribeMutation({ email, source });
 
-            if (subError) {
-                // Check for unique constraint violation (already subscribed)
-                if (subError.code === '23505') {
-                    return { success: true, message: 'You are already subscribed!' };
-                }
-                throw subError;
-            }
-
+            // The mutation returns a message even if already subscribed (idempotent-ish UX)
             setSuccess(true);
-            return { success: true, message: 'Subscribed successfully!' };
+            return result;
         } catch (err: any) {
             console.error('Error subscribing to newsletter:', err);
             const message = err.message || 'Subscription failed.';

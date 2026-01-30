@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
-import { useBlogs, BlogPost as BlogPostType } from "@/hooks/use-blogs";
+import { useBlogs, useSingleBlog, BlogPost as BlogPostType } from "@/hooks/use-blogs";
 import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
 import { ArrowLeft, Calendar, User, Clock } from "lucide-react";
@@ -10,26 +10,12 @@ import { Link } from "wouter";
 
 export default function BlogPost() {
     const [, params] = useRoute("/blog/:slug");
-    const { getBlogBySlug } = useBlogs();
-    const [blog, setBlog] = useState<BlogPostType | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [readingTime, setReadingTime] = useState(0);
+    const { blog, loading } = useSingleBlog(params?.slug ?? "");
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            if (params?.slug) {
-                const data = await getBlogBySlug(params.slug);
-                if (data) {
-                    setBlog(data);
-                    // Estimate reading time: ~200 words per minute
-                    const words = (data.content || '').split(/\s+/).length;
-                    setReadingTime(Math.ceil(words / 200));
-                }
-                setLoading(false);
-            }
-        };
-        fetchPost();
-    }, [params?.slug]);
+    // Calculate reading time
+    const readingTime = blog?.content
+        ? Math.ceil(blog.content.split(/\s+/).length / 200)
+        : 0;
 
     if (loading) {
         return (
@@ -94,7 +80,9 @@ export default function BlogPost() {
                         >
                             <div className="flex items-center gap-2">
                                 <span className="text-primary opacity-50">DATE:</span>
-                                {new Date(blog.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                                {blog.published_at
+                                    ? new Date(blog.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+                                    : 'DRAFT'}
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="text-primary opacity-50">AUTHOR:</span>

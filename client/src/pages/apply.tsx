@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ChevronRight, ChevronLeft, Loader2, CheckCircle2, Cpu, Globe, Gamepad2, Share2, Lightbulb, Puzzle, Layers, Milestone, Rocket } from "lucide-react";
+import { ChevronRight, ChevronLeft, Loader2, CheckCircle2, Cpu, Globe, Gamepad2, Layers, Milestone, Rocket, Lightbulb, Puzzle } from "lucide-react";
 import { Link } from "wouter";
-import { supabase, isMockClient } from "@/lib/supabase";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 // Validation Schemas
 const step1Schema = z.object({
@@ -38,6 +39,8 @@ export default function Apply() {
     const [formData, setFormData] = useState<Partial<FormValues>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+
+    const submitApplication = useMutation(api.applications.submit);
 
     // Forms for each step
     const form1 = useForm<z.infer<typeof step1Schema>>({ resolver: zodResolver(step1Schema), defaultValues: formData });
@@ -83,35 +86,30 @@ export default function Apply() {
     };
 
     const onSubmit = async (data: z.infer<typeof step3Schema>) => {
-        console.log("Submit triggered. isMockClient:", isMockClient);
-        console.log("Env Check - URL:", import.meta.env.VITE_SUPABASE_URL ? "Defined" : "Undefined");
-        console.log("All VITE_ Keys:", Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')));
-
-        if (isMockClient) {
-            console.warn("⚠️ USING MOCK BACKEND. Data will NOT be saved to Supabase.");
-            console.warn("Check your .env file and ensure you have restarted the server.");
-        }
-
         setIsSubmitting(true);
         const finalData = { ...formData, ...data };
 
-        try {
-            const { error } = await supabase
-                .from('applications')
-                .insert([{
-                    team_name: finalData.teamName,
-                    lead_name: finalData.leadName,
-                    email: finalData.email,
-                    github: finalData.github,
-                    project_name: finalData.projectName,
-                    description: finalData.description,
-                    category: finalData.category,
-                    stage: finalData.stage,
-                    video_url: finalData.videoUrl,
-                    motivation: finalData.motivation
-                }]);
+        // Ensure all required fields are present before submitting
+        // TS partial types mean we have to be careful, but the step flow guarantees them mostly
+        if (!finalData.teamName || !finalData.email) {
+            alert("Missing required fields. Please restart application.");
+            setIsSubmitting(false);
+            return;
+        }
 
-            if (error) throw error;
+        try {
+            await submitApplication({
+                team_name: finalData.teamName!,
+                lead_name: finalData.leadName!,
+                email: finalData.email!,
+                github_url: finalData.github,
+                project_name: finalData.projectName,
+                description: finalData.description,
+                category: finalData.category,
+                stage: finalData.stage,
+                video_url: finalData.videoUrl,
+                motivation: finalData.motivation
+            });
 
             localStorage.removeItem("applyFormData");
             setIsSuccess(true);

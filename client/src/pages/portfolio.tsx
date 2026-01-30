@@ -13,8 +13,8 @@ export default function Portfolio() {
     const { projects, loading } = useProjects();
     const [filter, setFilter] = useState("All");
 
-    const filteredProjects = projects.filter(p =>
-        filter === "All" || p.tags?.some(t => t.toLowerCase() === filter.toLowerCase()) || (filter === "Infra" && p.tags?.some(t => t.toLowerCase() === "infrastructure"))
+    const filteredProjects = (projects as any[]).filter((p: any) =>
+        filter === "All" || p.tags?.some((t: string) => t.toLowerCase() === filter.toLowerCase()) || (filter === "Infra" && p.tags?.some((t: string) => t.toLowerCase() === "infrastructure"))
     );
 
     return (
@@ -113,7 +113,7 @@ export default function Portfolio() {
                                             </p>
 
                                             <div className="flex flex-wrap gap-2 mb-8">
-                                                {project.tags?.map(tag => (
+                                                {project.tags?.map((tag: string) => (
                                                     <span key={tag} className="text-[10px] uppercase font-bold px-3 py-1 bg-white/5 border border-white/10 rounded-md text-gray-300">
                                                         {tag}
                                                     </span>

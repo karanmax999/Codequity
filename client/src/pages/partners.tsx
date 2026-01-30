@@ -16,7 +16,7 @@ export default function Partners() {
     const { partners, loading } = usePartners();
 
     // Group partners by category for the UI
-    const groupedPartners = partners.reduce((acc: any[], partner) => {
+    const groupedPartners = (partners as any[]).reduce((acc: any[], partner: any) => {
         const categoryName = partner.category || "Other";
         let category = acc.find(c => c.category === categoryName);
         if (!category) {
