@@ -7,7 +7,7 @@ import {
     Plus, Edit2, Trash2, Eye, EyeOff, Star,
     Link as LinkIcon, Calendar, User, Tag, ArrowLeft,
     Save, X, CheckCircle, AlertCircle, Handshake, Rocket,
-    ExternalLink, Twitter, LogOut
+    ExternalLink, Twitter, LogOut, Video, Upload, Loader2
 } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -55,7 +55,11 @@ export default function AdminLogs() {
     const [editingProject, setEditingProject] = useState<Partial<Project> | null>(null);
 
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploading, setIsUploading] = useState<'image' | 'video' | null>(null);
     const [imageError, setImageError] = useState(false);
+
+    const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+    const getUrl = useMutation(api.files.getImageUrl);
 
     const loading = blogsLoading || partnersLoading || projectsLoading;
 
@@ -109,6 +113,8 @@ export default function AdminLogs() {
                 excerpt: editingBlog.excerpt || "",
                 content: editingBlog.content || "",
                 image_url: editingBlog.image_url || "",
+                video_url: editingBlog.video_url || "",
+                video_storage_id: editingBlog.video_storage_id || "",
                 author_name: editingBlog.author_name || "Admin",
                 status: editingBlog.status || "draft",
                 tags: tagsArray,
@@ -142,6 +148,35 @@ export default function AdminLogs() {
             toast({ title: "Error Saving", description: res.message, variant: "destructive" });
         }
         setIsSaving(false);
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'video') => {
+        const file = e.target.files?.[0];
+        if (!file || !sessionId) return;
+
+        setIsUploading(type);
+        try {
+            const uploadUrl = await generateUploadUrl({ sessionId });
+            const result = await fetch(uploadUrl, {
+                method: "POST",
+                headers: { "Content-Type": file.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            const url = await getUrl({ storageId });
+
+            if (type === 'image') {
+                setEditingBlog(prev => prev ? { ...prev, image_url: url || "" } : null);
+                setImageError(false);
+            } else {
+                setEditingBlog(prev => prev ? { ...prev, video_url: url || "", video_storage_id: storageId } : null);
+            }
+            toast({ title: "Upload Success", description: `${type === 'image' ? 'Image' : 'Video'} synchronized.` });
+        } catch (err: any) {
+            toast({ title: "Upload Failed", description: err.message, variant: "destructive" });
+        } finally {
+            setIsUploading(null);
+        }
     };
 
     const handleSaveProject = async () => {
@@ -498,8 +533,24 @@ export default function AdminLogs() {
                                             <input type="text" value={editingBlog.slug} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, slug: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-primary outline-none transition-all" />
                                         </div>
                                         <div>
-                                            <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Image URL</label>
-                                            <input type="text" value={editingBlog.image_url || ''} onChange={(e) => { setEditingBlog(prev => prev ? { ...prev, image_url: e.target.value } : null); setImageError(false); }} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Image URL / Upload</label>
+                                            <div className="flex gap-2">
+                                                <input type="text" value={editingBlog.image_url || ''} onChange={(e) => { setEditingBlog(prev => prev ? { ...prev, image_url: e.target.value } : null); setImageError(false); }} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                                <label className="cursor-pointer bg-white/5 border border-white/10 rounded-xl px-4 py-3 hover:bg-white/10 transition-all flex items-center justify-center">
+                                                    {isUploading === 'image' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'image')} disabled={!!isUploading} />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Video URL / Upload</label>
+                                            <div className="flex gap-2">
+                                                <input type="text" value={editingBlog.video_url || ''} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, video_url: e.target.value } : null)} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                                <label className="cursor-pointer bg-white/5 border border-white/10 rounded-xl px-4 py-3 hover:bg-white/10 transition-all flex items-center justify-center">
+                                                    {isUploading === 'video' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Video className="w-4 h-4" />}
+                                                    <input type="file" className="hidden" accept="video/*" onChange={(e) => handleFileUpload(e, 'video')} disabled={!!isUploading} />
+                                                </label>
+                                            </div>
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Tags</label>
@@ -512,9 +563,15 @@ export default function AdminLogs() {
                                             <textarea rows={3} value={editingBlog.excerpt} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, excerpt: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all resize-none" />
                                         </div>
                                         <div className="h-full">
-                                            <div className="flex items-center justify-between mb-2"><label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest">Preview</label></div>
+                                            <div className="flex items-center justify-between mb-2"><label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest">Media Preview</label></div>
                                             <div className="aspect-video rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center relative">
-                                                {editingBlog.image_url && !imageError ? <img src={editingBlog.image_url} className="w-full h-full object-cover" onError={() => setImageError(true)} alt="" /> : <div className="text-gray-600 font-mono text-xs">NO IMAGE</div>}
+                                                {editingBlog.video_url ? (
+                                                    <video src={editingBlog.video_url} className="w-full h-full object-cover" controls />
+                                                ) : editingBlog.image_url && !imageError ? (
+                                                    <img src={editingBlog.image_url} className="w-full h-full object-cover" onError={() => setImageError(true)} alt="" />
+                                                ) : (
+                                                    <div className="text-gray-600 font-mono text-xs">NO MEDIA</div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

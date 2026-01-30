@@ -11,6 +11,8 @@ export interface BlogPost {
     excerpt?: string;
     content?: string;
     image_url?: string;
+    video_url?: string;
+    video_storage_id?: string;
     author_name: string;
     status: string;
     published_at?: string;

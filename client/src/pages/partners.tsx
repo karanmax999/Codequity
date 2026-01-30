@@ -4,6 +4,7 @@ import Footer from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
 import { Handshake, Zap, Globe, Cpu, Loader2 } from "lucide-react";
 import { usePartners } from "@/hooks/use-partners";
+import { Link } from "wouter";
 
 const categoryIcons: Record<string, any> = {
     "Ecosystems": Globe,
@@ -81,19 +82,40 @@ export default function Partners() {
                                 </div>
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                                    {section.items.map((partner: any, pIdx: number) => (
-                                        <div key={pIdx} className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center aspect-square hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
-                                            <div className="w-full h-full flex flex-col items-center justify-center transition-all">
-                                                {partner.logo_url ? (
-                                                    <img src={partner.logo_url} alt={partner.name} className="max-h-12 w-auto mb-4 grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100" />
-                                                ) : null}
-                                                <span className="font-bold text-lg md:text-xl font-orbitron text-center group-hover:text-primary transition-colors">{partner.name}</span>
-                                                {partner.perk_title && (
-                                                    <span className="text-[10px] uppercase font-black text-primary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">{partner.perk_title}</span>
-                                                )}
+                                    {section.items.map((partner: any, pIdx: number) => {
+                                        const CardContent = (
+                                            <div className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center aspect-square hover:bg-white/10 hover:border-primary/30 transition-all duration-300 relative overflow-hidden h-full w-full cursor-pointer">
+                                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-40 transition-opacity">
+                                                    <Globe className="w-4 h-4 text-primary" />
+                                                </div>
+                                                <div className="w-full h-full flex flex-col items-center justify-center transition-all">
+                                                    {partner.logo_url ? (
+                                                        <img src={partner.logo_url} alt={partner.name} className="max-h-12 w-auto mb-4 grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100" />
+                                                    ) : null}
+                                                    <span className="font-bold text-lg md:text-xl font-orbitron text-center group-hover:text-primary transition-colors">{partner.name}</span>
+                                                    {partner.perk_title && (
+                                                        <span className="text-[10px] uppercase font-black text-primary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">{partner.perk_title}</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+
+                                        return partner.website_url ? (
+                                            <a
+                                                key={pIdx}
+                                                href={partner.website_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block h-full transition-transform hover:-translate-y-1"
+                                            >
+                                                {CardContent}
+                                            </a>
+                                        ) : (
+                                            <div key={pIdx} className="h-full">
+                                                {CardContent}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))
@@ -104,11 +126,19 @@ export default function Partners() {
                     <div className="bg-gradient-to-b from-white/5 to-transparent rounded-3xl p-12 border border-white/10 max-w-4xl mx-auto">
                         <h2 className="text-3xl font-orbitron font-bold mb-6">Want to support the next gen?</h2>
                         <div className="flex justify-center flex-wrap gap-4">
-                            <Button className="h-12 px-8 bg-white text-black hover:bg-gray-200 font-bold rounded-full">
-                                Become a Partner
+                            <Button asChild className="h-12 px-8 bg-white text-black hover:bg-gray-200 font-bold rounded-full">
+                                <a
+                                    href="https://docs.google.com/forms/d/e/1FAIpQLSdFzM-FO6_bTKnhVqL_uKtPGyaweywZGXpF7_kPGnnvB_PLqQ/viewform"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Become a Partner
+                                </a>
                             </Button>
-                            <Button variant="outline" className="h-12 px-8 border-white/20 hover:bg-white/10 rounded-full">
-                                Contact Team
+                            <Button asChild variant="outline" className="h-12 px-8 border-white/20 hover:bg-white/10 rounded-full">
+                                <Link href="/contact">
+                                    Contact Team
+                                </Link>
                             </Button>
                         </div>
                     </div>

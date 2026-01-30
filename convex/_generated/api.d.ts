@@ -14,6 +14,7 @@ import type * as auth_actions from "../auth_actions.js";
 import type * as blogs from "../blogs.js";
 import type * as constants from "../constants.js";
 import type * as featured from "../featured.js";
+import type * as files from "../files.js";
 import type * as newsletter from "../newsletter.js";
 import type * as partners from "../partners.js";
 import type * as projects from "../projects.js";
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   blogs: typeof blogs;
   constants: typeof constants;
   featured: typeof featured;
+  files: typeof files;
   newsletter: typeof newsletter;
   partners: typeof partners;
   projects: typeof projects;

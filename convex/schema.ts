@@ -70,6 +70,8 @@ export default defineSchema({
         excerpt: v.optional(v.string()),
         content: v.optional(v.string()), // Markdown
         image_url: v.optional(v.string()),
+        video_url: v.optional(v.string()),
+        video_storage_id: v.optional(v.string()),
         author_name: v.string(),
         status: v.string(), // 'draft', 'published', 'archived'
         published_at: v.optional(v.string()),
