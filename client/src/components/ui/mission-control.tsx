@@ -64,6 +64,7 @@ export function MissionControl({ isOpen, onClose }: MissionControlProps) {
                 category: found.category,
                 description: found.description,
                 socials: found.socials,
+                initialize_url: found.initialize_url,
                 resources: found.resources as any // Cast resources to match interface
             };
         }
