@@ -197,7 +197,10 @@ export default function Portal() {
                                         <div key={week._id} className="p-4 bg-white/5 rounded-xl border border-white/10 hover:border-purple-500/50 cursor-pointer transition-all" onClick={() => setEditingWeek(week)}>
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className="font-mono text-purple-400">Week {week.week}</span>
-                                                <span className={`text-xs px-2 py-0.5 rounded ${week.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>{week.status}</span>
+                                                <div className="flex gap-2">
+                                                    {week.initialize_url && <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">LINKED</span>}
+                                                    <span className={`text-xs px-2 py-0.5 rounded ${week.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>{week.status}</span>
+                                                </div>
                                             </div>
                                             <h3 className="font-bold text-lg mb-1">{week.ecosystem}</h3>
                                             <p className="text-sm text-gray-400 truncate">{week.description}</p>
