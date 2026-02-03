@@ -3,13 +3,15 @@ import { X, Lock, Hexagon, Shield, Zap, Globe, Cpu, Database, Twitter, MessageCi
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MetalButton } from "@/components/ui/liquid-glass-button";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 
 interface MissionControlProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const WEEKS = 48;
+const WEEKS_COUNT = 48;
 const GRID_COLS = 8;
 
 interface WeekData {
@@ -23,59 +25,63 @@ interface WeekData {
         discord?: string;
         website?: string;
     };
+    initialize_url?: string;
     resources: {
         label: string;
         url: string;
-        type: "doc" | "blog" | "code";
+        type: "doc" | "blog" | "code"; // Updated type to match string from DB
     }[];
 }
 
-// Simulated data for the grid
-const WEEK_DATA: WeekData[] = Array.from({ length: WEEKS }, (_, i) => {
-    const weekNum = i + 1;
-    let status: "completed" | "active" | "locked" = "locked";
-    if (weekNum < 1) status = "completed";
-    if (weekNum === 1) status = "active"; // Week 1 is active
-
-    // Placeholder ecosystem names for demo
-    const ecosystems = [
-        "Ethereum", "Solana", "Polygon", "Arbitrum",
-        "Optimism", "Avalanche", "Base", "ZkSync",
-        "Starknet", "Scroll", "Lineap", "Mantle",
-        "Monad", "Berachain", "Sui", "Aptos"
-    ];
-
-    const ecosystem = ecosystems[i] || `Protocol-${weekNum}`;
-
-    return {
-        week: weekNum,
-        status,
-        ecosystem,
-        category: i < 8 ? "L1/L2 Foundation" : i < 16 ? "ZK Rollups" : "App Chains",
-        description: `Master the ${ecosystem} ecosystem. Build and deploy a production-ready dApp using native tooling. Focus on high-throughput architecture and state management.`,
-        socials: {
-            twitter: "#",
-            discord: "https://discord.com/invite/XnhwAAGe",
-            website: "#"
-        },
-        resources: [
-            { label: "Documentation", url: "#", type: "doc" },
-            { label: "Developer Guide", url: "#", type: "blog" },
-            { label: "Starter Kit", url: "#", type: "code" }
-        ]
-    };
-});
+// Default/Fallback data structure
+const DEFAULT_WEEK: WeekData = {
+    week: 0,
+    status: "locked",
+    ecosystem: "Unknown",
+    category: "Pending",
+    description: "Data awaiting uplink...",
+    socials: {},
+    resources: []
+};
 
 export function MissionControl({ isOpen, onClose }: MissionControlProps) {
     const [hoveredWeek, setHoveredWeek] = useState<number | null>(null);
     const [selectedWeek, setSelectedWeek] = useState<number | null>(null);
 
-    // Determine which data to show: Selection takes priority, then Hover, then Default (Week 1)
-    const activeData = selectedWeek
-        ? WEEK_DATA[selectedWeek - 1]
-        : hoveredWeek
-            ? WEEK_DATA[hoveredWeek - 1]
-            : WEEK_DATA[0];
+    // Fetch data from Convex
+    const convexWeeks = useQuery(api.mission.getWeeks);
+
+    // Merge Convex data with 48-week skeleton
+    const mergedWeeks: WeekData[] = Array.from({ length: WEEKS_COUNT }, (_, i) => {
+        const weekNum = i + 1;
+        const found = convexWeeks?.find(w => w.week === weekNum);
+
+        if (found) {
+            return {
+                week: found.week,
+                status: found.status as "completed" | "active" | "locked", // Cast string to union
+                ecosystem: found.ecosystem,
+                category: found.category,
+                description: found.description,
+                socials: found.socials,
+                resources: found.resources as any // Cast resources to match interface
+            };
+        }
+
+        // Default placeholders if no data yet
+        return {
+            ...DEFAULT_WEEK,
+            week: weekNum,
+            ecosystem: `Protocol-${weekNum}`,
+            // Optional: Auto-unlock past weeks or keep them locked? 
+            // For now, let's keep them locked unless defined in DB.
+            status: "locked"
+        };
+    });
+
+    // Determine which data to show: Selection takes priority, then Hover, then Default (Week 1 or first active)
+    const activeWeekIndex = selectedWeek ? selectedWeek - 1 : (hoveredWeek ? hoveredWeek - 1 : 0);
+    const activeData = mergedWeeks[activeWeekIndex] || mergedWeeks[0];
 
     const isLocked = !!selectedWeek;
 
@@ -87,8 +93,10 @@ export function MissionControl({ isOpen, onClose }: MissionControlProps) {
         }
     };
 
+    if (!isOpen) return null;
+
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {isOpen && (
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -147,7 +155,7 @@ export function MissionControl({ isOpen, onClose }: MissionControlProps) {
                                 <div
                                     className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 content-start"
                                 >
-                                    {WEEK_DATA.map((item) => {
+                                    {mergedWeeks.map((item) => {
                                         const isSelected = selectedWeek === item.week;
                                         return (
                                             <motion.button
@@ -228,42 +236,68 @@ export function MissionControl({ isOpen, onClose }: MissionControlProps) {
 
                                         {/* Socials */}
                                         <div className="grid grid-cols-2 gap-3">
-                                            <a href={activeData.socials.twitter} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group">
-                                                <Twitter className="w-4 h-4 text-gray-400 group-hover:text-blue-400" />
-                                                <span className="text-sm text-gray-300">Twitter</span>
-                                            </a>
-                                            <a href={activeData.socials.website} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group">
-                                                <Globe className="w-4 h-4 text-gray-400 group-hover:text-purple-400" />
-                                                <span className="text-sm text-gray-300">Website</span>
-                                            </a>
+                                            {activeData.socials.twitter && (
+                                                <a href={activeData.socials.twitter} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group">
+                                                    <Twitter className="w-4 h-4 text-gray-400 group-hover:text-blue-400" />
+                                                    <span className="text-sm text-gray-300">Twitter</span>
+                                                </a>
+                                            )}
+                                            {activeData.socials.website && (
+                                                <a href={activeData.socials.website} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group">
+                                                    <Globe className="w-4 h-4 text-gray-400 group-hover:text-purple-400" />
+                                                    <span className="text-sm text-gray-300">Website</span>
+                                                </a>
+                                            )}
+                                            {activeData.socials.discord && (
+                                                <a href={activeData.socials.discord} className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group">
+                                                    <MessageCircle className="w-4 h-4 text-gray-400 group-hover:text-indigo-400" />
+                                                    <span className="text-sm text-gray-300">Discord</span>
+                                                </a>
+                                            )}
                                         </div>
 
                                         {/* Deep Dive Resources */}
-                                        <div>
-                                            <h4 className="text-xs font-mono text-gray-500 uppercase mb-3 flex items-center gap-2">
-                                                <Database className="w-3 h-3" /> Intel Database
-                                            </h4>
-                                            <div className="space-y-2">
-                                                {activeData.resources.map((res, idx) => (
-                                                    <a key={idx} href={res.url} className="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-lg hover:border-purple-500/50 hover:bg-purple-500/5 transition-all group">
-                                                        <div className="flex items-center gap-3">
-                                                            {res.type === 'doc' && <BookOpen className="w-4 h-4 text-purple-400" />}
-                                                            {res.type === 'blog' && <FileText className="w-4 h-4 text-blue-400" />}
-                                                            {res.type === 'code' && <Cpu className="w-4 h-4 text-green-400" />}
-                                                            <span className="text-sm text-gray-300 group-hover:text-white">{res.label}</span>
-                                                        </div>
-                                                        <ExternalLink className="w-3 h-3 text-gray-600 group-hover:text-purple-400 transition-colors" />
-                                                    </a>
-                                                ))}
+                                        {activeData.resources && activeData.resources.length > 0 && (
+                                            <div>
+                                                <h4 className="text-xs font-mono text-gray-500 uppercase mb-3 flex items-center gap-2">
+                                                    <Database className="w-3 h-3" /> Intel Database
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {activeData.resources.map((res: any, idx: number) => (
+                                                        <a key={idx} href={res.url} className="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-lg hover:border-purple-500/50 hover:bg-purple-500/5 transition-all group">
+                                                            <div className="flex items-center gap-3">
+                                                                {res.type === 'doc' && <BookOpen className="w-4 h-4 text-purple-400" />}
+                                                                {res.type === 'blog' && <FileText className="w-4 h-4 text-blue-400" />}
+                                                                {res.type === 'code' && <Cpu className="w-4 h-4 text-green-400" />}
+                                                                <span className="text-sm text-gray-300 group-hover:text-white">{res.label}</span>
+                                                            </div>
+                                                            <ExternalLink className="w-3 h-3 text-gray-600 group-hover:text-purple-400 transition-colors" />
+                                                        </a>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
 
                                     {/* Footer action */}
                                     <div className="mt-6 pt-6 border-t border-white/10">
-                                        <MetalButton variant="primary" className="w-full text-sm py-4" as="div">
-                                            INITIALIZE PROTOCOL <ChevronRight className="ml-2 w-4 h-4" />
-                                        </MetalButton>
+                                        {activeData.initialize_url ? (
+                                            <a href={activeData.initialize_url} target="_blank" rel="noopener noreferrer" className="block w-full">
+                                                <MetalButton variant="primary" className="w-full text-sm py-4" as="div">
+                                                    INITIALIZE PROTOCOL <ChevronRight className="ml-2 w-4 h-4" />
+                                                </MetalButton>
+                                            </a>
+                                        ) : activeData.resources && activeData.resources[0] ? (
+                                            <a href={activeData.resources[0].url} target="_blank" rel="noopener noreferrer" className="block w-full">
+                                                <MetalButton variant="primary" className="w-full text-sm py-4" as="div">
+                                                    INITIALIZE PROTOCOL <ChevronRight className="ml-2 w-4 h-4" />
+                                                </MetalButton>
+                                            </a>
+                                        ) : (
+                                            <MetalButton variant="primary" className="w-full text-sm py-4 opacity-50 cursor-not-allowed" as="div">
+                                                INITIALIZE PROTOCOL <ChevronRight className="ml-2 w-4 h-4" />
+                                            </MetalButton>
+                                        )}
                                     </div>
                                 </div>
                             </div>

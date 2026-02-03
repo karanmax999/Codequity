@@ -61,3 +61,10 @@ export const logout = mutation({
         }
     },
 });
+
+export const checkIsAdmin = query({
+    args: { address: v.string() },
+    handler: async (ctx, args) => {
+        return ADMIN_WALLETS.includes(args.address);
+    },
+});

@@ -89,4 +89,40 @@ export default defineSchema({
         address: v.string(), // Ethereum address
         expirationTime: v.number(),
     }).index("by_sessionId", ["sessionId"]),
+
+    // 8. Mission Control Weeks
+    mission_weeks: defineTable({
+        week: v.number(),
+        status: v.string(), // 'active', 'locked', 'completed'
+        ecosystem: v.string(),
+        category: v.string(),
+        description: v.string(),
+        socials: v.object({
+            twitter: v.optional(v.string()),
+            discord: v.optional(v.string()),
+            website: v.optional(v.string()),
+        }),
+        initialize_url: v.optional(v.string()), // New field for "Initialize Protocol" button
+        resources: v.array(v.object({
+            label: v.string(),
+            url: v.string(),
+            type: v.string(), // 'doc', 'blog', 'code'
+        })),
+    }).index("by_week", ["week"]),
+
+    // 9. Events
+    events: defineTable({
+        title: v.string(),
+        start_date: v.string(), // ISO timestamp
+        end_date: v.optional(v.string()),
+        link: v.optional(v.string()),
+        is_active: v.boolean(),
+        type: v.string(), // 'hackathon', 'workshop', 'webinar'
+    }).index("by_active", ["is_active"]),
+
+    // 10. Global Settings
+    global_settings: defineTable({
+        key: v.string(), // e.g., 'cohort_start_date'
+        value: v.any(),
+    }).index("by_key", ["key"]),
 });

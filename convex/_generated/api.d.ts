@@ -15,9 +15,11 @@ import type * as blogs from "../blogs.js";
 import type * as constants from "../constants.js";
 import type * as featured from "../featured.js";
 import type * as files from "../files.js";
+import type * as mission from "../mission.js";
 import type * as newsletter from "../newsletter.js";
 import type * as partners from "../partners.js";
 import type * as projects from "../projects.js";
+import type * as settings from "../settings.js";
 import type * as utils from "../utils.js";
 
 import type {
@@ -34,9 +36,11 @@ declare const fullApi: ApiFromModules<{
   constants: typeof constants;
   featured: typeof featured;
   files: typeof files;
+  mission: typeof mission;
   newsletter: typeof newsletter;
   partners: typeof partners;
   projects: typeof projects;
+  settings: typeof settings;
   utils: typeof utils;
 }>;
 

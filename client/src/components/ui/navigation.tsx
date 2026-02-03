@@ -162,7 +162,7 @@ export default function Navigation() {
             {/* Actions */}
             <div className="flex items-center gap-4">
               {/* Portal Text Link */}
-              <Link href="/program/initiative">
+              <Link href="/portal">
                 <span className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors">
                   Portal
                 </span>
@@ -271,7 +271,7 @@ export default function Navigation() {
                   </div>
                 ))}
 
-                <Link href="/program/initiative">
+                <Link href="/portal">
                   <div onClick={() => setIsOpen(false)} className="py-4 text-xl font-orbitron font-bold uppercase tracking-wider border-b border-white/10">
                     PORTAL
                   </div>
