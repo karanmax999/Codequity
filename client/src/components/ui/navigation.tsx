@@ -8,7 +8,7 @@ import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { client } from "@/lib/thirdweb";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 
 interface NavItem {
   label: string;
