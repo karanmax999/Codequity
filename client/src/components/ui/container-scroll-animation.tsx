@@ -39,6 +39,7 @@ export const ContainerScroll = ({
         <div
             className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
             ref={containerRef}
+            style={{ position: "relative" }}
         >
             <div
                 className="py-10 md:py-40 w-full relative"
@@ -51,7 +52,7 @@ export const ContainerScroll = ({
                     {children}
                 </Card>
             </div>
-        </div>
+        </div >
     );
 };
 

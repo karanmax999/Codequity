@@ -55,7 +55,10 @@ function Router() {
 }
 
 function App() {
-  const [loadingComplete, setLoadingComplete] = useState(false);
+  const [loadingComplete, setLoadingComplete] = useState(() => {
+    // Only show loader if we're on the home page
+    return window.location.pathname !== "/";
+  });
 
   const handleLoadingComplete = () => {
     setLoadingComplete(true);

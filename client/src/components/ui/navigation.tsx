@@ -4,8 +4,11 @@ import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import codeQuityLogo from "@assets/codequity-logo.jpg";
 import PopupBanner from "@/components/ui/popup-banner";
-import { ConnectButton } from "thirdweb/react";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { client } from "@/lib/thirdweb";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { useToast } from "@/hooks/use-toast";
 
 interface NavItem {
   label: string;
@@ -41,10 +44,31 @@ export default function Navigation() {
   const [showTelegramPopup, setShowTelegramPopup] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  useToast();
+  const account = useActiveAccount();
+  const address = account?.address || "";
+  const isAdmin = useQuery(api.auth.checkIsAdmin, { address: address || "" });
+
+  const handlePortalClick = () => {
+    if (!address) {
+      setLocation("/program/initiative");
+      return;
+    }
+
+    if (isAdmin === undefined) {
+      return; // Still loading
+    }
+
+    if (isAdmin) {
+      setLocation("/portal");
+    } else {
+      setLocation("/program/initiative");
+    }
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = lastScrollY;
@@ -162,11 +186,12 @@ export default function Navigation() {
             {/* Actions */}
             <div className="flex items-center gap-4">
               {/* Portal Text Link */}
-              <Link href="/portal">
-                <span className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors">
-                  Portal
-                </span>
-              </Link>
+              <button
+                onClick={handlePortalClick}
+                className="hidden lg:block text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white cursor-pointer transition-colors"
+              >
+                Portal
+              </button>
 
               {/* Connect Wallet / Dashboard Access */}
               <div className="hidden lg:flex items-center gap-4">
@@ -271,11 +296,15 @@ export default function Navigation() {
                   </div>
                 ))}
 
-                <Link href="/portal">
-                  <div onClick={() => setIsOpen(false)} className="py-4 text-xl font-orbitron font-bold uppercase tracking-wider border-b border-white/10">
-                    PORTAL
-                  </div>
-                </Link>
+                <div
+                  onClick={() => {
+                    setIsOpen(false);
+                    handlePortalClick();
+                  }}
+                  className="py-4 text-xl font-orbitron font-bold uppercase tracking-wider border-b border-white/10 cursor-pointer"
+                >
+                  PORTAL
+                </div>
 
                 <div className="pt-8 space-y-4">
                   <div className="flex justify-center">

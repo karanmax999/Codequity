@@ -116,6 +116,8 @@ export default function FeaturedSection() {
                             {/* Newsletter Form */}
                             <form onSubmit={handleSubscribe} className="relative flex items-center bg-white rounded-full p-1 pl-6 shadow-sm">
                                 <input
+                                    id="newsletter-email"
+                                    name="email"
                                     type="email"
                                     required
                                     value={email}

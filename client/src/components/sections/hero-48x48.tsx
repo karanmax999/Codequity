@@ -17,12 +17,20 @@ function calculateDaysLeft(deadline: string) {
 
 export default function Hero48x48() {
   const weeks = useQuery(api.mission.getWeeks);
-  const settings = useQuery(api.settings.getSettings);
+  const settings = useQuery(api.mission.getGlobalSettings);
 
-  const activeWeekData = weeks?.find(w => w.status === 'active') || weeks?.[0];
+  const activeWeekData = useMemo(() => {
+    if (!weeks) return null;
+    return weeks.find(w => w.status === 'active') || weeks[0];
+  }, [weeks]);
 
-  const cohortStart = settings?.find(s => s.key === 'cohort_start_date')?.value || "JAN 31, 2026";
-  const appDeadline = settings?.find(s => s.key === 'application_deadline')?.value;
+  const settingsMap = useMemo(() => {
+    if (!settings) return new Map();
+    return new Map(settings.map(s => [s.key, s.value]));
+  }, [settings]);
+
+  const cohortStart = settingsMap.get('cohort_start_date') || "JAN 31, 2026";
+  const appDeadline = settingsMap.get('application_deadline');
 
   const [showMissionControl, setShowMissionControl] = useState(false);
 
@@ -31,8 +39,9 @@ export default function Hero48x48() {
   const [animatedWeek, setAnimatedWeek] = useState(1);
 
   useEffect(() => {
-    if (!activeWeekData) return;
-    setAnimatedWeek(activeWeekData.week);
+    if (activeWeekData?.week) {
+      setAnimatedWeek(activeWeekData.week);
+    }
   }, [activeWeekData]);
 
   return (

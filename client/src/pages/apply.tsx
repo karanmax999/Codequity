@@ -301,7 +301,8 @@ export default function Apply() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-4">
-                                        <label className="text-sm font-bold uppercase tracking-widest text-gray-400">Project Category</label>
+                                        <label htmlFor="category-select" className="text-sm font-bold uppercase tracking-widest text-gray-400">Project Category</label>
+                                        <input type="hidden" id="category-select" {...form2.register("category")} />
                                         <div className="grid grid-cols-2 gap-3">
                                             {[
                                                 { id: 'defi', label: 'DeFi', icon: Layers },
@@ -327,7 +328,8 @@ export default function Apply() {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <label className="text-sm font-bold uppercase tracking-widest text-gray-400">Current Stage</label>
+                                        <label htmlFor="stage-select" className="text-sm font-bold uppercase tracking-widest text-gray-400">Current Stage</label>
+                                        <input type="hidden" id="stage-select" {...form2.register("stage")} />
                                         <div className="grid grid-cols-2 gap-3">
                                             {[
                                                 { id: 'idea', label: 'Idea', icon: Lightbulb },

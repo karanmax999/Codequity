@@ -149,3 +149,28 @@ export const deleteEvent = mutation({
         await ctx.db.delete(args.id);
     },
 });
+// ------------------------------------------------------------------
+// Global Settings (Moved from settings.ts to ensure availability)
+// ------------------------------------------------------------------
+
+export const getGlobalSettings = query({
+    args: {},
+    handler: async (ctx) => {
+        try {
+            return await ctx.db.query("global_settings").collect();
+        } catch (e) {
+            console.error("Error fetching global_settings:", e);
+            return [];
+        }
+    },
+});
+
+export const getSetting = query({
+    args: { key: v.string() },
+    handler: async (ctx, args) => {
+        return await ctx.db
+            .query("global_settings")
+            .withIndex("by_key", (q) => q.eq("key", args.key))
+            .unique();
+    },
+});

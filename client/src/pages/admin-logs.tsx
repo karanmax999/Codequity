@@ -526,16 +526,16 @@ export default function AdminLogs() {
                                     <div className="space-y-6">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Title</label>
-                                            <input type="text" value={editingBlog.title} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, title: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" />
+                                            <input type="text" id="blog-title" name="blog-title" value={editingBlog.title} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, title: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Slug</label>
-                                            <input type="text" value={editingBlog.slug} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, slug: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-primary outline-none transition-all" />
+                                            <input type="text" id="blog-slug" name="blog-slug" value={editingBlog.slug} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, slug: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-primary outline-none transition-all" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Image URL / Upload</label>
                                             <div className="flex gap-2">
-                                                <input type="text" value={editingBlog.image_url || ''} onChange={(e) => { setEditingBlog(prev => prev ? { ...prev, image_url: e.target.value } : null); setImageError(false); }} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                                <input type="text" id="blog-image-url" name="blog-image-url" value={editingBlog.image_url || ''} onChange={(e) => { setEditingBlog(prev => prev ? { ...prev, image_url: e.target.value } : null); setImageError(false); }} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
                                                 <label className="cursor-pointer bg-white/5 border border-white/10 rounded-xl px-4 py-3 hover:bg-white/10 transition-all flex items-center justify-center">
                                                     {isUploading === 'image' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                                                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'image')} disabled={!!isUploading} />
@@ -545,7 +545,7 @@ export default function AdminLogs() {
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Video URL / Upload</label>
                                             <div className="flex gap-2">
-                                                <input type="text" value={editingBlog.video_url || ''} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, video_url: e.target.value } : null)} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                                <input type="text" id="blog-video-url" name="blog-video-url" value={editingBlog.video_url || ''} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, video_url: e.target.value } : null)} className="flex-grow bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
                                                 <label className="cursor-pointer bg-white/5 border border-white/10 rounded-xl px-4 py-3 hover:bg-white/10 transition-all flex items-center justify-center">
                                                     {isUploading === 'video' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Video className="w-4 h-4" />}
                                                     <input type="file" className="hidden" accept="video/*" onChange={(e) => handleFileUpload(e, 'video')} disabled={!!isUploading} />
@@ -554,13 +554,13 @@ export default function AdminLogs() {
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Tags</label>
-                                            <input type="text" value={Array.isArray(editingBlog.tags) ? editingBlog.tags.join(', ') : (editingBlog.tags || '')} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, tags: e.target.value } as any : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
+                                            <input type="text" id="blog-tags" name="blog-tags" value={Array.isArray(editingBlog.tags) ? editingBlog.tags.join(', ') : (editingBlog.tags || '')} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, tags: e.target.value } as any : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all" />
                                         </div>
                                     </div>
                                     <div className="space-y-6">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Excerpt</label>
-                                            <textarea rows={3} value={editingBlog.excerpt} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, excerpt: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all resize-none" />
+                                            <textarea id="blog-excerpt" name="blog-excerpt" rows={3} value={editingBlog.excerpt} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, excerpt: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-primary outline-none transition-all resize-none" />
                                         </div>
                                         <div className="h-full">
                                             <div className="flex items-center justify-between mb-2"><label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest">Media Preview</label></div>
@@ -578,7 +578,7 @@ export default function AdminLogs() {
                                 </div>
                                 <div className="mb-12">
                                     <label className="block text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-2">Content</label>
-                                    <textarea rows={12} value={editingBlog.content} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, content: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-6 text-white text-lg leading-relaxed focus:border-primary outline-none transition-all font-serif" />
+                                    <textarea id="blog-content" name="blog-content" rows={12} value={editingBlog.content} onChange={(e) => setEditingBlog(prev => prev ? { ...prev, content: e.target.value } : null)} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-6 text-white text-lg leading-relaxed focus:border-primary outline-none transition-all font-serif" />
                                 </div>
                                 <div className="flex items-center justify-end gap-4">
                                     <button onClick={() => setEditingBlog(null)} className="px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs text-gray-500 hover:text-white transition-colors">Cancel</button>
@@ -603,11 +603,11 @@ export default function AdminLogs() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Partner Name</label>
-                                            <input type="text" value={editingPartner.name} onChange={e => setEditingPartner({ ...editingPartner, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="partner-name" name="partner-name" value={editingPartner.name} onChange={e => setEditingPartner({ ...editingPartner, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Category</label>
-                                            <select value={editingPartner.category} onChange={e => setEditingPartner({ ...editingPartner, category: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
+                                            <select id="partner-category" name="partner-category" value={editingPartner.category} onChange={e => setEditingPartner({ ...editingPartner, category: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
                                                 <option value="Ecosystems">Ecosystems</option>
                                                 <option value="Infrastructure">Infrastructure</option>
                                                 <option value="Venture Capital">Venture Capital</option>
@@ -617,16 +617,16 @@ export default function AdminLogs() {
                                     </div>
                                     <div>
                                         <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Website URL</label>
-                                        <input type="text" value={editingPartner.website_url} onChange={e => setEditingPartner({ ...editingPartner, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        <input type="text" id="partner-website" name="partner-website" value={editingPartner.website_url} onChange={e => setEditingPartner({ ...editingPartner, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                     </div>
                                     <div>
                                         <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Logo URL</label>
-                                        <input type="text" value={editingPartner.logo_url} onChange={e => setEditingPartner({ ...editingPartner, logo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        <input type="text" id="partner-logo" name="partner-logo" value={editingPartner.logo_url} onChange={e => setEditingPartner({ ...editingPartner, logo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Perk Title</label>
-                                            <input type="text" value={editingPartner.perk_title} onChange={e => setEditingPartner({ ...editingPartner, perk_title: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="partner-perk" name="partner-perk" value={editingPartner.perk_title} onChange={e => setEditingPartner({ ...editingPartner, perk_title: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                         <div className="flex items-end">
                                             <button onClick={() => setEditingPartner({ ...editingPartner, is_active: !editingPartner.is_active })} className={`w-full py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] border transition-all ${editingPartner.is_active ? 'bg-green-500/10 border-green-500/50 text-green-500' : 'bg-red-500/10 border-red-500/50 text-red-500'}`}>
@@ -655,11 +655,11 @@ export default function AdminLogs() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Project Name</label>
-                                            <input type="text" value={editingProject.name} onChange={e => setEditingProject({ ...editingProject, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="project-name" name="project-name" value={editingProject.name} onChange={e => setEditingProject({ ...editingProject, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Status</label>
-                                            <select value={editingProject.status} onChange={e => setEditingProject({ ...editingProject, status: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
+                                            <select id="project-status" name="project-status" value={editingProject.status} onChange={e => setEditingProject({ ...editingProject, status: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary">
                                                 <option value="building">Building</option>
                                                 <option value="testnet">Testnet</option>
                                                 <option value="mainnet">Mainnet</option>
@@ -670,30 +670,30 @@ export default function AdminLogs() {
                                     </div>
                                     <div>
                                         <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Tagline</label>
-                                        <input type="text" value={editingProject.tagline} onChange={e => setEditingProject({ ...editingProject, tagline: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                        <input type="text" id="project-tagline" name="project-tagline" value={editingProject.tagline} onChange={e => setEditingProject({ ...editingProject, tagline: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                     </div>
                                     <div>
                                         <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Description</label>
-                                        <textarea rows={3} value={editingProject.description} onChange={e => setEditingProject({ ...editingProject, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary resize-none text-sm" />
+                                        <textarea id="project-description" name="project-description" rows={3} value={editingProject.description} onChange={e => setEditingProject({ ...editingProject, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary resize-none text-sm" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Cohort ID</label>
-                                            <input type="text" value={editingProject.cohort_id} onChange={e => setEditingProject({ ...editingProject, cohort_id: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="project-cohort" name="project-cohort" value={editingProject.cohort_id} onChange={e => setEditingProject({ ...editingProject, cohort_id: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Tags</label>
-                                            <input type="text" value={Array.isArray(editingProject.tags) ? editingProject.tags.join(', ') : (editingProject.tags || '')} onChange={e => setEditingProject({ ...editingProject, tags: e.target.value.split(',').map(t => t.trim()) })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="project-tags" name="project-tags" value={Array.isArray(editingProject.tags) ? editingProject.tags.join(', ') : (editingProject.tags || '')} onChange={e => setEditingProject({ ...editingProject, tags: e.target.value.split(',').map(t => t.trim()) })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Website URL</label>
-                                            <input type="text" value={editingProject.website_url} onChange={e => setEditingProject({ ...editingProject, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="project-website" name="project-website" value={editingProject.website_url} onChange={e => setEditingProject({ ...editingProject, website_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                         <div>
                                             <label className="block text-[10px] uppercase font-bold text-gray-500 mb-2">Image URL</label>
-                                            <input type="text" value={editingProject.image_url} onChange={e => setEditingProject({ ...editingProject, image_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                                            <input type="text" id="project-image" name="project-image" value={editingProject.image_url} onChange={e => setEditingProject({ ...editingProject, image_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
                                         </div>
                                     </div>
                                 </div>

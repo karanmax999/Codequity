@@ -140,6 +140,8 @@ export default function Footer() {
                 <form onSubmit={handleSubscribe} className="relative group">
                   <div className="relative">
                     <input
+                      id="footer-newsletter-email"
+                      name="email"
                       type="email"
                       required
                       value={email}
