@@ -47,6 +47,10 @@ export default function Portal() {
     const updateProject = useMutation(api.projects.updateWithWallet);
     const deleteProject = useMutation(api.projects.removeWithWallet);
 
+    // Settings
+    const allSettings = useQuery(api.settings.getSettings);
+    const updateSetting = useMutation(api.settings.updateSetting);
+
     const [activeTab, setActiveTab] = useState<"mission" | "events" | "blogs" | "partners" | "projects" | "settings">("mission");
     const [editingWeek, setEditingWeek] = useState<any>(null);
     const [editingEvent, setEditingEvent] = useState<any>(null);
@@ -57,6 +61,21 @@ export default function Portal() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [uploadingVideo, setUploadingVideo] = useState(false);
     const [savingBlog, setSavingBlog] = useState(false);
+    const [localSettings, setLocalSettings] = useState<Record<string, any>>({});
+    const [isSavingSettings, setIsSavingSettings] = useState(false);
+    const [uploadingLogo, setUploadingLogo] = useState(false);
+    const [uploadingFavicon, setUploadingFavicon] = useState(false);
+
+    // Sync local settings when data arrives
+    useEffect(() => {
+        if (allSettings) {
+            const settingsMap: Record<string, any> = {};
+            allSettings.forEach((s: any) => {
+                settingsMap[s.key] = s.value;
+            });
+            setLocalSettings(settingsMap);
+        }
+    }, [allSettings]);
 
     // File upload mutations
     const generateUploadUrl = useMutation(api.files.generateUploadUrlWithWallet);
@@ -247,6 +266,77 @@ export default function Portal() {
             setUploadingVideo(false);
         }
     };
+
+    // Settings Handlers
+    const updateLocalSetting = (key: string, value: any) => {
+        setLocalSettings(prev => ({ ...prev, [key]: value }));
+    };
+
+    const saveAllSettings = async () => {
+        if (!address) return;
+        setIsSavingSettings(true);
+        try {
+            // Save each modified setting
+            const promises = Object.entries(localSettings).map(([key, value]) =>
+                updateSetting({ key, value, adminAddress: address })
+            );
+            await Promise.all(promises);
+            toast({ title: "Success", description: "Settings updated successfully" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to update settings", variant: "destructive" });
+        } finally {
+            setIsSavingSettings(false);
+        }
+    };
+
+    const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !address) return;
+
+        setUploadingLogo(true);
+        try {
+            const uploadUrl = await generateUploadUrl({ adminAddress: address });
+            const result = await fetch(uploadUrl, {
+                method: "POST",
+                headers: { "Content-Type": file.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            const url = await getFileUrl({ storageId });
+
+            updateLocalSetting("site_logo", url);
+            toast({ title: "Success", description: "Logo uploaded successfully" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to upload logo", variant: "destructive" });
+        } finally {
+            setUploadingLogo(false);
+        }
+    };
+
+    const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !address) return;
+
+        setUploadingFavicon(true);
+        try {
+            const uploadUrl = await generateUploadUrl({ adminAddress: address });
+            const result = await fetch(uploadUrl, {
+                method: "POST",
+                headers: { "Content-Type": file.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            const url = await getFileUrl({ storageId });
+
+            updateLocalSetting("site_favicon", url);
+            toast({ title: "Success", description: "Favicon uploaded successfully" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to upload favicon", variant: "destructive" });
+        } finally {
+            setUploadingFavicon(false);
+        }
+    };
+
 
 
 
@@ -848,8 +938,201 @@ export default function Portal() {
                     )}
 
                     {activeTab === "settings" && (
-                        <div className="text-center py-10 text-gray-500">
-                            Settings module coming soon. Use Mission Control and Events tabs for now.
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-orbitron font-bold text-white">Global Settings</h2>
+                                <MetalButton
+                                    variant="primary"
+                                    onClick={saveAllSettings}
+                                    disabled={isSavingSettings}
+                                    className="flex items-center gap-2"
+                                >
+                                    {isSavingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                    {isSavingSettings ? "Saving..." : "Save All Changes"}
+                                </MetalButton>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                {/* General Settings */}
+                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                                        🌐 General Settings
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Site Name</label>
+                                            <Input
+                                                value={localSettings.site_name || ""}
+                                                onChange={(e) => updateLocalSetting("site_name", e.target.value)}
+                                                placeholder="CodeQuity"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Site Tagline</label>
+                                            <Input
+                                                value={localSettings.site_tagline || ""}
+                                                onChange={(e) => updateLocalSetting("site_tagline", e.target.value)}
+                                                placeholder="The Web3 Builder Guild"
+                                            />
+                                        </div>
+                                        <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20 space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <Label htmlFor="banner-toggle" className="text-purple-300">Announcement Banner</Label>
+                                                <Switch
+                                                    id="banner-toggle"
+                                                    checked={localSettings.show_banner || false}
+                                                    onCheckedChange={(checked) => updateLocalSetting("show_banner", checked)}
+                                                />
+                                            </div>
+                                            {localSettings.show_banner && (
+                                                <Textarea
+                                                    value={localSettings.banner_message || ""}
+                                                    onChange={(e) => updateLocalSetting("banner_message", e.target.value)}
+                                                    placeholder="Cohort 3 Applications are now open! Apply now →"
+                                                    rows={2}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Branding Settings */}
+                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                                        🎨 Branding
+                                    </h3>
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Site Logo</label>
+                                            <div className="flex gap-2">
+                                                <input type="file" id="logo-upload" className="hidden" accept="image/*" onChange={handleLogoUpload} />
+                                                <label
+                                                    htmlFor="logo-upload"
+                                                    className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg cursor-pointer transition-colors text-sm"
+                                                >
+                                                    {uploadingLogo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                    Upload
+                                                </label>
+                                                <Input
+                                                    className="flex-1"
+                                                    value={localSettings.site_logo || ""}
+                                                    onChange={(e) => updateLocalSetting("site_logo", e.target.value)}
+                                                    placeholder="Logo URL"
+                                                />
+                                            </div>
+                                            {localSettings.site_logo && (
+                                                <div className="mt-2 p-2 bg-black/40 rounded-lg border border-white/10 flex justify-center">
+                                                    <img src={localSettings.site_logo} alt="Logo Preview" className="h-10 object-contain" />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Favicon</label>
+                                            <div className="flex gap-2">
+                                                <input type="file" id="favicon-upload" className="hidden" accept="image/x-icon,image/png" onChange={handleFaviconUpload} />
+                                                <label
+                                                    htmlFor="favicon-upload"
+                                                    className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg cursor-pointer transition-colors text-sm"
+                                                >
+                                                    {uploadingFavicon ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                    Upload
+                                                </label>
+                                                <Input
+                                                    className="flex-1"
+                                                    value={localSettings.site_favicon || ""}
+                                                    onChange={(e) => updateLocalSetting("site_favicon", e.target.value)}
+                                                    placeholder="Favicon URL"
+                                                />
+                                            </div>
+                                            {localSettings.site_favicon && (
+                                                <div className="mt-2 p-2 bg-black/40 rounded-lg border border-white/10 flex justify-center">
+                                                    <img src={localSettings.site_favicon} alt="Favicon Preview" className="h-8 w-8 object-contain" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Social Links */}
+                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                                        🔗 Social Links
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Discord Invitation URL</label>
+                                            <Input
+                                                value={localSettings.social_discord || ""}
+                                                onChange={(e) => updateLocalSetting("social_discord", e.target.value)}
+                                                placeholder="https://discord.gg/..."
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Twitter / X URL</label>
+                                            <Input
+                                                value={localSettings.social_twitter || ""}
+                                                onChange={(e) => updateLocalSetting("social_twitter", e.target.value)}
+                                                placeholder="https://x.com/..."
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">GitHub URL</label>
+                                            <Input
+                                                value={localSettings.social_github || ""}
+                                                onChange={(e) => updateLocalSetting("social_github", e.target.value)}
+                                                placeholder="https://github.com/..."
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Telegram URL</label>
+                                            <Input
+                                                value={localSettings.social_telegram || ""}
+                                                onChange={(e) => updateLocalSetting("social_telegram", e.target.value)}
+                                                placeholder="https://t.me/..."
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SEO Settings */}
+                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                                        🔍 SEO & Analytics
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Global Meta Description</label>
+                                            <Textarea
+                                                value={localSettings.meta_description || ""}
+                                                onChange={(e) => updateLocalSetting("meta_description", e.target.value)}
+                                                placeholder="The premier guild for Web3 builders..."
+                                                rows={3}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm text-gray-400 mb-2">Google Analytics ID</label>
+                                            <Input
+                                                value={localSettings.ga_id || ""}
+                                                onChange={(e) => updateLocalSetting("ga_id", e.target.value)}
+                                                placeholder="G-XXXXXXXXXX"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end pt-4">
+                                <MetalButton
+                                    variant="primary"
+                                    onClick={saveAllSettings}
+                                    disabled={isSavingSettings}
+                                    className="w-full md:w-auto flex items-center justify-center gap-2 h-12 px-8"
+                                >
+                                    {isSavingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                    {isSavingSettings ? "Saving Settings..." : "Save All Configuration"}
+                                </MetalButton>
+                            </div>
                         </div>
                     )}
 
