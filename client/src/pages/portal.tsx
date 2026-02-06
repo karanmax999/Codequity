@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useActiveAccount } from "thirdweb/react";
-import { Loader2, Save, Plus, Trash, Check } from "lucide-react";
+import { Loader2, Save, Plus, Trash, Check, Upload, Image as ImageIcon, Video, Eye, Edit3, X } from "lucide-react";
 import { MetalButton } from "@/components/ui/liquid-glass-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,6 +53,14 @@ export default function Portal() {
     const [editingBlog, setEditingBlog] = useState<any>(null);
     const [editingPartner, setEditingPartner] = useState<any>(null);
     const [editingProject, setEditingProject] = useState<any>(null);
+    const [blogEditorMode, setBlogEditorMode] = useState<"edit" | "preview">("edit");
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const [uploadingVideo, setUploadingVideo] = useState(false);
+    const [savingBlog, setSavingBlog] = useState(false);
+
+    // File upload mutations
+    const generateUploadUrl = useMutation(api.files.generateUploadUrlWithWallet);
+    const getFileUrl = useMutation(api.files.getFileUrl);
 
     // Handlers for Mission Control
     const handleWeekSave = async (e: React.FormEvent) => {
@@ -102,6 +110,7 @@ export default function Portal() {
     const handleBlogSave = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingBlog || !address) return;
+        setSavingBlog(true);
         try {
             if (editingBlog._id) {
                 await updateBlog({ ...editingBlog, adminAddress: address, id: editingBlog._id });
@@ -110,9 +119,20 @@ export default function Portal() {
             }
             toast({ title: "Success", description: "Blog saved successfully" });
             setEditingBlog(null);
+            setBlogEditorMode("edit");
         } catch (error) {
             toast({ title: "Error", description: "Failed to save blog", variant: "destructive" });
+        } finally {
+            setSavingBlog(false);
         }
+    };
+
+    const handleTitleChange = (title: string) => {
+        const updates: any = { title };
+        if (!editingBlog._id && (!editingBlog.slug || editingBlog.slug === editingBlog.title?.toLowerCase().replace(/ /g, "-").replace(/[^\w-]/g, ""))) {
+            updates.slug = title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]/g, "");
+        }
+        setEditingBlog({ ...editingBlog, ...updates });
     };
 
     const handleBlogDelete = async (id: any) => {
@@ -176,6 +196,55 @@ export default function Portal() {
             toast({ title: "Deleted", description: "Project removed" });
         } catch (error) {
             toast({ title: "Error", description: "Failed to delete project", variant: "destructive" });
+        }
+    };
+
+    // File upload handlers
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !address) return;
+
+        setUploadingImage(true);
+        try {
+            const uploadUrl = await generateUploadUrl({ adminAddress: address });
+            const result = await fetch(uploadUrl, {
+                method: "POST",
+                headers: { "Content-Type": file.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            const url = await getFileUrl({ storageId });
+
+            setEditingBlog({ ...editingBlog, image_url: url });
+            toast({ title: "Success", description: "Image uploaded successfully" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to upload image", variant: "destructive" });
+        } finally {
+            setUploadingImage(false);
+        }
+    };
+
+    const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !address) return;
+
+        setUploadingVideo(true);
+        try {
+            const uploadUrl = await generateUploadUrl({ adminAddress: address });
+            const result = await fetch(uploadUrl, {
+                method: "POST",
+                headers: { "Content-Type": file.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            const url = await getFileUrl({ storageId });
+
+            setEditingBlog({ ...editingBlog, video_url: url, video_storage_id: storageId });
+            toast({ title: "Success", description: "Video uploaded successfully" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to upload video", variant: "destructive" });
+        } finally {
+            setUploadingVideo(false);
         }
     };
 
@@ -408,26 +477,258 @@ export default function Portal() {
                             </div>
 
                             {editingBlog ? (
-                                <form onSubmit={handleBlogSave} className="space-y-4 p-6 bg-white/5 rounded-xl border border-white/10">
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Title" value={editingBlog.title || ""} onChange={(e) => setEditingBlog({ ...editingBlog, title: e.target.value })} required />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Slug (URL)" value={editingBlog.slug || ""} onChange={(e) => setEditingBlog({ ...editingBlog, slug: e.target.value })} required />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Author Name" value={editingBlog.author_name || ""} onChange={(e) => setEditingBlog({ ...editingBlog, author_name: e.target.value })} required />
-                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Excerpt" rows={2} value={editingBlog.excerpt || ""} onChange={(e) => setEditingBlog({ ...editingBlog, excerpt: e.target.value })} />
-                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Content (Markdown)" rows={6} value={editingBlog.content || ""} onChange={(e) => setEditingBlog({ ...editingBlog, content: e.target.value })} />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Image URL" value={editingBlog.image_url || ""} onChange={(e) => setEditingBlog({ ...editingBlog, image_url: e.target.value })} />
-                                    <select className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" value={editingBlog.status || "draft"} onChange={(e) => setEditingBlog({ ...editingBlog, status: e.target.value })}>
-                                        <option value="draft">Draft</option>
-                                        <option value="published">Published</option>
-                                    </select>
-                                    <label className="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" checked={editingBlog.is_featured || false} onChange={(e) => setEditingBlog({ ...editingBlog, is_featured: e.target.checked })} />
-                                        Featured
-                                    </label>
-                                    <div className="flex gap-2">
-                                        <MetalButton type="submit" variant="primary">Save</MetalButton>
-                                        <MetalButton type="button" variant="default" onClick={() => setEditingBlog(null)}>Cancel</MetalButton>
+                                <div className="space-y-4">
+                                    {/* Tab Navigation */}
+                                    <div className="flex gap-2 border-b border-white/10 pb-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setBlogEditorMode("edit")}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-colors ${blogEditorMode === "edit" ? "bg-purple-500/20 text-purple-400 border-b-2 border-purple-400" : "text-gray-400 hover:text-white"}`}
+                                        >
+                                            <Edit3 className="w-4 h-4" />
+                                            Edit
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setBlogEditorMode("preview")}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-colors ${blogEditorMode === "preview" ? "bg-purple-500/20 text-purple-400 border-b-2 border-purple-400" : "text-gray-400 hover:text-white"}`}
+                                        >
+                                            <Eye className="w-4 h-4" />
+                                            Preview
+                                        </button>
                                     </div>
-                                </form>
+
+                                    {/* Edit Mode */}
+                                    {blogEditorMode === "edit" && (
+                                        <form onSubmit={handleBlogSave} className="space-y-6">
+                                            {/* Basic Info Section */}
+                                            <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                                <h3 className="text-lg font-semibold text-purple-400 mb-4">Basic Information</h3>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="block text-sm text-gray-400 mb-2">Title *</label>
+                                                        <input
+                                                            className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            placeholder="Enter blog title"
+                                                            value={editingBlog.title || ""}
+                                                            onChange={(e) => handleTitleChange(e.target.value)}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm text-gray-400 mb-2">Slug (URL) *</label>
+                                                        <input
+                                                            className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            placeholder="blog-url-slug"
+                                                            value={editingBlog.slug || ""}
+                                                            onChange={(e) => setEditingBlog({ ...editingBlog, slug: e.target.value })}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="block text-sm text-gray-400 mb-2">Author Name *</label>
+                                                        <input
+                                                            className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            placeholder="John Doe"
+                                                            value={editingBlog.author_name || ""}
+                                                            onChange={(e) => setEditingBlog({ ...editingBlog, author_name: e.target.value })}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm text-gray-400 mb-2">Status</label>
+                                                        <select
+                                                            className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            value={editingBlog.status || "draft"}
+                                                            onChange={(e) => setEditingBlog({ ...editingBlog, status: e.target.value })}
+                                                        >
+                                                            <option value="draft">Draft</option>
+                                                            <option value="published">Published</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm text-gray-400 mb-2">Excerpt</label>
+                                                    <textarea
+                                                        className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                        placeholder="Brief summary of the blog post..."
+                                                        rows={2}
+                                                        value={editingBlog.excerpt || ""}
+                                                        onChange={(e) => setEditingBlog({ ...editingBlog, excerpt: e.target.value })}
+                                                    />
+                                                    <p className="text-xs text-gray-500 mt-1">{(editingBlog.excerpt || "").length} characters</p>
+                                                </div>
+                                                <div className="flex items-center gap-3 p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="featured"
+                                                        checked={editingBlog.is_featured || false}
+                                                        onChange={(e) => setEditingBlog({ ...editingBlog, is_featured: e.target.checked })}
+                                                        className="w-4 h-4"
+                                                    />
+                                                    <label htmlFor="featured" className="text-sm text-purple-300 cursor-pointer">★ Feature this blog post</label>
+                                                </div>
+                                            </div>
+
+                                            {/* Content Section */}
+                                            <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                                <h3 className="text-lg font-semibold text-purple-400 mb-4">Content</h3>
+                                                <div>
+                                                    <label className="block text-sm text-gray-400 mb-2">Blog Content (Markdown)</label>
+                                                    <textarea
+                                                        className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white font-mono text-sm focus:border-purple-400 focus:outline-none transition-colors"
+                                                        placeholder="# Your blog content here&#10;&#10;Write your content in **Markdown** format..."
+                                                        rows={12}
+                                                        value={editingBlog.content || ""}
+                                                        onChange={(e) => setEditingBlog({ ...editingBlog, content: e.target.value })}
+                                                    />
+                                                    <p className="text-xs text-gray-500 mt-1">{(editingBlog.content || "").split(/\s+/).filter(Boolean).length} words</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Media Section */}
+                                            <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                                <h3 className="text-lg font-semibold text-purple-400 mb-4">Media</h3>
+
+                                                {/* Image Upload */}
+                                                <div>
+                                                    <label className="block text-sm text-gray-400 mb-2">Featured Image</label>
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={handleImageUpload}
+                                                            className="hidden"
+                                                            id="image-upload"
+                                                        />
+                                                        <label
+                                                            htmlFor="image-upload"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded-lg cursor-pointer transition-colors"
+                                                        >
+                                                            {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                            Upload Image
+                                                        </label>
+                                                        <span className="text-gray-500 text-sm self-center">or</span>
+                                                        <input
+                                                            className="flex-1 bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            placeholder="Paste image URL"
+                                                            value={editingBlog.image_url || ""}
+                                                            onChange={(e) => setEditingBlog({ ...editingBlog, image_url: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    {editingBlog.image_url && (
+                                                        <div className="mt-3 relative">
+                                                            <img src={editingBlog.image_url} alt="Preview" className="w-full max-w-md h-48 object-cover rounded-lg border border-white/10" />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setEditingBlog({ ...editingBlog, image_url: "" })}
+                                                                className="absolute top-2 right-2 p-1 bg-red-500/80 hover:bg-red-500 rounded-full transition-colors"
+                                                            >
+                                                                <X className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Video Upload */}
+                                                <div>
+                                                    <label className="block text-sm text-gray-400 mb-2">Video (Optional)</label>
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="file"
+                                                            accept="video/*"
+                                                            onChange={handleVideoUpload}
+                                                            className="hidden"
+                                                            id="video-upload"
+                                                        />
+                                                        <label
+                                                            htmlFor="video-upload"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 rounded-lg cursor-pointer transition-colors"
+                                                        >
+                                                            {uploadingVideo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                            Upload Video
+                                                        </label>
+                                                        <span className="text-gray-500 text-sm self-center">or</span>
+                                                        <input
+                                                            className="flex-1 bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors"
+                                                            placeholder="Paste video URL"
+                                                            value={editingBlog.video_url || ""}
+                                                            onChange={(e) => setEditingBlog({ ...editingBlog, video_url: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    {editingBlog.video_url && (
+                                                        <div className="mt-3 relative">
+                                                            <video src={editingBlog.video_url} controls className="w-full max-w-md h-48 rounded-lg border border-white/10" />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setEditingBlog({ ...editingBlog, video_url: "", video_storage_id: "" })}
+                                                                className="absolute top-2 right-2 p-1 bg-red-500/80 hover:bg-red-500 rounded-full transition-colors"
+                                                            >
+                                                                <X className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className="flex gap-3 justify-end">
+                                                <MetalButton type="button" variant="default" onClick={() => { setEditingBlog(null); setBlogEditorMode("edit"); }}>
+                                                    Cancel
+                                                </MetalButton>
+                                                <MetalButton type="submit" variant="primary" className="flex items-center gap-2" disabled={savingBlog}>
+                                                    {savingBlog ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                    {savingBlog ? "Saving..." : (editingBlog._id ? "Update Blog" : "Create Blog")}
+                                                </MetalButton>
+                                            </div>
+                                        </form>
+                                    )}
+
+                                    {/* Preview Mode */}
+                                    {blogEditorMode === "preview" && (
+                                        <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                                            <div className="max-w-4xl mx-auto">
+                                                {editingBlog.image_url && (
+                                                    <img src={editingBlog.image_url} alt={editingBlog.title} className="w-full h-64 object-cover rounded-lg mb-6" />
+                                                )}
+                                                <h1 className="text-4xl font-bold font-orbitron mb-4">{editingBlog.title || "Untitled Blog Post"}</h1>
+                                                <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                                                    <span>By {editingBlog.author_name || "Unknown Author"}</span>
+                                                    <span>•</span>
+                                                    <span className={editingBlog.status === "published" ? "text-green-400" : "text-yellow-400"}>
+                                                        {editingBlog.status || "draft"}
+                                                    </span>
+                                                    {editingBlog.is_featured && <span className="text-purple-400">★ Featured</span>}
+                                                </div>
+                                                {editingBlog.excerpt && (
+                                                    <p className="text-lg text-gray-300 mb-6 italic">{editingBlog.excerpt}</p>
+                                                )}
+                                                <div className="prose prose-invert max-w-none">
+                                                    <pre className="whitespace-pre-wrap font-sans text-gray-300 leading-relaxed">
+                                                        {editingBlog.content || "No content yet. Switch to Edit mode to add content."}
+                                                    </pre>
+                                                </div>
+                                                {editingBlog.video_url && (
+                                                    <div className="mt-6">
+                                                        <video src={editingBlog.video_url} controls className="w-full rounded-lg" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex gap-3 justify-end mt-6">
+                                                <MetalButton variant="default" onClick={() => setBlogEditorMode("edit")}>
+                                                    <Edit3 className="w-4 h-4 mr-2" />
+                                                    Back to Edit
+                                                </MetalButton>
+                                                <MetalButton variant="primary" onClick={handleBlogSave} disabled={savingBlog}>
+                                                    {savingBlog ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                                                    {savingBlog ? "Saving..." : (editingBlog._id ? "Update Blog" : "Create Blog")}
+                                                </MetalButton>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
                                 <div className="space-y-2">
                                     {blogs?.map((blog) => (
