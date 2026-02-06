@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { requireAdmin } from "./utils";
+import { ADMIN_WALLETS } from "./constants";
 
 // List published blogs (Public)
 export const listPublished = query({
@@ -104,3 +105,79 @@ export const remove = mutation({
         await ctx.db.delete(args.id);
     },
 });
+
+// Wallet-based mutations for admin portal
+export const createWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        title: v.string(),
+        slug: v.string(),
+        excerpt: v.optional(v.string()),
+        content: v.optional(v.string()),
+        image_url: v.optional(v.string()),
+        video_url: v.optional(v.string()),
+        video_storage_id: v.optional(v.string()),
+        author_name: v.string(),
+        status: v.string(),
+        published_at: v.optional(v.string()),
+        is_featured: v.boolean(),
+        tags: v.optional(v.array(v.string())),
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+
+        const now = new Date().toISOString();
+        const { adminAddress, ...fields } = args;
+        return await ctx.db.insert("blogs", {
+            ...fields,
+            created_at: now,
+            updated_at: now,
+        });
+    },
+});
+
+export const updateWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        id: v.id("blogs"),
+        title: v.optional(v.string()),
+        slug: v.optional(v.string()),
+        excerpt: v.optional(v.string()),
+        content: v.optional(v.string()),
+        image_url: v.optional(v.string()),
+        video_url: v.optional(v.string()),
+        video_storage_id: v.optional(v.string()),
+        author_name: v.optional(v.string()),
+        status: v.optional(v.string()),
+        published_at: v.optional(v.string()),
+        is_featured: v.optional(v.boolean()),
+        tags: v.optional(v.array(v.string())),
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+
+        const { adminAddress, id, ...fields } = args;
+        await ctx.db.patch(id, {
+            ...fields,
+            updated_at: new Date().toISOString(),
+        });
+    },
+});
+
+export const removeWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        id: v.id("blogs")
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+        await ctx.db.delete(args.id);
+    },
+});
+

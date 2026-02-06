@@ -29,9 +29,30 @@ export default function Portal() {
     const updateEvent = useMutation(api.mission.updateEvent);
     const deleteEvent = useMutation(api.mission.deleteEvent);
 
-    const [activeTab, setActiveTab] = useState<"mission" | "events" | "settings">("mission");
+    // Blogs
+    const blogs = useQuery(api.blogs.listAll);
+    const createBlog = useMutation(api.blogs.createWithWallet);
+    const updateBlog = useMutation(api.blogs.updateWithWallet);
+    const deleteBlog = useMutation(api.blogs.removeWithWallet);
+
+    // Partners
+    const partners = useQuery(api.partners.list);
+    const createPartner = useMutation(api.partners.createWithWallet);
+    const updatePartner = useMutation(api.partners.updateWithWallet);
+    const deletePartner = useMutation(api.partners.removeWithWallet);
+
+    // Projects
+    const projects = useQuery(api.projects.list);
+    const createProject = useMutation(api.projects.createWithWallet);
+    const updateProject = useMutation(api.projects.updateWithWallet);
+    const deleteProject = useMutation(api.projects.removeWithWallet);
+
+    const [activeTab, setActiveTab] = useState<"mission" | "events" | "blogs" | "partners" | "projects" | "settings">("mission");
     const [editingWeek, setEditingWeek] = useState<any>(null);
     const [editingEvent, setEditingEvent] = useState<any>(null);
+    const [editingBlog, setEditingBlog] = useState<any>(null);
+    const [editingPartner, setEditingPartner] = useState<any>(null);
+    const [editingProject, setEditingProject] = useState<any>(null);
 
     // Handlers for Mission Control
     const handleWeekSave = async (e: React.FormEvent) => {
@@ -76,6 +97,88 @@ export default function Portal() {
             toast({ title: "Error", description: "Failed to delete event", variant: "destructive" });
         }
     }
+
+    // Handlers for Blogs
+    const handleBlogSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingBlog || !address) return;
+        try {
+            if (editingBlog._id) {
+                await updateBlog({ ...editingBlog, adminAddress: address, id: editingBlog._id });
+            } else {
+                await createBlog({ ...editingBlog, adminAddress: address });
+            }
+            toast({ title: "Success", description: "Blog saved successfully" });
+            setEditingBlog(null);
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to save blog", variant: "destructive" });
+        }
+    };
+
+    const handleBlogDelete = async (id: any) => {
+        if (!confirm("Are you sure?")) return;
+        try {
+            await deleteBlog({ id, adminAddress: address });
+            toast({ title: "Deleted", description: "Blog removed" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to delete blog", variant: "destructive" });
+        }
+    };
+
+    // Handlers for Partners
+    const handlePartnerSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingPartner || !address) return;
+        try {
+            if (editingPartner._id) {
+                await updatePartner({ ...editingPartner, adminAddress: address, id: editingPartner._id });
+            } else {
+                await createPartner({ ...editingPartner, adminAddress: address });
+            }
+            toast({ title: "Success", description: "Partner saved successfully" });
+            setEditingPartner(null);
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to save partner", variant: "destructive" });
+        }
+    };
+
+    const handlePartnerDelete = async (id: any) => {
+        if (!confirm("Are you sure?")) return;
+        try {
+            await deletePartner({ id, adminAddress: address });
+            toast({ title: "Deleted", description: "Partner removed" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to delete partner", variant: "destructive" });
+        }
+    };
+
+    // Handlers for Projects
+    const handleProjectSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingProject || !address) return;
+        try {
+            if (editingProject._id) {
+                await updateProject({ ...editingProject, adminAddress: address, id: editingProject._id });
+            } else {
+                await createProject({ ...editingProject, adminAddress: address });
+            }
+            toast({ title: "Success", description: "Project saved successfully" });
+            setEditingProject(null);
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to save project", variant: "destructive" });
+        }
+    };
+
+    const handleProjectDelete = async (id: any) => {
+        if (!confirm("Are you sure?")) return;
+        try {
+            await deleteProject({ id, adminAddress: address });
+            toast({ title: "Deleted", description: "Project removed" });
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to delete project", variant: "destructive" });
+        }
+    };
+
 
 
     if (!address) {
@@ -146,9 +249,12 @@ export default function Portal() {
                     <h1 className="text-4xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
                         Admin Portal
                     </h1>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                         <MetalButton onClick={() => setActiveTab("mission")} variant={activeTab === "mission" ? "primary" : "default"}>Mission Control</MetalButton>
                         <MetalButton onClick={() => setActiveTab("events")} variant={activeTab === "events" ? "primary" : "default"}>Events</MetalButton>
+                        <MetalButton onClick={() => setActiveTab("blogs")} variant={activeTab === "blogs" ? "primary" : "default"}>Blogs</MetalButton>
+                        <MetalButton onClick={() => setActiveTab("partners")} variant={activeTab === "partners" ? "primary" : "default"}>Partners</MetalButton>
+                        <MetalButton onClick={() => setActiveTab("projects")} variant={activeTab === "projects" ? "primary" : "default"}>Projects</MetalButton>
                         <MetalButton onClick={() => setActiveTab("settings")} variant={activeTab === "settings" ? "primary" : "default"}>Settings</MetalButton>
                     </div>
                 </div>
@@ -285,6 +391,153 @@ export default function Portal() {
                                             <div className="flex gap-2">
                                                 <MetalButton className="h-8 text-xs px-3" variant="default" onClick={() => setEditingEvent(ev)}>Edit</MetalButton>
                                                 <MetalButton className="h-8 text-xs px-3 bg-red-500/20 hover:bg-red-500/40 text-red-500 border-red-500/30" onClick={() => handleEventDelete(ev._id)}><Trash className="w-4 h-4" /></MetalButton>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* BLOGS MANAGER */}
+                    {activeTab === "blogs" && (
+                        <div>
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-orbitron font-bold">Blog Posts</h2>
+                                <MetalButton variant="primary" onClick={() => setEditingBlog({ title: "", slug: "", author_name: "", status: "draft", is_featured: false })}>+ New Blog</MetalButton>
+                            </div>
+
+                            {editingBlog ? (
+                                <form onSubmit={handleBlogSave} className="space-y-4 p-6 bg-white/5 rounded-xl border border-white/10">
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Title" value={editingBlog.title || ""} onChange={(e) => setEditingBlog({ ...editingBlog, title: e.target.value })} required />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Slug (URL)" value={editingBlog.slug || ""} onChange={(e) => setEditingBlog({ ...editingBlog, slug: e.target.value })} required />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Author Name" value={editingBlog.author_name || ""} onChange={(e) => setEditingBlog({ ...editingBlog, author_name: e.target.value })} required />
+                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Excerpt" rows={2} value={editingBlog.excerpt || ""} onChange={(e) => setEditingBlog({ ...editingBlog, excerpt: e.target.value })} />
+                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Content (Markdown)" rows={6} value={editingBlog.content || ""} onChange={(e) => setEditingBlog({ ...editingBlog, content: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Image URL" value={editingBlog.image_url || ""} onChange={(e) => setEditingBlog({ ...editingBlog, image_url: e.target.value })} />
+                                    <select className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" value={editingBlog.status || "draft"} onChange={(e) => setEditingBlog({ ...editingBlog, status: e.target.value })}>
+                                        <option value="draft">Draft</option>
+                                        <option value="published">Published</option>
+                                    </select>
+                                    <label className="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" checked={editingBlog.is_featured || false} onChange={(e) => setEditingBlog({ ...editingBlog, is_featured: e.target.checked })} />
+                                        Featured
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <MetalButton type="submit" variant="primary">Save</MetalButton>
+                                        <MetalButton type="button" variant="default" onClick={() => setEditingBlog(null)}>Cancel</MetalButton>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="space-y-2">
+                                    {blogs?.map((blog) => (
+                                        <div key={blog._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+                                            <div>
+                                                <h3 className="font-bold">{blog.title}</h3>
+                                                <div className="text-sm text-gray-400 flex gap-2">
+                                                    <span className={blog.status === "published" ? "text-green-400" : "text-yellow-400"}>{blog.status}</span>
+                                                    {blog.is_featured && <span className="text-purple-400">★ Featured</span>}
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <MetalButton className="h-8 text-xs px-3" variant="default" onClick={() => setEditingBlog(blog)}>Edit</MetalButton>
+                                                <MetalButton className="h-8 text-xs px-3 bg-red-500/20 hover:bg-red-500/40 text-red-500 border-red-500/30" onClick={() => handleBlogDelete(blog._id)}><Trash className="w-4 h-4" /></MetalButton>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* PARTNERS MANAGER */}
+                    {activeTab === "partners" && (
+                        <div>
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-orbitron font-bold">Partners</h2>
+                                <MetalButton variant="primary" onClick={() => setEditingPartner({ name: "", is_active: true })}>+ New Partner</MetalButton>
+                            </div>
+
+                            {editingPartner ? (
+                                <form onSubmit={handlePartnerSave} className="space-y-4 p-6 bg-white/5 rounded-xl border border-white/10">
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Partner Name" value={editingPartner.name || ""} onChange={(e) => setEditingPartner({ ...editingPartner, name: e.target.value })} required />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Category" value={editingPartner.category || ""} onChange={(e) => setEditingPartner({ ...editingPartner, category: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Logo URL" value={editingPartner.logo_url || ""} onChange={(e) => setEditingPartner({ ...editingPartner, logo_url: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Website URL" value={editingPartner.website_url || ""} onChange={(e) => setEditingPartner({ ...editingPartner, website_url: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Perk Title" value={editingPartner.perk_title || ""} onChange={(e) => setEditingPartner({ ...editingPartner, perk_title: e.target.value })} />
+                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Perk Description" rows={3} value={editingPartner.perk_description || ""} onChange={(e) => setEditingPartner({ ...editingPartner, perk_description: e.target.value })} />
+                                    <label className="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" checked={editingPartner.is_active !== false} onChange={(e) => setEditingPartner({ ...editingPartner, is_active: e.target.checked })} />
+                                        Active
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <MetalButton type="submit" variant="primary">Save</MetalButton>
+                                        <MetalButton type="button" variant="default" onClick={() => setEditingPartner(null)}>Cancel</MetalButton>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="space-y-2">
+                                    {partners?.map((partner) => (
+                                        <div key={partner._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+                                            <div>
+                                                <h3 className="font-bold">{partner.name}</h3>
+                                                <div className="text-sm text-gray-400 flex gap-2">
+                                                    <span>{partner.category}</span>
+                                                    <span className={partner.is_active ? "text-green-400" : "text-gray-500"}>{partner.is_active ? "Active" : "Inactive"}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <MetalButton className="h-8 text-xs px-3" variant="default" onClick={() => setEditingPartner(partner)}>Edit</MetalButton>
+                                                <MetalButton className="h-8 text-xs px-3 bg-red-500/20 hover:bg-red-500/40 text-red-500 border-red-500/30" onClick={() => handlePartnerDelete(partner._id)}><Trash className="w-4 h-4" /></MetalButton>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* PROJECTS MANAGER */}
+                    {activeTab === "projects" && (
+                        <div>
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-orbitron font-bold">Projects</h2>
+                                <MetalButton variant="primary" onClick={() => setEditingProject({ name: "", status: "building" })}>+ New Project</MetalButton>
+                            </div>
+
+                            {editingProject ? (
+                                <form onSubmit={handleProjectSave} className="space-y-4 p-6 bg-white/5 rounded-xl border border-white/10">
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Project Name" value={editingProject.name || ""} onChange={(e) => setEditingProject({ ...editingProject, name: e.target.value })} required />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Tagline" value={editingProject.tagline || ""} onChange={(e) => setEditingProject({ ...editingProject, tagline: e.target.value })} />
+                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Description" rows={3} value={editingProject.description || ""} onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Image URL" value={editingProject.image_url || ""} onChange={(e) => setEditingProject({ ...editingProject, image_url: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Website URL" value={editingProject.website_url || ""} onChange={(e) => setEditingProject({ ...editingProject, website_url: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Twitter URL" value={editingProject.twitter_url || ""} onChange={(e) => setEditingProject({ ...editingProject, twitter_url: e.target.value })} />
+                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Cohort ID" value={editingProject.cohort_id || ""} onChange={(e) => setEditingProject({ ...editingProject, cohort_id: e.target.value })} />
+                                    <select className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" value={editingProject.status || "building"} onChange={(e) => setEditingProject({ ...editingProject, status: e.target.value })}>
+                                        <option value="building">Building</option>
+                                        <option value="mainnet">Mainnet</option>
+                                        <option value="live">Live</option>
+                                    </select>
+                                    <div className="flex gap-2">
+                                        <MetalButton type="submit" variant="primary">Save</MetalButton>
+                                        <MetalButton type="button" variant="default" onClick={() => setEditingProject(null)}>Cancel</MetalButton>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="space-y-2">
+                                    {projects?.map((project) => (
+                                        <div key={project._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+                                            <div>
+                                                <h3 className="font-bold">{project.name}</h3>
+                                                <div className="text-sm text-gray-400 flex gap-2">
+                                                    <span>{project.tagline}</span>
+                                                    <span className="text-purple-400">{project.status}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <MetalButton className="h-8 text-xs px-3" variant="default" onClick={() => setEditingProject(project)}>Edit</MetalButton>
+                                                <MetalButton className="h-8 text-xs px-3 bg-red-500/20 hover:bg-red-500/40 text-red-500 border-red-500/30" onClick={() => handleProjectDelete(project._id)}><Trash className="w-4 h-4" /></MetalButton>
                                             </div>
                                         </div>
                                     ))}

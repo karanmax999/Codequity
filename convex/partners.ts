@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { requireAdmin } from "./utils";
+import { ADMIN_WALLETS } from "./constants";
 
 // List all active partners
 export const list = query({
@@ -75,3 +76,59 @@ export const remove = mutation({
         await ctx.db.delete(args.id);
     },
 });
+
+// Wallet-based mutations for admin portal
+export const createWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        name: v.string(),
+        category: v.optional(v.string()),
+        logo_url: v.optional(v.string()),
+        website_url: v.optional(v.string()),
+        perk_title: v.optional(v.string()),
+        perk_description: v.optional(v.string()),
+        is_active: v.boolean(),
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+        const { adminAddress, ...fields } = args;
+        return await ctx.db.insert("partners", fields);
+    },
+});
+
+export const updateWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        id: v.id("partners"),
+        name: v.optional(v.string()),
+        category: v.optional(v.string()),
+        logo_url: v.optional(v.string()),
+        website_url: v.optional(v.string()),
+        perk_title: v.optional(v.string()),
+        perk_description: v.optional(v.string()),
+        is_active: v.optional(v.boolean()),
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+        const { adminAddress, id, ...fields } = args;
+        await ctx.db.patch(id, fields);
+    },
+});
+
+export const removeWithWallet = mutation({
+    args: {
+        adminAddress: v.string(),
+        id: v.id("partners")
+    },
+    handler: async (ctx, args) => {
+        if (!ADMIN_WALLETS.includes(args.adminAddress)) {
+            throw new Error("Unauthorized: Not an admin wallet");
+        }
+        await ctx.db.delete(args.id);
+    },
+});
+
