@@ -99,23 +99,42 @@ export default function Portal() {
         );
     }
 
+    if (isAdmin === undefined) {
+        return (
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
+                <Navigation />
+                <Loader2 className="animate-spin text-purple-500 w-12 h-12 mb-4" />
+                <p className="font-orbitron animate-pulse">Verifying Admin Status...</p>
+                <p className="text-xs text-gray-500 mt-2">Wallet: {address}</p>
+            </div>
+        );
+    }
+
     if (isAdmin === false) {
         return (
             <div className="min-h-screen bg-black text-white flex flex-col">
                 <Helmet><title>Unauthorized | CodeQuity</title></Helmet>
                 <Navigation />
                 <div className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 pt-20">
-                    <div className="text-center">
-                        <h1 className="text-3xl font-bold text-red-500 mb-4">Unauthorized</h1>
-                        <p className="text-gray-400">Your wallet {address.slice(0, 6)}...{address.slice(-4)} is not authorized.</p>
+                    <div className="text-center p-8 bg-red-500/5 border border-red-500/20 rounded-2xl backdrop-blur-xl max-w-lg">
+                        <h1 className="text-3xl font-bold text-red-500 mb-4 font-orbitron">UNAUTHORIZED</h1>
+                        <p className="text-gray-400 mb-6">Your wallet is not authorized to access the Admin Portal.</p>
+
+                        <div className="bg-black/40 p-4 rounded-lg border border-white/10 mb-6 font-mono text-sm break-all">
+                            <p className="text-gray-500 mb-1 text-xs uppercase tracking-widest text-left">Connected Address:</p>
+                            <p className="text-red-400">{address}</p>
+                        </div>
+
+                        <p className="text-sm text-gray-500">
+                            If this is your admin wallet, please ensure it is added to the <code>ADMIN_WALLETS</code>
+                            environment variable in your deployment settings.
+                        </p>
                     </div>
                 </div>
                 <Footer />
             </div>
         );
     }
-
-    if (isAdmin === undefined) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-purple-500" /></div>;
 
     return (
         <div className="min-h-screen bg-black text-white flex flex-col">

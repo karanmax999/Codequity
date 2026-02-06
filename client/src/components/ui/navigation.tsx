@@ -55,19 +55,16 @@ export default function Navigation() {
 
   const handlePortalClick = () => {
     if (!address) {
-      setLocation("/program/initiative");
+      toast({
+        title: "Connect Wallet",
+        description: "Please connect your wallet to access the portal.",
+      });
       return;
     }
 
-    if (isAdmin === undefined) {
-      return; // Still loading
-    }
-
-    if (isAdmin) {
-      setLocation("/portal");
-    } else {
-      setLocation("/program/initiative");
-    }
+    // Always allow navigation to /portal if address exists
+    // The Portal page itself handles the isAdmin check
+    setLocation("/portal");
   };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
