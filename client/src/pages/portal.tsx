@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useActiveAccount } from "thirdweb/react";
-import { Loader2, Save, Plus, Trash, Check, Upload, Image as ImageIcon, Video, Eye, Edit3, X } from "lucide-react";
+import { Loader2, Save, Plus, Trash, Check, Upload, Image as ImageIcon, Video, Eye, Edit3, X, Handshake, Zap, Globe, Cpu } from "lucide-react";
 import { MetalButton } from "@/components/ui/liquid-glass-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,9 +47,7 @@ export default function Portal() {
     const updateProject = useMutation(api.projects.updateWithWallet);
     const deleteProject = useMutation(api.projects.removeWithWallet);
 
-    // Settings
-    const allSettings = useQuery(api.settings.getSettings);
-    const updateSetting = useMutation(api.settings.updateSetting);
+
 
     const [activeTab, setActiveTab] = useState<"mission" | "events" | "blogs" | "partners" | "projects" | "settings">("mission");
     const [editingWeek, setEditingWeek] = useState<any>(null);
@@ -61,21 +59,9 @@ export default function Portal() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [uploadingVideo, setUploadingVideo] = useState(false);
     const [savingBlog, setSavingBlog] = useState(false);
-    const [localSettings, setLocalSettings] = useState<Record<string, any>>({});
-    const [isSavingSettings, setIsSavingSettings] = useState(false);
-    const [uploadingLogo, setUploadingLogo] = useState(false);
-    const [uploadingFavicon, setUploadingFavicon] = useState(false);
 
-    // Sync local settings when data arrives
-    useEffect(() => {
-        if (allSettings) {
-            const settingsMap: Record<string, any> = {};
-            allSettings.forEach((s: any) => {
-                settingsMap[s.key] = s.value;
-            });
-            setLocalSettings(settingsMap);
-        }
-    }, [allSettings]);
+
+
 
     // File upload mutations
     const generateUploadUrl = useMutation(api.files.generateUploadUrlWithWallet);
@@ -267,33 +253,11 @@ export default function Portal() {
         }
     };
 
-    // Settings Handlers
-    const updateLocalSetting = (key: string, value: any) => {
-        setLocalSettings(prev => ({ ...prev, [key]: value }));
-    };
-
-    const saveAllSettings = async () => {
-        if (!address) return;
-        setIsSavingSettings(true);
-        try {
-            // Save each modified setting
-            const promises = Object.entries(localSettings).map(([key, value]) =>
-                updateSetting({ key, value, adminAddress: address })
-            );
-            await Promise.all(promises);
-            toast({ title: "Success", description: "Settings updated successfully" });
-        } catch (error) {
-            toast({ title: "Error", description: "Failed to update settings", variant: "destructive" });
-        } finally {
-            setIsSavingSettings(false);
-        }
-    };
-
-    const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePartnerLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file || !address) return;
 
-        setUploadingLogo(true);
+        setUploadingImage(true);
         try {
             const uploadUrl = await generateUploadUrl({ adminAddress: address });
             const result = await fetch(uploadUrl, {
@@ -304,38 +268,16 @@ export default function Portal() {
             const { storageId } = await result.json();
             const url = await getFileUrl({ storageId });
 
-            updateLocalSetting("site_logo", url);
+            setEditingPartner({ ...editingPartner, logo_url: url });
             toast({ title: "Success", description: "Logo uploaded successfully" });
         } catch (error) {
             toast({ title: "Error", description: "Failed to upload logo", variant: "destructive" });
         } finally {
-            setUploadingLogo(false);
+            setUploadingImage(false);
         }
     };
 
-    const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file || !address) return;
 
-        setUploadingFavicon(true);
-        try {
-            const uploadUrl = await generateUploadUrl({ adminAddress: address });
-            const result = await fetch(uploadUrl, {
-                method: "POST",
-                headers: { "Content-Type": file.type },
-                body: file,
-            });
-            const { storageId } = await result.json();
-            const url = await getFileUrl({ storageId });
-
-            updateLocalSetting("site_favicon", url);
-            toast({ title: "Success", description: "Favicon uploaded successfully" });
-        } catch (error) {
-            toast({ title: "Error", description: "Failed to upload favicon", variant: "destructive" });
-        } finally {
-            setUploadingFavicon(false);
-        }
-    };
 
 
 
@@ -850,31 +792,152 @@ export default function Portal() {
                             </div>
 
                             {editingPartner ? (
-                                <form onSubmit={handlePartnerSave} className="space-y-4 p-6 bg-white/5 rounded-xl border border-white/10">
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Partner Name" value={editingPartner.name || ""} onChange={(e) => setEditingPartner({ ...editingPartner, name: e.target.value })} required />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Category" value={editingPartner.category || ""} onChange={(e) => setEditingPartner({ ...editingPartner, category: e.target.value })} />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Logo URL" value={editingPartner.logo_url || ""} onChange={(e) => setEditingPartner({ ...editingPartner, logo_url: e.target.value })} />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Website URL" value={editingPartner.website_url || ""} onChange={(e) => setEditingPartner({ ...editingPartner, website_url: e.target.value })} />
-                                    <input className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Perk Title" value={editingPartner.perk_title || ""} onChange={(e) => setEditingPartner({ ...editingPartner, perk_title: e.target.value })} />
-                                    <textarea className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-2 text-white" placeholder="Perk Description" rows={3} value={editingPartner.perk_description || ""} onChange={(e) => setEditingPartner({ ...editingPartner, perk_description: e.target.value })} />
-                                    <label className="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" checked={editingPartner.is_active !== false} onChange={(e) => setEditingPartner({ ...editingPartner, is_active: e.target.checked })} />
-                                        Active
-                                    </label>
-                                    <div className="flex gap-2">
-                                        <MetalButton type="submit" variant="primary">Save</MetalButton>
+                                <form onSubmit={handlePartnerSave} className="space-y-6 max-w-3xl">
+                                    <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                        <h3 className="text-lg font-semibold text-purple-400 mb-4">{editingPartner._id ? 'Edit Partner' : 'New Partner'}</h3>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <Label className="text-gray-400 mb-2 block">Partner Name *</Label>
+                                                <Input
+                                                    placeholder="Partner Name"
+                                                    value={editingPartner.name || ""}
+                                                    onChange={(e) => setEditingPartner({ ...editingPartner, name: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label className="text-gray-400 mb-2 block">Category *</Label>
+                                                <Select
+                                                    value={editingPartner.category || ""}
+                                                    onValueChange={(val) => setEditingPartner({ ...editingPartner, category: val })}
+                                                >
+                                                    <SelectTrigger><SelectValue placeholder="Select Category" /></SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="Ecosystems">Ecosystems</SelectItem>
+                                                        <SelectItem value="Infrastructure">Infrastructure</SelectItem>
+                                                        <SelectItem value="Venture Capital">Venture Capital</SelectItem>
+                                                        <SelectItem value="Community">Community</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <Label className="text-gray-400 mb-2 block">Website URL</Label>
+                                                <Input
+                                                    placeholder="https://..."
+                                                    value={editingPartner.website_url || ""}
+                                                    onChange={(e) => setEditingPartner({ ...editingPartner, website_url: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label className="text-gray-400 mb-2 block">Active Status</Label>
+                                                <div className="flex items-center gap-3 p-2 bg-black/20 rounded-lg border border-white/10">
+                                                    <Switch
+                                                        checked={editingPartner.is_active !== false}
+                                                        onCheckedChange={(checked) => setEditingPartner({ ...editingPartner, is_active: checked })}
+                                                    />
+                                                    <span className="text-sm text-gray-300">{editingPartner.is_active ? 'Active' : 'Inactive'}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Logo Section */}
+                                    <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                        <h3 className="text-lg font-semibold text-purple-400 mb-4">Logo & Branding</h3>
+                                        <div>
+                                            <Label className="text-gray-400 mb-2 block">Logo URL</Label>
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={handlePartnerLogoUpload}
+                                                    className="hidden"
+                                                    id="partner-logo-upload"
+                                                />
+                                                <label
+                                                    htmlFor="partner-logo-upload"
+                                                    className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded-lg cursor-pointer transition-colors"
+                                                >
+                                                    {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                                                    Upload Logo
+                                                </label>
+                                                <span className="text-gray-500 text-sm self-center">or</span>
+                                                <Input
+                                                    className="flex-1"
+                                                    placeholder="Paste logo URL"
+                                                    value={editingPartner.logo_url || ""}
+                                                    onChange={(e) => setEditingPartner({ ...editingPartner, logo_url: e.target.value })}
+                                                />
+                                            </div>
+                                            {editingPartner.logo_url && (
+                                                <div className="mt-4 p-4 bg-black/40 rounded-lg border border-white/10 flex items-center justify-center">
+                                                    <img src={editingPartner.logo_url} alt="Logo Preview" className="max-h-20 w-auto object-contain grayscale opacity-70" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Perk Section */}
+                                    <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
+                                        <h3 className="text-lg font-semibold text-purple-400 mb-4">Partner Perk (Optional)</h3>
+                                        <div>
+                                            <Label className="text-gray-400 mb-2 block">Perk Title</Label>
+                                            <Input
+                                                placeholder="e.g. 50k Credits"
+                                                value={editingPartner.perk_title || ""}
+                                                onChange={(e) => setEditingPartner({ ...editingPartner, perk_title: e.target.value })}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label className="text-gray-400 mb-2 block">Perk Description</Label>
+                                            <Textarea
+                                                placeholder="Describe the benefit for CodeQuity members..."
+                                                rows={3}
+                                                value={editingPartner.perk_description || ""}
+                                                onChange={(e) => setEditingPartner({ ...editingPartner, perk_description: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-3 justify-end">
                                         <MetalButton type="button" variant="default" onClick={() => setEditingPartner(null)}>Cancel</MetalButton>
+                                        <MetalButton type="submit" variant="primary" className="flex items-center gap-2">
+                                            <Save className="w-4 h-4" />
+                                            {editingPartner._id ? 'Update Partner' : 'Create Partner'}
+                                        </MetalButton>
                                     </div>
                                 </form>
                             ) : (
-                                <div className="space-y-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {partners?.map((partner) => (
-                                        <div key={partner._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
-                                            <div>
-                                                <h3 className="font-bold">{partner.name}</h3>
-                                                <div className="text-sm text-gray-400 flex gap-2">
-                                                    <span>{partner.category}</span>
-                                                    <span className={partner.is_active ? "text-green-400" : "text-gray-500"}>{partner.is_active ? "Active" : "Inactive"}</span>
+                                        <div key={partner._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:border-purple-500/30 transition-all group">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden">
+                                                    {partner.logo_url ? (
+                                                        <img src={partner.logo_url} alt="" className="w-8 h-8 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" />
+                                                    ) : (
+                                                        <Handshake className="w-6 h-6 text-gray-600" />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-bold">{partner.name}</h3>
+                                                    <div className="text-[10px] text-gray-400 flex items-center gap-2 uppercase tracking-widest">
+                                                        <span className="flex items-center gap-1">
+                                                            {partner.category === 'Ecosystems' && <Globe className="w-3 h-3 text-blue-400" />}
+                                                            {partner.category === 'Infrastructure' && <Cpu className="w-3 h-3 text-purple-400" />}
+                                                            {partner.category === 'Venture Capital' && <Zap className="w-3 h-3 text-yellow-400" />}
+                                                            {partner.category === 'Community' && <Handshake className="w-3 h-3 text-green-400" />}
+                                                            {partner.category || 'Uncategorized'}
+                                                        </span>
+                                                        <span className="w-1 h-1 rounded-full bg-gray-600" />
+                                                        <span className={partner.is_active ? "text-green-500" : "text-red-500"}>
+                                                            {partner.is_active ? "Active" : "Inactive"}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="flex gap-2">
@@ -938,201 +1001,8 @@ export default function Portal() {
                     )}
 
                     {activeTab === "settings" && (
-                        <div className="space-y-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-2xl font-orbitron font-bold text-white">Global Settings</h2>
-                                <MetalButton
-                                    variant="primary"
-                                    onClick={saveAllSettings}
-                                    disabled={isSavingSettings}
-                                    className="flex items-center gap-2"
-                                >
-                                    {isSavingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                    {isSavingSettings ? "Saving..." : "Save All Changes"}
-                                </MetalButton>
-                            </div>
-
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                {/* General Settings */}
-                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
-                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
-                                        🌐 General Settings
-                                    </h3>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Site Name</label>
-                                            <Input
-                                                value={localSettings.site_name || ""}
-                                                onChange={(e) => updateLocalSetting("site_name", e.target.value)}
-                                                placeholder="CodeQuity"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Site Tagline</label>
-                                            <Input
-                                                value={localSettings.site_tagline || ""}
-                                                onChange={(e) => updateLocalSetting("site_tagline", e.target.value)}
-                                                placeholder="The Web3 Builder Guild"
-                                            />
-                                        </div>
-                                        <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20 space-y-3">
-                                            <div className="flex items-center justify-between">
-                                                <Label htmlFor="banner-toggle" className="text-purple-300">Announcement Banner</Label>
-                                                <Switch
-                                                    id="banner-toggle"
-                                                    checked={localSettings.show_banner || false}
-                                                    onCheckedChange={(checked) => updateLocalSetting("show_banner", checked)}
-                                                />
-                                            </div>
-                                            {localSettings.show_banner && (
-                                                <Textarea
-                                                    value={localSettings.banner_message || ""}
-                                                    onChange={(e) => updateLocalSetting("banner_message", e.target.value)}
-                                                    placeholder="Cohort 3 Applications are now open! Apply now →"
-                                                    rows={2}
-                                                />
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Branding Settings */}
-                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
-                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
-                                        🎨 Branding
-                                    </h3>
-                                    <div className="space-y-6">
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Site Logo</label>
-                                            <div className="flex gap-2">
-                                                <input type="file" id="logo-upload" className="hidden" accept="image/*" onChange={handleLogoUpload} />
-                                                <label
-                                                    htmlFor="logo-upload"
-                                                    className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg cursor-pointer transition-colors text-sm"
-                                                >
-                                                    {uploadingLogo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                                                    Upload
-                                                </label>
-                                                <Input
-                                                    className="flex-1"
-                                                    value={localSettings.site_logo || ""}
-                                                    onChange={(e) => updateLocalSetting("site_logo", e.target.value)}
-                                                    placeholder="Logo URL"
-                                                />
-                                            </div>
-                                            {localSettings.site_logo && (
-                                                <div className="mt-2 p-2 bg-black/40 rounded-lg border border-white/10 flex justify-center">
-                                                    <img src={localSettings.site_logo} alt="Logo Preview" className="h-10 object-contain" />
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Favicon</label>
-                                            <div className="flex gap-2">
-                                                <input type="file" id="favicon-upload" className="hidden" accept="image/x-icon,image/png" onChange={handleFaviconUpload} />
-                                                <label
-                                                    htmlFor="favicon-upload"
-                                                    className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg cursor-pointer transition-colors text-sm"
-                                                >
-                                                    {uploadingFavicon ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                                                    Upload
-                                                </label>
-                                                <Input
-                                                    className="flex-1"
-                                                    value={localSettings.site_favicon || ""}
-                                                    onChange={(e) => updateLocalSetting("site_favicon", e.target.value)}
-                                                    placeholder="Favicon URL"
-                                                />
-                                            </div>
-                                            {localSettings.site_favicon && (
-                                                <div className="mt-2 p-2 bg-black/40 rounded-lg border border-white/10 flex justify-center">
-                                                    <img src={localSettings.site_favicon} alt="Favicon Preview" className="h-8 w-8 object-contain" />
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Social Links */}
-                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
-                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
-                                        🔗 Social Links
-                                    </h3>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Discord Invitation URL</label>
-                                            <Input
-                                                value={localSettings.social_discord || ""}
-                                                onChange={(e) => updateLocalSetting("social_discord", e.target.value)}
-                                                placeholder="https://discord.gg/..."
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Twitter / X URL</label>
-                                            <Input
-                                                value={localSettings.social_twitter || ""}
-                                                onChange={(e) => updateLocalSetting("social_twitter", e.target.value)}
-                                                placeholder="https://x.com/..."
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">GitHub URL</label>
-                                            <Input
-                                                value={localSettings.social_github || ""}
-                                                onChange={(e) => updateLocalSetting("social_github", e.target.value)}
-                                                placeholder="https://github.com/..."
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Telegram URL</label>
-                                            <Input
-                                                value={localSettings.social_telegram || ""}
-                                                onChange={(e) => updateLocalSetting("social_telegram", e.target.value)}
-                                                placeholder="https://t.me/..."
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* SEO Settings */}
-                                <div className="p-6 bg-white/5 rounded-xl border border-white/10 space-y-4">
-                                    <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
-                                        🔍 SEO & Analytics
-                                    </h3>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Global Meta Description</label>
-                                            <Textarea
-                                                value={localSettings.meta_description || ""}
-                                                onChange={(e) => updateLocalSetting("meta_description", e.target.value)}
-                                                placeholder="The premier guild for Web3 builders..."
-                                                rows={3}
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm text-gray-400 mb-2">Google Analytics ID</label>
-                                            <Input
-                                                value={localSettings.ga_id || ""}
-                                                onChange={(e) => updateLocalSetting("ga_id", e.target.value)}
-                                                placeholder="G-XXXXXXXXXX"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex justify-end pt-4">
-                                <MetalButton
-                                    variant="primary"
-                                    onClick={saveAllSettings}
-                                    disabled={isSavingSettings}
-                                    className="w-full md:w-auto flex items-center justify-center gap-2 h-12 px-8"
-                                >
-                                    {isSavingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                    {isSavingSettings ? "Saving Settings..." : "Save All Configuration"}
-                                </MetalButton>
-                            </div>
+                        <div className="text-center py-10 text-gray-500">
+                            Settings module coming soon. Use Mission Control and Events tabs for now.
                         </div>
                     )}
 
