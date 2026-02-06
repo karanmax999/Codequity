@@ -72,10 +72,12 @@ export default function Portal() {
         e.preventDefault();
         if (!editingWeek || !address) return;
         try {
+            const { _id, _creationTime, ...fields } = editingWeek;
             await updateWeek({
-                ...editingWeek,
+                ...fields,
                 adminAddress: address,
                 week: Number(editingWeek.week),
+                id: _id,
             });
             toast({ title: "Success", description: "Week updated successfully" });
             setEditingWeek(null);
@@ -89,10 +91,11 @@ export default function Portal() {
         e.preventDefault();
         if (!editingEvent || !address) return;
         try {
+            const { _id, _creationTime, ...fields } = editingEvent;
             await updateEvent({
-                ...editingEvent,
+                ...fields,
                 adminAddress: address,
-                id: editingEvent._id, // might be undefined if new
+                id: _id, // might be undefined if new
             });
             toast({ title: "Success", description: "Event saved successfully" });
             setEditingEvent(null);
@@ -117,10 +120,11 @@ export default function Portal() {
         if (!editingBlog || !address) return;
         setSavingBlog(true);
         try {
-            if (editingBlog._id) {
-                await updateBlog({ ...editingBlog, adminAddress: address, id: editingBlog._id });
+            const { _id, _creationTime, ...fields } = editingBlog;
+            if (_id) {
+                await updateBlog({ ...fields, adminAddress: address, id: _id });
             } else {
-                await createBlog({ ...editingBlog, adminAddress: address });
+                await createBlog({ ...fields, adminAddress: address });
             }
             toast({ title: "Success", description: "Blog saved successfully" });
             setEditingBlog(null);
@@ -155,10 +159,11 @@ export default function Portal() {
         e.preventDefault();
         if (!editingPartner || !address) return;
         try {
-            if (editingPartner._id) {
-                await updatePartner({ ...editingPartner, adminAddress: address, id: editingPartner._id });
+            const { _id, _creationTime, ...fields } = editingPartner;
+            if (_id) {
+                await updatePartner({ ...fields, adminAddress: address, id: _id });
             } else {
-                await createPartner({ ...editingPartner, adminAddress: address });
+                await createPartner({ ...fields, adminAddress: address });
             }
             toast({ title: "Success", description: "Partner saved successfully" });
             setEditingPartner(null);
@@ -182,10 +187,11 @@ export default function Portal() {
         e.preventDefault();
         if (!editingProject || !address) return;
         try {
-            if (editingProject._id) {
-                await updateProject({ ...editingProject, adminAddress: address, id: editingProject._id });
+            const { _id, _creationTime, ...fields } = editingProject;
+            if (_id) {
+                await updateProject({ ...fields, adminAddress: address, id: _id });
             } else {
-                await createProject({ ...editingProject, adminAddress: address });
+                await createProject({ ...fields, adminAddress: address });
             }
             toast({ title: "Success", description: "Project saved successfully" });
             setEditingProject(null);
